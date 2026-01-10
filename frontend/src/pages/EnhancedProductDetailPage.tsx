@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Heart, ShoppingCart, Minus, Plus, Truck, Shield, Award, ArrowLeft, Share2, Zap } from 'lucide-react';
-import { products } from '../data/products';
+import { getProduct, getProducts } from '../data/products';
 import { useCart } from '../contexts/CartContext';
 import AnimatedButton from '../components/ui/AnimatedButton';
 import EnhancedProductCard from '../components/ui/EnhancedProductCard';
+import type { Product } from '../types';
 
 const EnhancedProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,9 +15,44 @@ const EnhancedProductDetailPage: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [activeTab, setActiveTab] = useState('description');
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const product = products.find(p => p.id === id);
-  const relatedProducts = products.filter(p => p.id !== id && p.category === product?.category).slice(0, 4);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!id) return;
+      
+      try {
+        const [productData, allProducts] = await Promise.all([
+          getProduct(id),
+          getProducts()
+        ]);
+        
+        if (productData) {
+          setProduct(productData);
+          const related = allProducts
+            .filter((p: Product) => p.id !== id && p.category === productData.category)
+            .slice(0, 4);
+          setRelatedProducts(related);
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-orange-600"></div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -295,7 +331,7 @@ const EnhancedProductDetailPage: React.FC = () => {
             <h2 className="text-3xl font-black text-gray-900 mb-8 text-center">Related Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {relatedProducts.map((relatedProduct) => (
-                <EnhancedProductCard key={relatedProduct.id} product={relatedProduct} />
+                <EnhancedProductCard key={relatedProduct.id.toString()} product={relatedProduct} />
               ))}
             </div>
           </motion.div>

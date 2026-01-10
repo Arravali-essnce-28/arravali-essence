@@ -1,0 +1,274 @@
+/* Mobile-specific fixes for Spicees */
+
+/* Mobile viewport meta tag */
+@viewport {
+  width: device-width;
+  initial-scale: 1.0;
+  maximum-scale: 1.0;
+  user-scalable: no;
+}
+
+/* Mobile-first base styles */
+@media (max-width: 640px) {
+  /* Reduce padding and margins on mobile */
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Mobile typography */
+  h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  h3 {
+    font-size: 1.125rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Mobile spacing */
+  .py-20 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  .mb-16 {
+    margin-bottom: 2rem !important;
+  }
+  
+  .mb-12 {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .mb-8 {
+    margin-bottom: 1rem !important;
+  }
+  
+  .mb-6 {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .mb-4 {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* Mobile grid fixes */
+  .grid-cols-4 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+  
+  /* Mobile gap fixes */
+  .gap-8 {
+    gap: 1rem !important;
+  }
+  
+  .gap-6 {
+    gap: 0.75rem !important;
+  }
+  
+  .gap-4 {
+    gap: 0.5rem !important;
+  }
+  
+  /* Mobile card fixes */
+  .rounded-3xl {
+    border-radius: 1rem !important;
+  }
+  
+  .rounded-2xl {
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Mobile image fixes */
+  .h-64 {
+    height: 12rem !important;
+  }
+  
+  .h-80 {
+    height: 16rem !important;
+  }
+  
+  /* Mobile button fixes */
+  .px-8 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .px-6 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .px-4 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  .py-3 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  /* Mobile text fixes */
+  .text-6xl {
+    font-size: 2rem !important;
+  }
+  
+  .text-5xl {
+    font-size: 1.75rem !important;
+  }
+  
+  .text-4xl {
+    font-size: 1.5rem !important;
+  }
+  
+  .text-3xl {
+    font-size: 1.25rem !important;
+  }
+  
+  .text-2xl {
+    font-size: 1.125rem !important;
+  }
+  
+  .text-xl {
+    font-size: 1rem !important;
+  }
+  
+  .text-lg {
+    font-size: 0.875rem !important;
+  }
+  
+  /* Mobile flex fixes */
+  .flex-row {
+    flex-direction: column !important;
+  }
+  
+  /* Mobile navigation fixes */
+  .hidden-mobile {
+    display: none !important;
+  }
+  
+  .mobile-block {
+    display: block !important;
+  }
+  
+  /* Mobile overflow fixes */
+  .overflow-x-hidden {
+    overflow-x: hidden !important;
+  }
+  
+  /* Mobile width fixes */
+  .w-full {
+    width: 100% !important;
+  }
+  
+  .max-w-7xl {
+    max-width: 100% !important;
+  }
+  
+  /* Mobile height fixes */
+  .min-h-screen {
+    min-height: 100vh !important;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  
+  .py-20 {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+  
+  .mb-16 {
+    margin-bottom: 3rem !important;
+  }
+  
+  .text-6xl {
+    font-size: 3rem !important;
+  }
+  
+  .text-5xl {
+    font-size: 2.5rem !important;
+  }
+  
+  .text-4xl {
+    font-size: 2rem !important;
+  }
+}
+
+/* Mobile touch fixes */
+@media (hover: none) and (pointer: coarse) {
+  .hover\:scale-105:hover {
+    transform: none !important;
+  }
+  
+  .hover\:shadow-2xl:hover {
+    box-shadow: none !important;
+  }
+  
+  .hover\:bg-gray-50:hover {
+    background-color: transparent !important;
+  }
+}
+
+/* Mobile landscape fixes */
+@media (max-width: 640px) and (orientation: landscape) {
+  .py-20 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .mb-16 {
+    margin-bottom: 1rem !important;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 380px) {
+  .px-4 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .text-6xl {
+    font-size: 1.75rem !important;
+  }
+  
+  .text-5xl {
+    font-size: 1.5rem !important;
+  }
+  
+  .text-4xl {
+    font-size: 1.25rem !important;
+  }
+  
+  .h-64 {
+    height: 10rem !important;
+  }
+  
+  .h-80 {
+    height: 14rem !important;
+  }
+}

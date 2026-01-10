@@ -104,10 +104,10 @@ const EnhancedFooter: React.FC = () => {
             </motion.div>
             
             <h3 className="text-3xl md:text-4xl font-black mb-4">
-              Stay Updated with <span className="text-yellow-300">Arravali Essence</span>
+              Get in Touch with <span className="text-yellow-300">Arravali Essence</span>
             </h3>
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Get the latest updates on new spices, exclusive recipes, and special offers delivered to your inbox.
+              Subscribe to our newsletter for the latest spice updates, exclusive recipes, and special offers.
             </p>
             
             {!isSubscribed ? (
@@ -166,7 +166,7 @@ const EnhancedFooter: React.FC = () => {
             <motion.div variants={itemVariants}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="relative">
-                  <img src="/images/logo.png" alt="Spicees Logo" className="h-12 w-auto" />
+                  <img src="/images/logo.png" alt="Arravali Essence Logo" className="h-32 w-auto" />
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}

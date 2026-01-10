@@ -78,6 +78,31 @@ export const api = {
     return response.json();
   },
 
+  // Payment
+  processPayment: async (orderData: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+    postal_code: string;
+    payment_method: string;
+  }) => {
+    const response = await fetch(`${API_BASE_URL}/payment/process`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(orderData),
+    });
+    return response.json();
+  },
+
+  getOrder: async (orderNumber: string) => {
+    const response = await fetch(`${API_BASE_URL}/order/${orderNumber}`, {
+      headers: getHeaders(),
+    });
+    return response.json();
+  },
+
   // Auth
   login: async (credentials: { email: string; password: string }) => {
     const response = await fetch(`${API_BASE_URL}/login`, {

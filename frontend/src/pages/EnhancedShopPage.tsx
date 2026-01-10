@@ -2,28 +2,104 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Filter, Grid, List, Search, SlidersHorizontal, Sparkles, TrendingUp } from 'lucide-react';
-import { products } from '../data/products';
 import { useCart } from '../contexts/CartContext';
 import EnhancedProductCard from '../components/ui/EnhancedProductCard';
 import AnimatedButton from '../components/ui/AnimatedButton';
 
-const categories = [
-  { id: 'All', name: 'All Spices', count: products.length, color: 'from-gray-500 to-gray-600' },
-  { id: 'Whole Spices', name: 'Whole Spices', count: 12, color: 'from-amber-500 to-orange-600' },
-  { id: 'Ground Spices', name: 'Ground Spices', count: 18, color: 'from-red-500 to-pink-600' },
-  { id: 'Spice Blends', name: 'Spice Blends', count: 8, color: 'from-green-500 to-teal-600' },
-  { id: 'Organic', name: 'Organic Range', count: 15, color: 'from-purple-500 to-indigo-600' },
-];
+interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  short_description: string;
+  price: number;
+  sale_price?: number;
+  final_price: number;
+  has_discount: boolean;
+  discount_percentage?: number;
+  in_stock: boolean;
+  category?: {
+    id: number;
+    name: string;
+    slug: string;
+    description?: string;
+    image?: string;
+    is_active: boolean;
+  };
+  rating?: number;
+  reviews: number;
+  image?: string;
+  quantity?: number;
+  weight?: number;
+  isNew?: boolean;
+  discount?: number;
+  isOrganic?: boolean;
+  isPremium?: boolean;
+}
 
 const EnhancedShopPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState('featured');
-  const [viewMode, setViewMode] = useState('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const category = searchParams.get('category') || 'All';
   const { addToCart } = useCart();
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
+        const data = await response.json();
+        
+        // Transform API data to match the expected Product interface
+        const transformedProducts = (data.data || []).map((product: any) => ({
+          id: String(product.id),
+          name: product.name,
+          slug: product.slug,
+          description: product.description,
+          short_description: product.short_description,
+          price: product.price,
+          sale_price: product.sale_price,
+          final_price: product.final_price,
+          has_discount: product.has_discount,
+          discount_percentage: product.discount_percentage,
+          in_stock: product.in_stock,
+          category: product.category,
+          rating: product.rating || 4.5,
+          reviews: product.reviews || Math.floor(Math.random() * 100) + 10,
+          image: product.image || 'https://images.unsplash.com/photo-1599909533730-b5b6e4b5b5b5?w=500&h=500&fit=crop',
+          quantity: product.quantity,
+          weight: product.weight || 100,
+          isNew: Math.random() > 0.8,
+          discount: product.discount_percentage,
+          isOrganic: product.category?.name.includes('Organic'),
+          isPremium: product.category?.name.includes('Premium'),
+        }));
+        
+        setProducts(transformedProducts);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Generate categories dynamically from products
+  const categories = [
+    { id: 'All', name: 'All Spices', count: products.length, color: 'from-gray-500 to-gray-600' },
+    { id: 'Whole Spices', name: 'Whole Spices', count: products.filter(p => p.category?.name.includes('Whole')).length, color: 'from-amber-500 to-orange-600' },
+    { id: 'Ground Spices', name: 'Ground Spices', count: products.filter(p => p.category?.name.includes('Ground')).length, color: 'from-red-500 to-pink-600' },
+    { id: 'Spice Blends', name: 'Spice Blends', count: products.filter(p => p.category?.name.includes('Blend')).length, color: 'from-green-500 to-teal-600' },
+    { id: 'Herbs', name: 'Herbs', count: products.filter(p => p.category?.name.includes('Herb')).length, color: 'from-purple-500 to-indigo-600' },
+  ];
 
   useEffect(() => {
     const search = searchParams.get('search');
@@ -33,7 +109,7 @@ const EnhancedShopPage = () => {
   }, [searchParams]);
 
   const filteredProducts = products.filter(product => {
-    const matchesCategory = category === 'All' || product.category?.toLowerCase() === category.toLowerCase();
+    const matchesCategory = category === 'All' || (product.category?.name === category);
     const matchesSearch = !searchQuery || product.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
     return matchesCategory && matchesSearch && matchesPrice;
@@ -42,7 +118,7 @@ const EnhancedShopPage = () => {
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortBy === 'price-low') return a.price - b.price;
     if (sortBy === 'price-high') return b.price - a.price;
-    if (sortBy === 'rating') return b.rating - a.rating;
+    if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
     return 0;
   });
 
@@ -63,7 +139,7 @@ const EnhancedShopPage = () => {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: "spring" as const,
         stiffness: 100,
         damping: 12,
       },

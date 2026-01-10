@@ -64,9 +64,9 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 p-6 flex gap-6 group"
+        className="bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 group"
       >
-        <div className="relative w-32 h-32 flex-shrink-0">
+        <div className="relative w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
           <img
             src={product.image}
             alt={product.name}
@@ -181,7 +181,7 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
         whileHover={{ y: -8 }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 relative"
+        className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 relative"
       >
         {/* Image Container */}
         <div className="relative overflow-hidden bg-gray-100">
@@ -189,7 +189,7 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
             <motion.img
               src={product.image}
               alt={product.name}
-              className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+              className="w-full h-48 sm:h-56 md:h-64 object-cover transition-transform duration-700 group-hover:scale-110"
               onLoad={() => setImageLoaded(true)}
               whileHover={{ scale: 1.1 }}
             />
@@ -200,7 +200,7 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
           )}
           
           {/* Badges */}
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4 flex flex-col gap-2">
             {product.isNew && (
               <motion.span
                 initial={{ scale: 0 }}
@@ -239,7 +239,7 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="absolute top-4 right-4 flex flex-col gap-2"
+                className="absolute top-2 sm:top-4 right-2 sm:right-4 flex flex-col gap-2"
               >
                 {showWishlist && (
                   <motion.button
@@ -276,7 +276,7 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="absolute bottom-4 left-4 right-4"
+                className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4"
               >
                 <AnimatedButton
                   variant="primary"
@@ -293,11 +293,11 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
         </div>
         
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1">
               <Link to={`/product/${product.id}`} className="hover:text-primary-600 transition-colors">
-                <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-1">{product.name}</h3>
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 mb-1">{product.name}</h3>
               </Link>
               <p className="text-sm text-gray-500">{product.weight}g</p>
             </div>
@@ -308,7 +308,7 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
                   ${product.originalPrice.toFixed(2)}
                 </span>
               )}
-              <span className="text-xl font-bold text-primary-600">
+              <span className="text-lg sm:text-xl font-bold text-primary-600">
                 ${product.price.toFixed(2)}
               </span>
             </div>

@@ -21,7 +21,20 @@ class AdminController extends Controller
             'pending_orders' => Order::where('status', 'pending')->count(),
         ];
 
-        return view('admin.dashboard', compact('stats'));
+        // Get recent orders
+        $recentOrders = Order::with('items.product')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Get top products (featured or most recent)
+        $topProducts = Product::where('is_featured', true)
+            ->orWhere('quantity', '>', 0)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('admin.dashboard', compact('stats', 'recentOrders', 'topProducts'));
     }
 
     public function products()

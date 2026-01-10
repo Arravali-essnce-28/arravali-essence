@@ -11,6 +11,7 @@ import {
 } from 'framer-motion';
 import { ArrowRight, Play, Star, Sparkles, ChefHat, Award } from 'lucide-react';
 import AnimatedButton from './AnimatedButton';
+import heroImage from '/images/hero.png';
 
 const AdvancedHeroSection: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -102,7 +103,7 @@ const AdvancedHeroSection: React.FC = () => {
           className="absolute inset-0 scale-110" style={{paddingTop: '0px'}}
         >
           <img
-            src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+            src={heroImage}
             alt="Spices Background"
             className="w-full h-full object-cover"
           />

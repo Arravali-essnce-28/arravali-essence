@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { useCart } from '../contexts/CartContext';
 import { toast } from 'react-hot-toast';
 import { ArrowLeft, Check, CreditCard, Package, Truck, Lock, Shield, MapPin, Mail, Phone, User, Calendar, CreditCard as CreditCardIcon, Loader2 } from 'lucide-react';
+import appConfig, { formatCurrency, calculateTax, getPaymentFee, getOrderTotal } from '../config/appConfig';
 
 // Form validation schemas
 const shippingSchema = yup.object().shape({
@@ -45,12 +46,26 @@ const CheckoutPage = () => {
     resolver: yupResolver(paymentSchema)
   });
 
-  const shippingMethods = [
+  const [shippingMethods, setShippingMethods] = useState([
     { id: 'standard', name: 'Standard Shipping', price: 4.99, estimated: '3-5 business days' },
     { id: 'express', name: 'Express Shipping', price: 9.99, estimated: '1-2 business days' },
-    { id: 'overnight', name: 'Overnight Shipping', price: 19.99, estimated: 'Next business day' }
-  ];
+    { id: 'overnight', name: 'Overnight Shipping', price: 19.99, estimated: 'Next business day' },
+    { id: 'weekend', name: 'Weekend Delivery', price: 24.99, estimated: 'Saturday/Sunday' },
+    { id: 'international', name: 'International Shipping', price: 39.99, estimated: '7-14 business days' }
+  ]);
 
+  const [paymentMethods, setPaymentMethods] = useState([
+    { id: 'card', name: 'Credit/Debit Card', icon: 'CreditCard', fee: 0, description: 'Visa, Mastercard, Amex' },
+    { id: 'paypal', name: 'PayPal', icon: 'CreditCard', fee: 0, description: 'Fast, secure payment' },
+    { id: 'klarna', name: 'Klarna', icon: 'CreditCard', fee: 2.99, description: 'Buy now, pay later' },
+    { id: 'applepay', name: 'Apple Pay', icon: 'CreditCard', fee: 0, description: 'Pay with Touch ID' },
+    { id: 'googlepay', name: 'Google Pay', icon: 'CreditCard', fee: 0, description: 'Pay with Google' }
+  ]);
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('card');
+  const [taxRate, setTaxRate] = useState(0.2); // UK VAT 20%
+  const [currency, setCurrency] = useState('£');
+  const [country, setCountry] = useState('GB');
   const [selectedShipping, setSelectedShipping] = useState(shippingMethods[0]);
 
   const onShippingSubmit = (data: any) => {
@@ -77,8 +92,19 @@ const CheckoutPage = () => {
 
   const total = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-  const tax = subtotal * 0.1; // 10% tax
-  const orderTotal = subtotal + selectedShipping.price + tax;
+  const tax = subtotal * taxRate;
+  const paymentFee = paymentMethods.find(m => m.id === selectedPaymentMethod)?.fee || 0;
+  const orderTotal = subtotal + selectedShipping.price + tax + paymentFee;
+
+  // Dynamic currency formatting
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(amount);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -310,10 +336,13 @@ const CheckoutPage = () => {
                               <input
                                 type="radio"
                                 id={method.id}
-                                name="shippingMethod"
+                                {...shippingRegister('shippingMethod')}
                                 value={method.id}
                                 checked={selectedShipping.id === method.id}
-                                onChange={() => setSelectedShipping(method)}
+                                onChange={() => {
+                                  setSelectedShipping(method);
+                                  shippingRegister('shippingMethod').onChange({ target: { value: method.id, name: 'shippingMethod' } });
+                                }}
                                 className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300"
                               />
                               <label
