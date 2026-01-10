@@ -1,14 +1,28 @@
 // frontend/src/pages/HomePage.tsx
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, Leaf, Shield, Truck, Award, Clock, Heart } from 'lucide-react';
-import { products } from '../data/products';
+import { getProducts } from '../data/products';
 import { useCart } from '../contexts/CartContext';
 import Button from '../components/ui/Button';
 import TestimonialsSection from '../components/TestimonialsSection';
 import NewsletterSection from '../components/NewsletterSection';
 import ContactUsSection from '../components/ContactUsSection';
+import { useState, useEffect } from 'react';
+import heroImage from '/images/hero.png';
+import type { Product } from '../types';
 
 const HomePage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
+
   const featuredProducts = products.slice(0, 4);
   const bestSellers = [...products].sort((a, b) => b.rating - a.rating).slice(0, 4);
 
@@ -18,7 +32,7 @@ const HomePage = () => {
       <section className="relative h-[80vh] flex items-center justify-center bg-gradient-to-br from-primary-600 to-primary-800 overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+            src={heroImage} 
             alt="Spices Background" 
             className="w-full h-full object-cover"
           />
@@ -264,7 +278,7 @@ const ProductCard = ({ product }: { product: any }) => {
           </div>
           <Button
             size="sm"
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent) => {
               e.preventDefault();
               addToCart(product, 1);
             }}

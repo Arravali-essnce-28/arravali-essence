@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import {
-  ShoppingCart, Menu, X, Search, Heart, User, LogIn, Bell,
-  ChevronDown, Sparkles, Award, Leaf, Star, TrendingUp
+  ShoppingCart, Menu, X, Search, User, LogIn, Bell,
+  ChevronDown, Sparkles, Award, Leaf, Star, TrendingUp, Package, BookOpen
 } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
@@ -12,6 +12,7 @@ import AnimatedButton from './AnimatedButton';
 const EnhancedNavbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -23,9 +24,16 @@ const EnhancedNavbar: React.FC = () => {
 
   // Mock search results
   const searchResults = [
-    { id: 1, name: 'Turmeric Powder', category: 'Ground Spices', price: 12.99, image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=100' },
+    { id: 1, name: 'Turmeric Powder', category: 'Ground Spices', price: 12.99, image: 'https://images.unsplash.com/photo-1582734158340-b3c5c5b0c9b1?w=100' },
     { id: 2, name: 'Cardamom Pods', category: 'Whole Spices', price: 24.99, image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=100' },
     { id: 3, name: 'Garam Masala', category: 'Spice Blends', price: 18.99, image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100' },
+  ];
+
+  // Mock notifications
+  const notificationList = [
+    { id: 1, title: 'New spice blend available!', message: 'Check out our premium curry powder', time: '2 hours ago', read: false },
+    { id: 2, title: 'Order confirmed', message: 'Your bulk order #1234 has been confirmed', time: '5 hours ago', read: false },
+    { id: 3, title: 'Special offer', message: 'Get 20% off on all whole spices', time: '1 day ago', read: true },
   ];
 
   const filteredResults = searchResults.filter(item =>
@@ -45,6 +53,9 @@ const EnhancedNavbar: React.FC = () => {
       const target = event.target as HTMLElement;
       if (!target.closest('.user-menu')) {
         setIsUserDropdownOpen(false);
+      }
+      if (!target.closest('.notification-menu')) {
+        setIsNotificationDropdownOpen(false);
       }
       if (searchRef.current && !searchRef.current.contains(target)) {
         setShowSearchResults(false);
@@ -121,19 +132,13 @@ const EnhancedNavbar: React.FC = () => {
             whileTap={{ scale: 0.95 }}
           >
             <Link to="/" className="flex items-center space-x-3">
-              <div className="relative">
+              <div className="relative" style={{paddingBottom: "15px"}}>
                 <img
                   src="/images/logo.png"
-                  alt="Spicees Logo"
-                  className="h-12 w-auto"
+                  alt="Arravali Essence Logo"
+                  className="h-20 w-auto"
                 />
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                  className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center"
-                >
-                  <Sparkles className="w-2 h-2 text-white" />
-                </motion.div>
+                
               </div>
               
             </Link>
@@ -142,6 +147,8 @@ const EnhancedNavbar: React.FC = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8" style={{marginLeft: '60px'}}>            
             <NavLink to="/shop" icon={<TrendingUp className="w-4 h-4" />}>Shop</NavLink>
+            <NavLink to="/bulk-inquiry" icon={<Package className="w-4 h-4" />}>Bulk Inquiry</NavLink>
+            <NavLink to="/blog" icon={<BookOpen className="w-4 h-4" />}>Blog</NavLink>
             <NavLink to="/about" icon={<Award className="w-4 h-4" />}>About</NavLink>
             <NavLink to="/contact" icon={<Leaf className="w-4 h-4" />}>Contact</NavLink>
           </div>
@@ -217,38 +224,79 @@ const EnhancedNavbar: React.FC = () => {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             {/* Notifications */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="relative p-2 text-gray-700 hover:text-primary-600 transition-colors"
-            >
-              <Bell className="h-6 w-6" />
-              {notifications > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
-                >
-                  {notifications}
-                </motion.span>
-              )}
-            </motion.button>
-
-            {/* Wishlist */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="relative p-2 text-gray-700 hover:text-red-500 transition-colors"
-            >
-              <Heart className="h-6 w-6" />
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
+            <div className="relative notification-menu">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsNotificationDropdownOpen(!isNotificationDropdownOpen)}
+                className="relative p-2 text-gray-700 hover:text-primary-600 transition-colors"
               >
-                2
-              </motion.span>
-            </motion.button>
+                <Bell className="h-6 w-6" />
+                {notifications > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
+                  >
+                    {notifications}
+                  </motion.span>
+                )}
+              </motion.button>
+
+              <AnimatePresence>
+                {isNotificationDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                    className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 py-2 z-50"
+                  >
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <h3 className="font-semibold text-gray-900">Notifications</h3>
+                      <p className="text-sm text-gray-500">{notifications} unread</p>
+                    </div>
+                    <div className="max-h-96 overflow-y-auto">
+                      {notificationList.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className={`px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors ${
+                            !notification.read ? 'bg-blue-50' : ''
+                          }`}
+                          onClick={() => {
+                            // Mark as read
+                            if (!notification.read) {
+                              setNotifications(prev => Math.max(0, prev - 1));
+                            }
+                          }}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className={`w-2 h-2 rounded-full mt-2 ${
+                              !notification.read ? 'bg-blue-500' : 'bg-gray-300'
+                            }`} />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm">{notification.title}</p>
+                              <p className="text-gray-600 text-sm mt-1">{notification.message}</p>
+                              <p className="text-gray-400 text-xs mt-2">{notification.time}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="px-4 py-3 border-t border-gray-100">
+                      <button
+                        onClick={() => {
+                          setNotifications(0);
+                          setIsNotificationDropdownOpen(false);
+                        }}
+                        className="text-primary-600 hover:text-primary-700 text-sm font-medium"
+                      >
+                        Mark all as read
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* User Account */}
             {isLoading ? (
@@ -427,6 +475,14 @@ const EnhancedNavbar: React.FC = () => {
               <MobileNavLink to="/shop" onClick={() => setIsOpen(false)}>
                 <TrendingUp className="w-5 h-5" />
                 Shop
+              </MobileNavLink>
+              <MobileNavLink to="/bulk-inquiry" onClick={() => setIsOpen(false)}>
+                <Package className="w-5 h-5" />
+                Bulk Inquiry
+              </MobileNavLink>
+              <MobileNavLink to="/blog" onClick={() => setIsOpen(false)}>
+                <BookOpen className="w-5 h-5" />
+                Blog
               </MobileNavLink>
               <MobileNavLink to="/about" onClick={() => setIsOpen(false)}>
                 <Award className="w-5 h-5" />

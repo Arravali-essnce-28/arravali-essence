@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -161,5 +162,75 @@ class AuthController extends Controller
         event(new Verified($user));
 
         return response()->json(['message' => 'Email verified successfully'], 200);
+    }
+
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function redirectToGoogle()
+    {
+        $url = Socialite::driver('google')
+            ->stateless()
+            ->redirect()
+            ->getTargetUrl();
+
+        return response()->json(['url' => $url]);
+    }
+
+    /**
+     * Obtain the user information from Google and handle authentication.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function handleGoogleCallback(Request $request)
+    {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+            
+            $user = User::where('google_id', $googleUser->getId())
+                ->orWhere('email', $googleUser->getEmail())
+                ->first();
+
+            if ($user) {
+                if (!$user->google_id) {
+                    $user->update(['google_id' => $googleUser->getId()]);
+                }
+                
+                $token = $user->createToken('auth_token')->plainTextToken;
+                
+                return response()->json([
+                    'message' => 'Login successful',
+                    'user' => $user,
+                    'access_token' => $token,
+                    'token_type' => 'Bearer',
+                ]);
+            } else {
+                $newUser = User::create([
+                    'name' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
+                    'google_id' => $googleUser->getId(),
+                    'avatar' => $googleUser->getAvatar(),
+                    'email_verified_at' => now(),
+                    'password' => Hash::make(Str::random(16)),
+                ]);
+
+                $token = $newUser->createToken('auth_token')->plainTextToken;
+                
+                return response()->json([
+                    'message' => 'Registration successful',
+                    'user' => $newUser,
+                    'access_token' => $token,
+                    'token_type' => 'Bearer',
+                ], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Google authentication failed',
+                'error' => $e->getMessage()
+            ], 401);
+        }
     }
 }

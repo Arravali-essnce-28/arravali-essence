@@ -1,6 +1,6 @@
 // frontend/src/types/index.ts
 export interface Product {
-  id: number;
+  id: string | number;
   name: string;
   description: string;
   price: number;
@@ -12,6 +12,15 @@ export interface Product {
   weight?: number;
   isNew?: boolean;
   discount?: number;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  image: string;
+  productCount: number;
 }
 
 export interface CartItem {

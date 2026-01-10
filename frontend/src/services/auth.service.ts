@@ -126,3 +126,36 @@ const getAuthToken = (): string | null => {
   const authData = getAuthData();
   return authData?.access_token || null;
 };
+
+export const loginWithGoogle = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/auth/google`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    const authUrl = response.data.url;
+    window.location.href = authUrl;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+};
+
+export const handleGoogleCallback = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/auth/google/callback`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    if (response.data.access_token) {
+      localStorage.setItem('user', JSON.stringify(response.data));
+    }
+
+    return response.data;
+  } catch (error) {
+    throw new Error(extractErrorMessage(error));
+  }
+};

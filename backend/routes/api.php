@@ -5,6 +5,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Arravali Essence API is working!']);
@@ -22,6 +23,10 @@ Route::post('/cart', [CartController::class, 'store']);
 Route::put('/cart/{id}', [CartController::class, 'update']);
 Route::delete('/cart/{id}', [CartController::class, 'destroy']);
 
+// Payment routes
+Route::post('/payment/process', [PaymentController::class, 'processPayment']);
+Route::get('/order/{orderNumber}', [PaymentController::class, 'getOrder']);
+
 // Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -30,6 +35,10 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])
     ->name('verification.verify');
 Route::post('/email/resend', [AuthController::class, 'resendVerificationEmail'])
     ->name('verification.send');
+
+// Google OAuth routes
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {

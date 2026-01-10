@@ -1,10 +1,11 @@
 // frontend/src/pages/ShopPage.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Star, Filter, Grid, List } from 'lucide-react';
-import { products } from '../data/products';
+import { getProducts } from '../data/products';
 import { useCart } from '../contexts/CartContext';
 import Button from '../components/ui/Button';
+import type { Product } from '../types';
 
 const categories = ['All', 'Whole Spices', 'Ground Spices', 'Spice Blends', 'Organic'];
 
@@ -12,12 +13,23 @@ const ShopPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState('grid');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const category = searchParams.get('category') || 'All';
   const { addToCart } = useCart();
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      setProducts(data);
+      setLoading(false);
+    };
+    fetchProducts();
+  }, []);
+
   const filteredProducts = category === 'All' 
     ? products 
-    : products.filter(product => 
+    : products.filter((product: Product) => 
         product.category?.toLowerCase() === category.toLowerCase()
       );
 
@@ -109,7 +121,7 @@ const ShopPage = () => {
   );
 };
 
-const ProductCard = ({ product, viewMode }: { product: any; viewMode: string }) => {
+const ProductCard = ({ product, viewMode }: { product: Product; viewMode: string }) => {
   const { addToCart } = useCart();
 
   if (viewMode === 'list') {
