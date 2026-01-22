@@ -20,7 +20,7 @@ const EnhancedCartPage: React.FC = () => {
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100, damping: 12 } }
+    visible: { y: 0, opacity: 1, transition: { type: 'spring' as const, stiffness: 100, damping: 12 } }
   };
 
   if (items.length === 0) {
@@ -129,7 +129,7 @@ const EnhancedCartPage: React.FC = () => {
                           <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => updateQuantity(item.product.id, Math.max(0, item.quantity - 1))}
+                            onClick={() => updateQuantity(Number(item.product.id), Math.max(0, item.quantity - 1))}
                             className="p-3 hover:bg-gray-200 rounded-l-xl transition-colors"
                           >
                             <Minus className="w-4 h-4" />
@@ -138,7 +138,7 @@ const EnhancedCartPage: React.FC = () => {
                           <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(Number(item.product.id), item.quantity + 1)}
                             className="p-3 hover:bg-gray-200 rounded-r-xl transition-colors"
                           >
                             <Plus className="w-4 h-4" />
@@ -148,7 +148,7 @@ const EnhancedCartPage: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           whileTap={{ scale: 0.9 }}
-                          onClick={() => removeFromCart(item.product.id)}
+                          onClick={() => removeFromCart(Number(item.product.id))}
                           className="p-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                         >
                           <Trash2 className="w-5 h-5" />

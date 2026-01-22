@@ -18,17 +18,10 @@ interface Product {
   has_discount: boolean;
   discount_percentage?: number;
   in_stock: boolean;
-  category?: {
-    id: number;
-    name: string;
-    slug: string;
-    description?: string;
-    image?: string;
-    is_active: boolean;
-  };
-  rating?: number;
+  category: string;
+  rating: number;
   reviews: number;
-  image?: string;
+  image: string;
   quantity?: number;
   weight?: number;
   isNew?: boolean;
@@ -95,10 +88,10 @@ const EnhancedShopPage = () => {
   // Generate categories dynamically from products
   const categories = [
     { id: 'All', name: 'All Spices', count: products.length, color: 'from-gray-500 to-gray-600' },
-    { id: 'Whole Spices', name: 'Whole Spices', count: products.filter(p => p.category?.name.includes('Whole')).length, color: 'from-amber-500 to-orange-600' },
-    { id: 'Ground Spices', name: 'Ground Spices', count: products.filter(p => p.category?.name.includes('Ground')).length, color: 'from-red-500 to-pink-600' },
-    { id: 'Spice Blends', name: 'Spice Blends', count: products.filter(p => p.category?.name.includes('Blend')).length, color: 'from-green-500 to-teal-600' },
-    { id: 'Herbs', name: 'Herbs', count: products.filter(p => p.category?.name.includes('Herb')).length, color: 'from-purple-500 to-indigo-600' },
+    { id: 'Whole Spices', name: 'Whole Spices', count: products.filter(p => p.category.includes('Whole')).length, color: 'from-amber-500 to-orange-600' },
+    { id: 'Ground Spices', name: 'Ground Spices', count: products.filter(p => p.category.includes('Ground')).length, color: 'from-red-500 to-pink-600' },
+    { id: 'Spice Blends', name: 'Spice Blends', count: products.filter(p => p.category.includes('Blend')).length, color: 'from-green-500 to-teal-600' },
+    { id: 'Herbs', name: 'Herbs', count: products.filter(p => p.category.includes('Herb')).length, color: 'from-purple-500 to-indigo-600' },
   ];
 
   useEffect(() => {
@@ -109,7 +102,7 @@ const EnhancedShopPage = () => {
   }, [searchParams]);
 
   const filteredProducts = products.filter(product => {
-    const matchesCategory = category === 'All' || (product.category?.name === category);
+    const matchesCategory = category === 'All' || (product.category === category);
     const matchesSearch = !searchQuery || product.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
     return matchesCategory && matchesSearch && matchesPrice;

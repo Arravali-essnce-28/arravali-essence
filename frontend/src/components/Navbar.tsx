@@ -11,7 +11,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { itemCount = 0 } = useCart() || {};
   // Temporarily disabled auth until context is properly set up
-  const user = null;
+  const user: { name?: string } | null = null;
   const logout = () => {};
   
   useEffect(() => {
@@ -84,7 +84,7 @@ const Navbar = () => {
                     <User className="h-4 w-4 text-white" />
                   </div>
                   <span className="hidden lg:inline text-sm font-medium text-gray-700">
-                    {user.name || 'Account'}
+                    Account
                   </span>
                 </button>
                 
