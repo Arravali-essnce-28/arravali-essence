@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, Variants, AnimationGeneratorType } from 'framer-motion';
 import { 
   ArrowRight, Star, Leaf, Shield, Truck, Award, Clock, Heart, 
   Sparkles, ChefHat, Users, TrendingUp, Zap, Globe, CheckCircle 
@@ -12,6 +12,7 @@ import EnhancedProductCard from '../components/ui/EnhancedProductCard';
 import AnimatedButton from '../components/ui/AnimatedButton';
 import TestimonialsSection from '../components/TestimonialsSection';
 import NewsletterSection from '../components/NewsletterSection';
+import FeedbackSection from '../components/FeedbackSection';
 import ContactUsSection from '../components/ContactUsSection';
 import type { Product } from '../types';
 
@@ -39,8 +40,8 @@ const EnhancedHomePage: React.FC = () => {
   }, []);
 
   const featuredProducts = products.slice(0, 4);
-  const bestSellers = [...products].sort((a: Product, b: Product) => b.rating - a.rating).slice(0, 4);
-  const newArrivals = products.filter((p: Product) => p.isNew).slice(0, 4);
+  const bestSellers = [...products].sort((a, b) => b.rating - a.rating).slice(0, 4);
+  const newArrivals = products.filter((p) => p.isNew).slice(0, 4);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,13 +61,13 @@ const EnhancedHomePage: React.FC = () => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 50, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: 'spring' as AnimationGeneratorType,
         stiffness: 100,
         damping: 12,
       },
@@ -94,14 +95,7 @@ const EnhancedHomePage: React.FC = () => {
         <div className="absolute inset-0 bg-black/10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-center">
-            <motion.div
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="flex items-center gap-2"
-            >
-              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-              <span className="font-bold text-sm sm:text-base">{visitorCount.toLocaleString()} visitors today</span>
-            </motion.div>
+            
             <div className="flex items-center gap-2">
               <Truck className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="font-semibold text-sm sm:text-base">Free shipping worldwide</span>
@@ -170,26 +164,26 @@ const EnhancedHomePage: React.FC = () => {
               { 
                 name: 'Whole Spices', 
                 count: '12+ Items', 
-                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                color: 'from-amber-500 to-orange-600'
+                image: 'images/products/whole-spices.png',
+                color: 'from-amber-500'
               },
               { 
                 name: 'Ground Spices', 
                 count: '18+ Items', 
-                image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                color: 'from-red-500 to-pink-600'
+                image: 'images/products/ground-spices.png',
+                color: 'from-red-500'
               },
               { 
                 name: 'Spice Blends', 
                 count: '8+ Varieties', 
-                image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                color: 'from-green-500 to-teal-600'
+                image: 'images/products/spice-blend.png',
+                color: 'from-green-500'
               },
               { 
                 name: 'Organic Range', 
                 count: '15+ Products', 
-                image: 'https://images.unsplash.com/photo-1599909533730-8b9b1b5e7b8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                color: 'from-purple-500 to-indigo-600'
+                image: 'images/products/organic.png',
+                color: 'from-purple-500'
               },
             ].map((category, index) => (
               <motion.div
@@ -281,6 +275,7 @@ const EnhancedHomePage: React.FC = () => {
       <TestimonialsSection />
       <NewsletterSection />
       <ContactUsSection />
+      <FeedbackSection />
     </div>
   );
 };

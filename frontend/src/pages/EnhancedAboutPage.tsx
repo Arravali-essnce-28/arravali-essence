@@ -304,25 +304,36 @@ const EnhancedAboutPage: React.FC = () => {
           >
             {[
               {
-                name: 'Founding Member',
+                name: 'Vinay Chaudrie',
                 role: 'Chief Executive Officer',
                 image: '/images/Our team/founding-member.jpeg',
                 color: 'from-green-500 to-teal-600',
-                bio: 'Third-generation spice merchant with over 25 years of experience in building sustainable farmer relationships and ensuring premium quality standards.'
+                bio: 'Third-generation spice merchant with over 25 years of experience in building sustainable farmer relationships and ensuring premium quality standards.',
+                location: 'India'
               },
               {
-                name: 'Sales Manager',
-                role: 'Global Sales Director',
-                image: '/images/Our team/sales-manager.jpeg',
-                color: 'from-orange-500 to-red-600',
-                bio: 'Expert in international spice trade and supply chain management, dedicated to bringing authentic Indian flavors to global markets.'
-              },
-              {
-                name: 'Sales Manager UK',
-                role: 'UK Operations Manager',
+                name: 'Anita Chaudrie',
+                role: 'QA in UK',
                 image: '/images/Our team/sales-manager-uk.jpeg',
                 color: 'from-blue-500 to-purple-600',
-                bio: 'Quality assurance specialist ensuring all products meet stringent UK food safety standards and customer expectations.'
+                bio: 'Quality assurance specialist ensuring all products meet stringent UK food safety standards and customer expectations.',
+                location: 'UK'
+              },
+              {
+                name: 'Nirav Chuadrie',
+                role: 'Sales Manager UK',
+                image: '/images/Our team/sales-manager.jpeg',
+                color: 'from-orange-500 to-red-600',
+                bio: 'Expert in international spice trade and supply chain management, dedicated to bringing authentic Indian flavors to global markets.',
+                location: 'UK'
+              },
+              {
+                name: 'Sammar Chaudrie',
+                role: 'QA Ind',
+                image: '/images/Our team/QA-india.jpeg',
+                color: 'from-purple-500 to-pink-600',
+                bio: 'Quality control expert overseeing farm operations and ensuring compliance with international standards at source.',
+                location: 'India'
               }
             ].map((member, index) => (
               <motion.div
@@ -392,9 +403,9 @@ const EnhancedAboutPage: React.FC = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
             {[
-              { number: '50K+', label: 'Happy Customers', icon: <Users className="w-8 h-8" /> },
-              { number: '100+', label: 'Premium Spices', icon: <Star className="w-8 h-8" /> },
-              { number: '25+', label: 'Countries Served', icon: <Globe className="w-8 h-8" /> },
+              { number: '25+', label: 'Years Experience', icon: <Users className="w-8 h-8" /> },
+              { number: '15+', label: 'Premium Spices', icon: <Star className="w-8 h-8" /> },
+              { number: '80', label: 'Happy Customers', icon: <Globe className="w-8 h-8" /> },
               { number: '4.9★', label: 'Customer Rating', icon: <Award className="w-8 h-8" /> },
             ].map((stat, index) => (
               <motion.div
