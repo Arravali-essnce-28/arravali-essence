@@ -104,7 +104,7 @@ const OrdersPage: React.FC = () => {
         {orders.map((order) => (
           <OrderTrackingCard
             key={order.id}
-            order={order}
+            order={{ ...order, id: String(order.id) }}
             onViewDetails={handleViewDetails}
           />
         ))}
