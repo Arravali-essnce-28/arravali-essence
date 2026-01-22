@@ -12,6 +12,8 @@ export interface Product {
   weight?: number;
   isNew?: boolean;
   discount?: number;
+  isOrganic?: boolean;
+  isPremium?: boolean;
 }
 
 export interface Category {

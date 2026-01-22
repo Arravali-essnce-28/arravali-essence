@@ -304,92 +304,6 @@ const BulkInquiryPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Limited Time Offers Section */}
-      <section className="py-16 bg-yellow-50 border-y-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full mb-4">
-              <Zap className="w-5 h-5" />
-              <span className="font-bold">LIMITED TIME</span>
-            </div>
-            <h2 className="text-4xl font-black text-gray-900 mb-4">Exclusive Bulk Offers</h2>
-            <p className="text-xl text-gray-600">These deals won't last - secure them before they're gone</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Starter Package Deal",
-                originalPrice: "$599",
-                newPrice: "$399",
-                savings: "33%",
-                deadline: "48 hours",
-                items: ["5kg Premium Spices Bundle", "Free Shipping", "Quality Reports"],
-                urgency: "Only 12 packages left"
-              },
-              {
-                title: "Business Growth Pack",
-                originalPrice: "$1,299",
-                newPrice: "$799",
-                savings: "38%",
-                deadline: "3 days",
-                items: ["25kg Assorted Spices", "Custom Labeling", "Priority Support"],
-                urgency: "8 packages claimed today"
-              },
-              {
-                title: "Enterprise Solution",
-                originalPrice: "$2,999",
-                newPrice: "$1,499",
-                savings: "50%",
-                deadline: "5 days",
-                items: ["100kg Bulk Selection", "Dedicated Manager", "R&D Consultation"],
-                urgency: "Limited to first 10 businesses"
-              }
-            ].map((offer, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="bg-white rounded-2xl shadow-xl hover:shadow-2xl p-6 border-2 border-red-200 relative"
-              >
-                <div className="absolute -top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse">
-                  {offer.deadline} left
-                </div>
-                <div className="text-center mb-4">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{offer.title}</h3>
-                  <div className="flex items-center justify-center gap-3">
-                    <span className="text-gray-400 line-through">{offer.originalPrice}</span>
-                    <span className="text-3xl font-black text-red-600">{offer.newPrice}</span>
-                  </div>
-                  <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold inline-block mt-2">
-                    Save {offer.savings}
-                  </div>
-                </div>
-                <ul className="space-y-2 mb-4">
-                  {offer.items.map((item, itemIndex) => (
-                    <li key={itemIndex} className="flex items-center gap-2 text-sm text-gray-700">
-                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <div className="bg-red-50 text-red-700 px-3 py-2 rounded-lg text-sm font-semibold text-center">
-                  ⚠️ {offer.urgency}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Trust Signals Section */}
       <section className="py-16 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -516,11 +430,11 @@ const BulkInquiryPage: React.FC = () => {
                 <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
                   <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4" />
-                    <span>+1 (555) 123-BULK</span>
+                    <span>07774836106</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Mail className="w-4 h-4" />
-                    <span>bulk@spicees.com</span>
+                    <span>sales@arravaliessence.com</span>
                   </div>
                 </div>
               </motion.div>
@@ -703,8 +617,8 @@ const BulkInquiryPage: React.FC = () => {
                 <Phone className="w-6 h-6" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Call Us</h3>
-              <p className="text-gray-600">+1 (555) 123-BULK</p>
-              <p className="text-sm text-gray-500">Mon-Fri 9AM-6PM EST</p>
+              <p className="text-gray-600">07774836106</p>
+              <p className="text-sm text-gray-500">Mon-Fri 9AM-6PM</p>
             </div>
             
             <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
@@ -712,7 +626,7 @@ const BulkInquiryPage: React.FC = () => {
                 <Mail className="w-6 h-6" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Email Us</h3>
-              <p className="text-gray-600">bulk@spicees.com</p>
+              <p className="text-gray-600">sales@arravaliessence.com</p>
               <p className="text-sm text-gray-500">24/7 support</p>
             </div>
             

@@ -5,6 +5,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\OrderTrackingController;
 use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
@@ -27,6 +28,10 @@ Route::delete('/cart/{id}', [CartController::class, 'destroy']);
 Route::post('/payment/process', [PaymentController::class, 'processPayment']);
 Route::get('/order/{orderNumber}', [PaymentController::class, 'getOrder']);
 
+// Order tracking routes
+Route::get('/track/{orderNumber}', [OrderTrackingController::class, 'trackOrder']);
+Route::get('/track/{orderNumber}/timeline', [OrderTrackingController::class, 'getTrackingTimeline']);
+
 // Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -46,6 +51,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::apiResource('products', ProductController::class)->except(['index', 'show']);
     Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
+    
+    // User order tracking
+    Route::get('/orders', [OrderTrackingController::class, 'getUserOrders']);
+    Route::put('/track/{orderNumber}', [OrderTrackingController::class, 'updateTrackingStatus']);
 });
 
 // CORS preflight

@@ -663,3 +663,20 @@ textarea::placeholder {
     border-width: 2px;
   }
 }
+
+/* Footer specific styles to prevent mobile overrides */
+.footer-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

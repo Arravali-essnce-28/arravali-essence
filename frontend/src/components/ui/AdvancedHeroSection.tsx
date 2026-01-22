@@ -8,6 +8,7 @@ import {
   useSpring,
   useReducedMotion,
   type Variants,
+  type AnimationGeneratorType,
 } from 'framer-motion';
 import { ArrowRight, Play, Star, Sparkles, ChefHat, Award } from 'lucide-react';
 import AnimatedButton from './AnimatedButton';
@@ -57,13 +58,13 @@ const AdvancedHeroSection: React.FC = () => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 50, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: 'spring' as AnimationGeneratorType,
         stiffness: 100,
         damping: 12,
       },
@@ -100,7 +101,7 @@ const AdvancedHeroSection: React.FC = () => {
         {/* Parallax Background Image */}
         <motion.div
           style={{ y }}
-          className="absolute inset-0 scale-110" style={{paddingTop: '0px'}}
+          className="absolute inset-0 scale-110"
         >
           <img
             src={heroImage}
@@ -111,12 +112,12 @@ const AdvancedHeroSection: React.FC = () => {
         </motion.div>
 
         {/* Interactive Floating Elements */}
-        <motion.div
+        {/* <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{ x: smoothX, y: smoothY }}
-        >
+        > */}
           {/* Floating Spice Icons */}
-          {floatingItems.map((_, i) => {
+          {/* {floatingItems.map((_, i) => {
             const iconIndex = i % 4;
 
             return (
@@ -139,7 +140,7 @@ const AdvancedHeroSection: React.FC = () => {
               </motion.div>
             );
           })}
-        </motion.div>
+        </motion.div> */}
 
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
@@ -190,10 +191,10 @@ const AdvancedHeroSection: React.FC = () => {
           className="flex flex-wrap justify-center gap-8 mb-12"
         >
           {[
-            { number: '50K+', label: 'Happy Customers' },
-            { number: '100+', label: 'Premium Spices' },
+            { number: '25+', label: 'Years Experience' },
+            { number: '80', label: 'Happy Customers' },
             { number: '4.9★', label: 'Customer Rating' },
-            { number: '25+', label: 'Countries Served' },
+            { number: '15+', label: 'Premium Spices' },
           ].map((stat, index) => (
             <motion.div
               key={index}

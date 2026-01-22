@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants, type AnimationGeneratorType } from 'framer-motion';
 import { 
   Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, 
   Send, Heart, Star, Award, Truck, Shield, Clock, ArrowUp,
-  Sparkles, ChefHat, Leaf, Globe
+  Sparkles, ChefHat, Leaf, Globe, MessageSquare, Music
 } from 'lucide-react';
 import AnimatedButton from './AnimatedButton';
 
@@ -33,13 +33,13 @@ const EnhancedFooter: React.FC = () => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 30, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 100,
         damping: 12,
       },
@@ -50,30 +50,55 @@ const EnhancedFooter: React.FC = () => {
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              rotate: [0, 360],
-              scale: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 15 + Math.random() * 10,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            {i % 4 === 0 && <Sparkles className="w-6 h-6 text-yellow-400" />}
-            {i % 4 === 1 && <ChefHat className="w-6 h-6 text-orange-400" />}
-            {i % 4 === 2 && <Leaf className="w-6 h-6 text-green-400" />}
-            {i % 4 === 3 && <Star className="w-6 h-6 text-blue-400" />}
-          </motion.div>
-        ))}
+        {[...Array(20)].map((_, i) => {
+          const positions = [
+            { left: '5%', top: '10%' },
+            { left: '15%', top: '25%' },
+            { left: '25%', top: '5%' },
+            { left: '35%', top: '40%' },
+            { left: '45%', top: '15%' },
+            { left: '55%', top: '35%' },
+            { left: '65%', top: '20%' },
+            { left: '75%', top: '45%' },
+            { left: '85%', top: '10%' },
+            { left: '95%', top: '30%' },
+            { left: '10%', top: '60%' },
+            { left: '20%', top: '80%' },
+            { left: '30%', top: '70%' },
+            { left: '40%', top: '90%' },
+            { left: '50%', top: '65%' },
+            { left: '60%', top: '85%' },
+            { left: '70%', top: '75%' },
+            { left: '80%', top: '95%' },
+            { left: '90%', top: '55%' },
+            { left: '95%', top: '85%' },
+          ];
+          
+          return (
+            <motion.div
+              key={i}
+              className="absolute"
+              style={{
+                left: positions[i].left,
+                top: positions[i].top,
+              }}
+              animate={{
+                rotate: [0, 360],
+                scale: [0.5, 1, 0.5],
+              }}
+              transition={{
+                duration: 15 + (i * 0.5),
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              {i % 4 === 0 && <Sparkles className="w-6 h-6 text-yellow-400" />}
+              {i % 4 === 1 && <ChefHat className="w-6 h-6 text-orange-400" />}
+              {i % 4 === 2 && <Leaf className="w-6 h-6 text-green-400" />}
+              {i % 4 === 3 && <Star className="w-6 h-6 text-blue-400" />}
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Newsletter Section */}
@@ -104,10 +129,10 @@ const EnhancedFooter: React.FC = () => {
             </motion.div>
             
             <h3 className="text-3xl md:text-4xl font-black mb-4">
-              Get in Touch with <span className="text-yellow-300">Arravali Essence</span>
+              Share Your <span className="text-yellow-300">Experience</span>
             </h3>
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Subscribe to our newsletter for the latest spice updates, exclusive recipes, and special offers.
+              Your feedback helps us improve and serve you better. We value every opinion and suggestion from our spice family.
             </p>
             
             {!isSubscribed ? (
@@ -119,7 +144,7 @@ const EnhancedFooter: React.FC = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your premium email"
+                    placeholder="Enter your email for feedback"
                     className="w-full pl-12 pr-4 py-4 rounded-2xl text-gray-900 focus:outline-none focus:ring-4 focus:ring-white/30 text-lg"
                   />
                 </div>
@@ -130,7 +155,7 @@ const EnhancedFooter: React.FC = () => {
                   icon={<Send className="w-5 h-5" />}
                   className="bg-white text-primary-600 hover:bg-gray-100 border-white px-8 py-4 rounded-2xl font-bold"
                 >
-                  Subscribe
+                  Send Feedback
                 </AnimatedButton>
               </form>
             ) : (
@@ -145,7 +170,7 @@ const EnhancedFooter: React.FC = () => {
                 >
                   <Heart className="w-8 h-8 text-red-400 fill-current" />
                 </motion.div>
-                <span className="text-xl font-bold">Thank you for subscribing!</span>
+                <span className="text-xl font-bold">Thank you for your feedback!</span>
               </motion.div>
             )}
           </div>
@@ -156,12 +181,12 @@ const EnhancedFooter: React.FC = () => {
       <div className="py-16 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
-          >
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 footer-grid"
+            >
             {/* Company Info */}
             <motion.div variants={itemVariants}>
               <div className="flex items-center gap-3 mb-6">
@@ -193,6 +218,7 @@ const EnhancedFooter: React.FC = () => {
                   { icon: Facebook, color: 'hover:text-blue-400', bg: 'hover:bg-blue-400/10' },
                   { icon: Twitter, color: 'hover:text-sky-400', bg: 'hover:bg-sky-400/10' },
                   { icon: Instagram, color: 'hover:text-pink-400', bg: 'hover:bg-pink-400/10' },
+                  { icon: Music, color: 'hover:text-gray-400', bg: 'hover:bg-gray-400/10' },
                   { icon: Youtube, color: 'hover:text-red-400', bg: 'hover:bg-red-400/10' },
                 ].map(({ icon: Icon, color, bg }, index) => (
                   <motion.a
@@ -205,6 +231,65 @@ const EnhancedFooter: React.FC = () => {
                     <Icon className="w-5 h-5" />
                   </motion.a>
                 ))}
+              </div>
+            </motion.div>
+
+            {/* Contact Info */}
+            <motion.div variants={itemVariants}>
+              <h4 className="text-xl font-bold mb-6 flex items-center gap-2">
+                <Phone className="w-5 h-5 text-primary-400" />
+                Contact Info
+              </h4>
+              <div className="space-y-4">
+                {[
+                  {
+                    icon: MapPin,
+                    text: 'Unit 7 Slater Street, Leicester, UK, LE3 5AS',
+                    color: 'text-red-400',
+                  },
+                  {
+                    icon: Phone,
+                    text: '07774836106',
+                    color: 'text-green-400',
+                  },
+                  {
+                    icon: Mail,
+                    text: 'sales@arravaliessence.com',
+                    color: 'text-blue-400',
+                  },
+                ].map(({ icon: Icon, text, color }, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ x: 5 }}
+                    className="flex items-start space-x-3 group cursor-pointer"
+                  >
+                    <Icon className={`w-5 h-5 ${color} mt-1 group-hover:scale-110 transition-transform`} />
+                    <span className="text-gray-300 group-hover:text-white transition-colors">
+                      {text}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+              
+              <div className="mt-8">
+                <h5 className="font-bold mb-4 flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-primary-400" />
+                  Business Hours
+                </h5>
+                <div className="text-gray-300 text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span>Mon - Fri:</span>
+                    <span className="text-green-400 font-semibold">9:00 AM - 6:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Saturday:</span>
+                    <span className="text-yellow-400 font-semibold">10:00 AM - 5:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Sunday:</span>
+                    <span className="text-yellow-400 font-semibold">10:00 AM - 5:00 PM</span>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
@@ -239,101 +324,6 @@ const EnhancedFooter: React.FC = () => {
                 ))}
               </ul>
             </motion.div>
-
-            {/* Categories */}
-            <motion.div variants={itemVariants}>
-              <h4 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <ChefHat className="w-5 h-5 text-primary-400" />
-                Categories
-              </h4>
-              <ul className="space-y-3">
-                {[
-                  { name: 'Whole Spices', href: '/shop?category=whole-spices', count: '12+' },
-                  { name: 'Ground Spices', href: '/shop?category=ground-spices', count: '18+' },
-                  { name: 'Spice Blends', href: '/shop?category=spice-blends', count: '8+' },
-                  { name: 'Herbs', href: '/shop?category=herbs', count: '10+' },
-                  { name: 'Premium Collection', href: '/shop?category=premium', count: '15+' },
-                ].map((category, index) => (
-                  <motion.li
-                    key={index}
-                    whileHover={{ x: 5 }}
-                    transition={{ type: 'spring', stiffness: 300 }}
-                  >
-                    <a
-                      href={category.href}
-                      className="text-gray-300 hover:text-primary-400 transition-colors flex items-center justify-between group"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="w-1 h-1 bg-primary-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                        {category.name}
-                      </div>
-                      <span className="text-xs bg-gray-800 text-gray-400 px-2 py-1 rounded-full">
-                        {category.count}
-                      </span>
-                    </a>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Contact Info */}
-            <motion.div variants={itemVariants}>
-              <h4 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <Phone className="w-5 h-5 text-primary-400" />
-                Contact Info
-              </h4>
-              <div className="space-y-4">
-                {[
-                  {
-                    icon: MapPin,
-                    text: '123 Spice Street, Flavor City, FC 12345',
-                    color: 'text-red-400',
-                  },
-                  {
-                    icon: Phone,
-                    text: '+1 (555) 123-SPICE',
-                    color: 'text-green-400',
-                  },
-                  {
-                    icon: Mail,
-                    text: 'hello@arravaliessence.com',
-                    color: 'text-blue-400',
-                  },
-                ].map(({ icon: Icon, text, color }, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ x: 5 }}
-                    className="flex items-start space-x-3 group cursor-pointer"
-                  >
-                    <Icon className={`w-5 h-5 ${color} mt-1 group-hover:scale-110 transition-transform`} />
-                    <span className="text-gray-300 group-hover:text-white transition-colors">
-                      {text}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-              
-              <div className="mt-8">
-                <h5 className="font-bold mb-4 flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-primary-400" />
-                  Business Hours
-                </h5>
-                <div className="text-gray-300 text-sm space-y-2">
-                  <div className="flex justify-between">
-                    <span>Mon - Fri:</span>
-                    <span className="text-green-400 font-semibold">9:00 AM - 6:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Saturday:</span>
-                    <span className="text-yellow-400 font-semibold">10:00 AM - 4:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sunday:</span>
-                    <span className="text-red-400 font-semibold">Closed</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Features Banner */}
@@ -343,7 +333,8 @@ const EnhancedFooter: React.FC = () => {
             viewport={{ once: true }}
             className="mt-16 pt-12 border-t border-gray-700"
           >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="max-w-4xl mx-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
                 { icon: Truck, title: 'Free Shipping', desc: 'On orders over $50', color: 'text-blue-400' },
                 { icon: Award, title: 'Premium Quality', desc: 'ISO certified', color: 'text-yellow-400' },
@@ -362,6 +353,7 @@ const EnhancedFooter: React.FC = () => {
                   <p className="text-sm text-gray-400">{feature.desc}</p>
                 </motion.div>
               ))}
+            </div>
             </div>
           </motion.div>
         </div>
@@ -382,15 +374,21 @@ const EnhancedFooter: React.FC = () => {
               for spice lovers worldwide.
             </motion.div>
             
-            <div className="flex flex-wrap justify-center gap-6 text-sm">
-              {['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Sitemap'].map((link, index) => (
+            {/* Sticky Social Media Buttons */}
+            <div className="flex items-center gap-3">
+              {[
+                { icon: Instagram, color: 'hover:text-pink-400', bg: 'hover:bg-pink-400/10' },
+                { icon: Youtube, color: 'hover:text-red-400', bg: 'hover:bg-red-400/10' },
+                { icon: Facebook, color: 'hover:text-blue-400', bg: 'hover:bg-blue-400/10' },
+              ].map(({ icon: Icon, color, bg }, index) => (
                 <motion.a
                   key={index}
                   href="#"
-                  whileHover={{ y: -2 }}
-                  className="text-gray-400 hover:text-primary-400 transition-colors"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`p-2 rounded-full bg-gray-800 text-gray-400 ${color} ${bg} transition-all duration-300 sticky`}
                 >
-                  {link}
+                  <Icon className="w-5 h-5" />
                 </motion.a>
               ))}
             </div>

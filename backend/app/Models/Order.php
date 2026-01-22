@@ -36,6 +36,23 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+        public function tracking(): HasMany
+    {
+        return $this->hasMany(OrderTracking::class)->orderBy('created_at', 'desc');
+    }
+
+    public function latestTracking(): BelongsTo
+    {
+        return $this->belongsTo(OrderTracking::class, 'id', 'id')
+            ->orderBy('created_at', 'desc')
+            ->withDefault(function () {
+                return new OrderTracking([
+                    'status' => $this->status,
+                    'description' => 'Order created'
+                ]);
+            });
+    }
+
     protected static function booted()
     {
         static::creating(function ($order) {

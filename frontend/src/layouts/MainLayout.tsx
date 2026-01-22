@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon, ShoppingCartIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import StickySocialButtons from '../components/StickySocialButtons';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -262,6 +263,8 @@ export function MainLayout({ children }: MainLayoutProps) {
           </p>
         </div>
       </footer>
+      {/* Sticky Social Media Buttons */}
+      <StickySocialButtons />
     </div>
   );
 }

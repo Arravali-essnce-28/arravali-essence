@@ -4,23 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Heart, Eye, ShoppingCart, Zap, Award, Leaf } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
 import AnimatedButton from './AnimatedButton';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  rating: number;
-  reviews: number;
-  description: string;
-  weight: number;
-  isNew?: boolean;
-  discount?: number;
-  isOrganic?: boolean;
-  isPremium?: boolean;
-  category?: string;
-}
+import type { Product } from '../../types';
 
 interface EnhancedProductCardProps {
   product: Product;

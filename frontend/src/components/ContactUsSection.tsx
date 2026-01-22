@@ -23,8 +23,7 @@ const ContactUsSection: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
-                <p className="text-gray-600">+44 7774 836106</p>
-                <p className="text-sm text-gray-500">Mon-Fri 9AM-6PM</p>
+                <p className="text-gray-600">07774836106</p>
               </div>
             </div>
 
@@ -34,7 +33,7 @@ const ContactUsSection: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                <p className="text-gray-600">hello@spicees.com</p>
+                <p className="text-gray-600">sales@arravaliessence.com</p>
                 <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
               </div>
             </div>
@@ -45,7 +44,7 @@ const ContactUsSection: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">Address</h3>
-                <p className="text-gray-600">123 Spice Street<br />London, UK</p>
+                <p className="text-gray-600">Unit 7 Slater Street, Leicester<br />UK, LE3 5AS</p>
               </div>
             </div>
 
@@ -57,8 +56,8 @@ const ContactUsSection: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">Business Hours</h3>
                 <p className="text-gray-600">
                   Mon - Fri: 9:00 AM - 6:00 PM<br />
-                  Saturday: 10:00 AM - 4:00 PM<br />
-                  Sunday: Closed
+                  Saturday: 10:00 AM - 5:00 PM<br />
+                  Sunday: 10:00 AM - 5 PM
                 </p>
               </div>
             </div>
