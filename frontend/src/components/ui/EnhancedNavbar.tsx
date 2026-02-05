@@ -429,29 +429,7 @@ const EnhancedNavbar: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
-                {/* Mobile Notifications */}
-                <div className="relative notification-menu">
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => {
-                      // Toggle dropdown
-                      setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
-                    }}
-                    className="relative p-2 text-gray-700 hover:text-primary-600 transition-colors"
-                  >
-                    <Bell className="h-6 w-6" />
-                    {notifications > 0 && (
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
-                      >
-                        {notifications}
-                      </motion.span>
-                    )}
-                  </motion.button>
-                </div>
+
                 
                 {isLoading ? (
                   <div className="flex items-center space-x-3">
@@ -496,62 +474,7 @@ const EnhancedNavbar: React.FC = () => {
                 )}
               </div>
 
-              {/* Mobile Notification Dropdown */}
-              <AnimatePresence>
-                {isNotificationDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                    className="absolute right-0 top-full mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 py-2 z-[60]"
-                  >
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <h3 className="font-semibold text-gray-900">Notifications</h3>
-                      <p className="text-sm text-gray-500">{notifications} unread</p>
-                    </div>
-                    <div className="max-h-60 overflow-y-auto">
-                      {notificationList.map((notification) => (
-                        <div
-                          key={notification.id}
-                          className={`px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors ${
-                            !notification.read ? 'bg-blue-50' : ''
-                          }`}
-                          onClick={() => {
-                            // Mark as read
-                            if (!notification.read) {
-                              setNotifications(prev => Math.max(0, prev - 1));
-                            }
-                            setIsNotificationDropdownOpen(false);
-                            setIsOpen(false); // Close mobile menu when notification is clicked
-                          }}
-                        >
-                          <div className="flex items-start gap-3">
-                            <div className={`w-2 h-2 rounded-full mt-2 ${
-                              !notification.read ? 'bg-blue-500' : 'bg-gray-300'
-                            }`} />
-                            <div className="flex-1">
-                              <p className="font-medium text-gray-900 text-sm">{notification.title}</p>
-                              <p className="text-gray-600 text-sm mt-1">{notification.message}</p>
-                              <p className="text-gray-400 text-xs mt-2">{notification.time}</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="px-4 py-3 border-t border-gray-100">
-                      <button
-                        onClick={() => {
-                          setNotifications(0);
-                          setIsNotificationDropdownOpen(false);
-                        }}
-                        className="text-primary-600 hover:text-primary-700 text-sm font-medium"
-                      >
-                        Mark all as read
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+
 
               <MobileNavLink to="/" onClick={() => setIsOpen(false)}>
                 <Star className="w-5 h-5" />
