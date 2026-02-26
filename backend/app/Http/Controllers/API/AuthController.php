@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -227,6 +228,7 @@ class AuthController extends Controller
                 ], 201);
             }
         } catch (\Exception $e) {
+            Log::error('Google Auth Error: ' . $e->getMessage());
             return response()->json([
                 'message' => 'Google authentication failed',
                 'error' => $e->getMessage()

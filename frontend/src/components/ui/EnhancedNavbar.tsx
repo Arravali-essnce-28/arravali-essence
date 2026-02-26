@@ -154,153 +154,17 @@ const EnhancedNavbar: React.FC = () => {
             <NavLink to="/bulk-inquiry" icon={<Package className="w-4 h-4" />}>Bulk Inquiry</NavLink>
             <NavLink to="/blog" icon={<BookOpen className="w-4 h-4" />}>Blog</NavLink>
             <NavLink to="/about" icon={<Award className="w-4 h-4" />}>About</NavLink>
+            <NavLink to="/notifications" icon={<Award className="w-4 h-4" />}>Notifications</NavLink>
             <NavLink to="/contact" icon={<Leaf className="w-4 h-4" />}>Contact</NavLink>
           </div>
 
           {/* Search Bar */}
-          <div className="hidden md:flex items-center flex-1 max-w-lg mx-8 lg:mx-12" ref={searchRef}>
-            <form onSubmit={handleSearch} className="relative w-full">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search premium spices..."
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setShowSearchResults(e.target.value.length > 0);
-                  }}
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-gray-900 placeholder-gray-500"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSearchQuery('');
-                      setShowSearchResults(false);
-                    }}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-
-              {/* Search Results Dropdown */}
-              <AnimatePresence>
-                {showSearchResults && filteredResults.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50"
-                  >
-                    <div className="p-2">
-                      {filteredResults.map((item) => (
-                        <Link
-                          key={item.id}
-                          to={`/product/${item.id}`}
-                          onClick={() => {
-                            setShowSearchResults(false);
-                            setSearchQuery('');
-                          }}
-                          className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"
-                        >
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="w-12 h-12 object-cover rounded-lg"
-                          />
-                          <div className="flex-1">
-                            <h4 className="font-semibold text-gray-900">{item.name}</h4>
-                            <p className="text-sm text-gray-500">{item.category}</p>
-                          </div>
-                          <span className="font-bold text-primary-600">${item.price}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </form>
-          </div>
+          
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
             {/* Notifications */}
-            <div className="relative notification-menu">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setIsNotificationDropdownOpen(!isNotificationDropdownOpen)}
-                className="relative p-2 text-gray-700 hover:text-primary-600 transition-colors"
-              >
-                <Bell className="h-6 w-6" />
-                {notifications > 0 && (
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
-                  >
-                    {notifications}
-                  </motion.span>
-                )}
-              </motion.button>
-
-              <AnimatePresence>
-                {isNotificationDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                    className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 py-2 z-50"
-                  >
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <h3 className="font-semibold text-gray-900">Notifications</h3>
-                      <p className="text-sm text-gray-500">{notifications} unread</p>
-                    </div>
-                    <div className="max-h-96 overflow-y-auto">
-                      {notificationList.map((notification) => (
-                        <div
-                          key={notification.id}
-                          className={`px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors ${
-                            !notification.read ? 'bg-blue-50' : ''
-                          }`}
-                          onClick={() => {
-                            // Mark as read
-                            if (!notification.read) {
-                              setNotifications(prev => Math.max(0, prev - 1));
-                            }
-                          }}
-                        >
-                          <div className="flex items-start gap-3">
-                            <div className={`w-2 h-2 rounded-full mt-2 ${
-                              !notification.read ? 'bg-blue-500' : 'bg-gray-300'
-                            }`} />
-                            <div className="flex-1">
-                              <p className="font-medium text-gray-900 text-sm">{notification.title}</p>
-                              <p className="text-gray-600 text-sm mt-1">{notification.message}</p>
-                              <p className="text-gray-400 text-xs mt-2">{notification.time}</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="px-4 py-3 border-t border-gray-100">
-                      <button
-                        onClick={() => {
-                          setNotifications(0);
-                          setIsNotificationDropdownOpen(false);
-                        }}
-                        className="text-primary-600 hover:text-primary-700 text-sm font-medium"
-                      >
-                        Mark all as read
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            
 
             {/* User Account */}
             {isLoading ? (
@@ -495,6 +359,10 @@ const EnhancedNavbar: React.FC = () => {
               <MobileNavLink to="/about" onClick={() => setIsOpen(false)}>
                 <Award className="w-5 h-5" />
                 About
+              </MobileNavLink>
+              <MobileNavLink to="/notifications" onClick={() => setIsOpen(false)}>
+                <Award className="w-5 h-5" />
+                Notifications
               </MobileNavLink>
               <MobileNavLink to="/contact" onClick={() => setIsOpen(false)}>
                 <Leaf className="w-5 h-5" />

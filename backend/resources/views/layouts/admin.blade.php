@@ -68,6 +68,14 @@
                     <i class="fas fa-box mr-2 sm:mr-3 text-sm sm:text-base"></i>
                     <span class="text-sm sm:text-base">Products</span>
                 </a>
+                <a href="{{ route('admin.orders') }}" class="flex items-center px-4 sm:px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 {{ request()->routeIs('admin.orders*') ? 'bg-primary-50 text-primary-600 border-r-2 border-primary-600' : '' }}">
+                    <i class="fas fa-shopping-cart mr-2 sm:mr-3 text-sm sm:text-base"></i>
+                    <span class="text-sm sm:text-base">Orders</span>
+                </a>
+                <a href="{{ route('admin.users') }}" class="flex items-center px-4 sm:px-6 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 {{ request()->routeIs('admin.users*') ? 'bg-primary-50 text-primary-600 border-r-2 border-primary-600' : '' }}">
+                    <i class="fas fa-users mr-2 sm:mr-3 text-sm sm:text-base"></i>
+                    <span class="text-sm sm:text-base">Users</span>
+                </a>
             </nav>
         </div>
 

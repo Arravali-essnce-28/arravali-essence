@@ -7,6 +7,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\OrderTrackingController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Arravali Essence API is working!']);
@@ -26,6 +27,7 @@ Route::delete('/cart/{id}', [CartController::class, 'destroy']);
 
 // Payment routes
 Route::post('/payment/process', [PaymentController::class, 'processPayment']);
+Route::post('/payment/create-intent', [PaymentController::class, 'createPaymentIntent']);
 Route::get('/order/{orderNumber}', [PaymentController::class, 'getOrder']);
 
 // Order tracking routes
@@ -55,6 +57,25 @@ Route::middleware('auth:sanctum')->group(function () {
     // User order tracking
     Route::get('/orders', [OrderTrackingController::class, 'getUserOrders']);
     Route::put('/track/{orderNumber}', [OrderTrackingController::class, 'updateTrackingStatus']);
+
+    // Admin Routes
+    Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard']);
+        Route::get('/products', [AdminController::class, 'products']);
+        Route::post('/products', [AdminController::class, 'storeProduct']);
+        Route::get('/products/{product}', [AdminController::class, 'editProduct']); // Reusing editProduct to fetch single product for edit form
+        Route::put('/products/{product}', [AdminController::class, 'updateProduct']);
+        Route::delete('/products/{product}', [AdminController::class, 'deleteProduct']);
+        
+        // Order Management
+        Route::get('/orders', [AdminController::class, 'orders']);
+        Route::put('/orders/{order}/status', [AdminController::class, 'updateOrderStatus']);
+
+        // User Management
+        Route::get('/users', [AdminController::class, 'users']);
+        Route::get('/users/{user}', [AdminController::class, 'userDetails']);
+        Route::delete('/users/{user}', [AdminController::class, 'deleteUser']);
+    });
 });
 
 // CORS preflight

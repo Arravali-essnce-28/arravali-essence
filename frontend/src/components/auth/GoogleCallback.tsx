@@ -8,15 +8,25 @@ const GoogleCallback: React.FC = () => {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        const data = await authService.handleGoogleCallback();
+        const data = await authService.handleGoogleCallback(window.location.search);
         
         // Redirect to home page after successful authentication
         navigate('/', { replace: true });
-      } catch (error) {
-        console.error('Google callback error:', error);
+      } catch (error: any) {
+        console.error('Google callback error full object:', error);
+        if (error.response) {
+            console.error('Response data:', error.response.data);
+            console.error('Response status:', error.response.status);
+            console.error('Response headers:', error.response.headers);
+        } else if (error.request) {
+            console.error('Request made but no response:', error.request);
+        } else {
+            console.error('Error message:', error.message);
+        }
+
         navigate('/login', { 
           replace: true, 
-          state: { error: 'Google login failed. Please try again.' } 
+          state: { error: error.message || 'Google login failed. Please try again.' } 
         });
       }
     };

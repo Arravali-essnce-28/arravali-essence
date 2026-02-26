@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import { Toaster } from 'react-hot-toast';
 import ErrorBoundary from './components/ErrorBoundary';
 import EnhancedNavbar from './components/ui/EnhancedNavbar';
@@ -24,7 +25,9 @@ import OrdersPage from './pages/OrdersPage';
 import OrderTrackingPage from './pages/OrderTrackingPage';
 import CheckoutPage from './pages/CheckoutPage';
 import NotFoundPage from './pages/NotFoundPage';
+import NotificationsPage from './pages/NotificationsPage';
 import GoogleCallback from './components/auth/GoogleCallback';
+
 
 
 
@@ -33,7 +36,8 @@ const App: React.FC = () => {
     <ErrorBoundary>
       <Router>
         <AuthProvider>
-          <CartProvider>
+          <NotificationProvider>
+            <CartProvider>
             <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex flex-col">
               <EnhancedNavbar />
               <main className="flex-1">
@@ -53,7 +57,10 @@ const App: React.FC = () => {
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/orders" element={<OrdersPage />} />
                   <Route path="/track/:orderNumber" element={<OrderTrackingPage />} />
+                  <Route path="/notifications" element={<NotificationsPage />} />
                   <Route path="/auth/google/callback" element={<GoogleCallback />} />
+                  
+                  {/* Admin Routes - Moved to Blade Backend */}
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </main>
@@ -62,7 +69,8 @@ const App: React.FC = () => {
               <ScrollToTop />
               <Toaster position="top-right" />
             </div>
-          </CartProvider>
+            </CartProvider>
+          </NotificationProvider>
         </AuthProvider>
       </Router>
     </ErrorBoundary>

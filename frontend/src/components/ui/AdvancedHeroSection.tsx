@@ -154,15 +154,7 @@ const AdvancedHeroSection: React.FC = () => {
         animate="visible"
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
       >
-        {/* Badge */}
-        <motion.div  style={{marginTop: '20px'}}
-          variants={itemVariants}
-          className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-3 mb-8"
-        >
-          <Sparkles className="w-5 h-5 text-yellow-300" />
-          <span className="text-white font-semibold">Premium Quality Since 1995</span>
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-        </motion.div>
+       
 
         {/* Main Heading */}
         <motion.div variants={itemVariants} className="mb-8">
