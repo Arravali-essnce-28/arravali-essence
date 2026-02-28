@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://127.0.0.1:8001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 // Generate session ID for guest users
 const getSessionId = () => {
@@ -25,14 +25,14 @@ export const api = {
       const response = await fetch(`${API_BASE_URL}/products`, {
         headers: getHeaders(),
       });
-      
+
       console.log('Response status:', response.status);
       console.log('Response headers:', response.headers);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       console.log('Response data:', data);
       return data;
@@ -47,11 +47,11 @@ export const api = {
       const response = await fetch(`${API_BASE_URL}/products/${id}`, {
         headers: getHeaders(),
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       return data;
     } catch (error) {
@@ -130,11 +130,11 @@ export const api = {
         headers: getHeaders(),
         body: JSON.stringify(shippingData),
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       return response.json();
     } catch (error) {
       console.error('Error creating payment intent:', error);
@@ -270,16 +270,16 @@ export const api = {
     // or just use POST if the backend handles it.
     // However, Laravel's API resource controller expects PUT/PATCH.
     // FormData doesn't natively support PUT, so we use POST with _method field if using Laravel's method spoofing.
-    
+
     // Check if it's FormData
     const isFormData = productData instanceof FormData;
-    
+
     if (isFormData) {
-        productData.append('_method', 'PUT');
+      productData.append('_method', 'PUT');
     }
 
     const response = await fetch(`${API_BASE_URL}/admin/products/${id}`, {
-      method: isFormData ? 'POST' : 'PUT', 
+      method: isFormData ? 'POST' : 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
         'X-Session-ID': getSessionId(),

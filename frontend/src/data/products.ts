@@ -65,19 +65,34 @@ const fallbackProducts: Product[] = [
 export const getProducts = async (): Promise<Product[]> => {
   try {
     const response = await api.getProducts();
-    return response.map((product: any) => ({
-      id: product.id.toString(),
+    const productsData = response.data ? response.data : response;
+
+    // Safety check just in case
+    if (!Array.isArray(productsData)) {
+      throw new Error("Expected an array of products");
+    }
+
+    return productsData.map((product: any) => ({
+      id: String(product.id),
       name: product.name,
-      description: product.description,
+      slug: product.slug,
+      description: product.description || product.short_description,
+      short_description: product.short_description,
       price: product.price,
-      originalPrice: product.sale_price || undefined,
-      image: product.image,
-      rating: 4.5 + Math.random() * 0.5, // Random rating between 4.5-5.0
-      reviews: Math.floor(Math.random() * 300) + 50, // Random reviews 50-350
-      category: product.category?.name || 'Uncategorized',
+      originalPrice: product.sale_price ? Number(product.price) : undefined,
+      final_price: product.final_price || product.price,
+      has_discount: product.has_discount || false,
+      discount_percentage: product.discount_percentage,
+      in_stock: product.in_stock !== false,
+      image: product.image || 'https://images.unsplash.com/photo-1599909533730-b5b6e4b5b5b5?w=500&h=500&fit=crop',
+      rating: product.rating || 4.5 + Math.random() * 0.5,
+      reviews: product.reviews || Math.floor(Math.random() * 300) + 50,
+      category: product.category, // Object {id, name}
       weight: product.weight || 100,
-      isNew: Math.random() > 0.7, // 30% chance of being new
-      discount: product.sale_price ? Math.round((1 - product.sale_price / product.price) * 100) : 0
+      isNew: Math.random() > 0.7,
+      discount: product.discount_percentage || (product.sale_price ? Math.round((1 - product.sale_price / product.price) * 100) : 0),
+      isOrganic: product.category?.name?.includes('Organic'),
+      isPremium: product.category?.name?.includes('Premium'),
     }));
   } catch (error) {
     console.error('Error fetching products:', error);

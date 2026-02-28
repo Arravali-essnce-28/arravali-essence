@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, Variants, AnimationGeneratorType } from 'framer-motion';
-import { 
-  ArrowRight, Star, Leaf, Shield, Truck, Award, Clock, Heart, 
-  Sparkles, ChefHat, Users, TrendingUp, Zap, Globe, CheckCircle 
+import {
+  ArrowRight, Star, Leaf, Shield, Truck, Award, Clock, Heart,
+  Sparkles, ChefHat, Users, TrendingUp, Zap, Globe, CheckCircle
 } from 'lucide-react';
 import { getProducts } from '../data/products';
 import { useCart } from '../contexts/CartContext';
@@ -23,19 +23,21 @@ const EnhancedHomePage: React.FC = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);
-  
+
   useEffect(() => {
     const loadProducts = async () => {
       try {
         const data = await getProducts();
-        setProducts(data);
+        // Randomize products
+        const shuffled = [...data].sort(() => 0.5 - Math.random());
+        setProducts(shuffled);
       } catch (error) {
         console.error('Failed to load products:', error);
       } finally {
         setLoading(false);
       }
     };
-    
+
     loadProducts();
   }, []);
 
@@ -95,7 +97,7 @@ const EnhancedHomePage: React.FC = () => {
         <div className="absolute inset-0 bg-black/10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-center">
-            
+
             <div className="flex items-center gap-2">
               <Truck className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="font-semibold text-sm sm:text-base">Free shipping worldwide</span>
@@ -134,7 +136,7 @@ const EnhancedHomePage: React.FC = () => {
             />
           ))}
         </motion.div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             variants={containerVariants}
@@ -152,7 +154,7 @@ const EnhancedHomePage: React.FC = () => {
             </motion.h2>
             <motion.div variants={itemVariants} className="w-32 h-2 bg-gradient-to-r from-primary-600 to-orange-600 mx-auto rounded-full" />
           </motion.div>
-          
+
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -161,27 +163,27 @@ const EnhancedHomePage: React.FC = () => {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
           >
             {[
-              { 
-                name: 'Whole Spices', 
-                count: '12+ Items', 
+              {
+                name: 'Whole Spices',
+                count: '12+ Items',
                 image: 'images/products/whole-spices.png',
                 color: 'from-amber-500'
               },
-              { 
-                name: 'Ground Spices', 
-                count: '18+ Items', 
+              {
+                name: 'Ground Spices',
+                count: '18+ Items',
                 image: 'images/products/ground-spices.png',
                 color: 'from-red-500'
               },
-              { 
-                name: 'Spice Blends', 
-                count: '8+ Varieties', 
+              {
+                name: 'Spice Blends',
+                count: '8+ Varieties',
                 image: 'images/products/spice-blend.png',
                 color: 'from-green-500'
               },
-              { 
-                name: 'Organic Range', 
-                count: '15+ Products', 
+              {
+                name: 'Organic Range',
+                count: '15+ Products',
                 image: 'images/products/organic.png',
                 color: 'from-purple-500'
               },
@@ -202,7 +204,7 @@ const EnhancedHomePage: React.FC = () => {
                     />
                     <div className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-60`} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                    
+
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -255,7 +257,7 @@ const EnhancedHomePage: React.FC = () => {
               View All Products
             </AnimatedButton>
           </motion.div>
-          
+
           <motion.div
             variants={containerVariants}
             initial="hidden"

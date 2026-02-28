@@ -18,7 +18,8 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await getProducts();
-      setProducts(data);
+      const shuffled = [...data].sort(() => 0.5 - Math.random());
+      setProducts(shuffled);
     };
     fetchProducts();
   }, []);
@@ -31,21 +32,21 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center justify-center bg-gradient-to-br from-primary-600 to-primary-800 overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src={heroImage} 
-            alt="Spices Background" 
+          <img
+            src={heroImage}
+            alt="Spices Background"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/60" />
         </div>
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight text-white" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.8)'}}>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight text-white" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>
               Premium <span className="text-yellow-400 font-black">Indian Spices</span>
               <br />Delivered Fresh
             </h1>
-            <p className="text-xl md:text-2xl font-bold text-white max-w-4xl mx-auto mb-8" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.8)'}}>
+            <p className="text-xl md:text-2xl font-bold text-white max-w-4xl mx-auto mb-8" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
               Authentic spices sourced directly from Indian farms. Experience the true taste of tradition.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -78,7 +79,7 @@ const HomePage = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Spice Collection</h2>
             <div className="w-24 h-1 bg-primary-600 mx-auto"></div>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { name: 'Whole Spices', count: '12+ Items', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
@@ -86,13 +87,13 @@ const HomePage = () => {
               { name: 'Spice Blends', count: '8+ Varieties', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
               { name: 'Organic Range', count: '15+ Products', image: 'https://images.unsplash.com/photo-1599909533730-8b9b1b5e7b8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' },
             ].map((category, index) => (
-              <Link 
-                key={index} 
-                to="/shop" 
+              <Link
+                key={index}
+                to="/shop"
                 className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300 h-64"
               >
-                <img 
-                  src={category.image} 
+                <img
+                  src={category.image}
                   alt={category.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -141,15 +142,15 @@ const HomePage = () => {
             <div>
               <h2 className="text-3xl font-bold text-gray-900">Featured Spices</h2>
             </div>
-            <Button 
+            <Button
               as={Link}
-              to="/shop" 
+              to="/shop"
               variant="outline"
             >
               View All <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
@@ -165,7 +166,7 @@ const HomePage = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Best Sellers</h2>
             <div className="w-24 h-1 bg-primary-600 mx-auto"></div>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {bestSellers.map((product) => (
               <ProductCard key={product.id} product={product} />
@@ -259,9 +260,9 @@ const ProductCard = ({ product }: { product: any }) => {
             <span className="text-lg font-bold text-primary-600">${product.price.toFixed(2)}</span>
           </div>
         </div>
-        
+
         <p className="text-gray-600 text-sm mb-3">{product.description}</p>
-        
+
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="flex text-primary-400">
