@@ -231,8 +231,8 @@ const EnhancedShopPage = () => {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setSearchParams(cat.id === 'All' ? {} : { category: cat.id })}
                       className={`block w-full text-left p-4 rounded-xl transition-all ${category === cat.id
-                          ? `bg-gradient-to-r ${cat.color} text-white shadow-lg`
-                          : 'text-gray-700 hover:bg-gray-50 border-2 border-gray-100 hover:border-primary-200'
+                        ? `bg-gradient-to-r ${cat.color} text-white shadow-lg`
+                        : 'text-gray-700 hover:bg-gray-50 border-2 border-gray-100 hover:border-primary-200'
                         }`}
                     >
                       <div className="flex items-center justify-between">
@@ -317,8 +317,8 @@ const EnhancedShopPage = () => {
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setViewMode('grid')}
                       className={`p-3 rounded-lg transition-all ${viewMode === 'grid'
-                          ? 'bg-primary-600 text-white shadow-lg'
-                          : 'text-gray-600 hover:text-primary-600'
+                        ? 'bg-primary-600 text-white shadow-lg'
+                        : 'text-gray-600 hover:text-primary-600'
                         }`}
                     >
                       <Grid className="h-5 w-5" />
@@ -328,8 +328,8 @@ const EnhancedShopPage = () => {
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setViewMode('list')}
                       className={`p-3 rounded-lg transition-all ${viewMode === 'list'
-                          ? 'bg-primary-600 text-white shadow-lg'
-                          : 'text-gray-600 hover:text-primary-600'
+                        ? 'bg-primary-600 text-white shadow-lg'
+                        : 'text-gray-600 hover:text-primary-600'
                         }`}
                     >
                       <List className="h-5 w-5" />
@@ -354,7 +354,7 @@ const EnhancedShopPage = () => {
               >
                 {sortedProducts.length > 0 ? (
                   sortedProducts.map((product, index) => {
-                    const mappedProduct: import("C:/laragon/www/arravali-essence/frontend/src/types/index").Product = {
+                    const mappedProduct: import("../types/index").Product = {
                       ...product,
                       category: typeof product.category === 'string'
                         ? product.category
