@@ -117,6 +117,14 @@ export const getAuthData = (): AuthResponse | null => {
   return userStr ? JSON.parse(userStr) : null;
 };
 
+export const useAuthStore = () => {
+  const authData = getAuthData();
+  return {
+    user: authData?.user || null,
+    logout: logout
+  };
+};
+
 export const getCurrentUser = (): User | null => {
   const authData = getAuthData();
   return authData?.user || null;

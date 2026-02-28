@@ -48,7 +48,7 @@ const EnhancedShopPage = () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
         const data = await response.json();
-        
+
         // Transform API data to match the expected Product interface
         const transformedProducts = (data.data || []).map((product: any) => ({
           id: String(product.id),
@@ -73,7 +73,7 @@ const EnhancedShopPage = () => {
           isOrganic: product.category?.name.includes('Organic'),
           isPremium: product.category?.name.includes('Premium'),
         }));
-        
+
         setProducts(transformedProducts);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -168,7 +168,7 @@ const EnhancedShopPage = () => {
             />
           ))}
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -216,7 +216,7 @@ const EnhancedShopPage = () => {
                   />
                 </div>
               </div>
-              
+
               {/* Categories */}
               <div className="mb-8">
                 <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -230,17 +230,15 @@ const EnhancedShopPage = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setSearchParams(cat.id === 'All' ? {} : { category: cat.id })}
-                      className={`block w-full text-left p-4 rounded-xl transition-all ${
-                        category === cat.id
+                      className={`block w-full text-left p-4 rounded-xl transition-all ${category === cat.id
                           ? `bg-gradient-to-r ${cat.color} text-white shadow-lg`
                           : 'text-gray-700 hover:bg-gray-50 border-2 border-gray-100 hover:border-primary-200'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="font-semibold">{cat.name}</span>
-                        <span className={`text-sm px-2 py-1 rounded-full ${
-                          category === cat.id ? 'bg-white/20' : 'bg-gray-100 text-gray-600'
-                        }`}>
+                        <span className={`text-sm px-2 py-1 rounded-full ${category === cat.id ? 'bg-white/20' : 'bg-gray-100 text-gray-600'
+                          }`}>
                           {cat.count}
                         </span>
                       </div>
@@ -248,7 +246,7 @@ const EnhancedShopPage = () => {
                   ))}
                 </div>
               </div>
-              
+
               {/* Price Range */}
               <div className="mb-8">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Price Range</h3>
@@ -267,7 +265,7 @@ const EnhancedShopPage = () => {
                   />
                 </div>
               </div>
-              
+
               {/* Filter Button */}
               <AnimatedButton
                 variant="outline"
@@ -297,7 +295,7 @@ const EnhancedShopPage = () => {
                       {filteredProducts.length} Products Found
                     </span>
                   </div>
-                  
+
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
@@ -310,7 +308,7 @@ const EnhancedShopPage = () => {
                     <option value="newest">Newest First</option>
                   </select>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-medium text-gray-600">View:</span>
                   <div className="flex bg-gray-100 rounded-xl p-1">
@@ -318,11 +316,10 @@ const EnhancedShopPage = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setViewMode('grid')}
-                      className={`p-3 rounded-lg transition-all ${
-                        viewMode === 'grid' 
-                          ? 'bg-primary-600 text-white shadow-lg' 
+                      className={`p-3 rounded-lg transition-all ${viewMode === 'grid'
+                          ? 'bg-primary-600 text-white shadow-lg'
                           : 'text-gray-600 hover:text-primary-600'
-                      }`}
+                        }`}
                     >
                       <Grid className="h-5 w-5" />
                     </motion.button>
@@ -330,11 +327,10 @@ const EnhancedShopPage = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setViewMode('list')}
-                      className={`p-3 rounded-lg transition-all ${
-                        viewMode === 'list' 
-                          ? 'bg-primary-600 text-white shadow-lg' 
+                      className={`p-3 rounded-lg transition-all ${viewMode === 'list'
+                          ? 'bg-primary-600 text-white shadow-lg'
                           : 'text-gray-600 hover:text-primary-600'
-                      }`}
+                        }`}
                     >
                       <List className="h-5 w-5" />
                     </motion.button>
@@ -351,22 +347,31 @@ const EnhancedShopPage = () => {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                className={viewMode === 'grid' 
-                  ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8' 
+                className={viewMode === 'grid'
+                  ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'
                   : 'space-y-6'
                 }
               >
                 {sortedProducts.length > 0 ? (
-                  sortedProducts.map((product, index) => (
-                    <motion.div key={product.id} variants={itemVariants}>
-                      <EnhancedProductCard 
-                        product={product} 
-                        viewMode={viewMode}
-                        showQuickView={true}
-                        showWishlist={true}
-                      />
-                    </motion.div>
-                  ))
+                  sortedProducts.map((product, index) => {
+                    const mappedProduct: import("C:/laragon/www/arravali-essence/frontend/src/types/index").Product = {
+                      ...product,
+                      category: typeof product.category === 'string'
+                        ? product.category
+                        : (product.category as any)?.name || 'Uncategorized',
+                    };
+
+                    return (
+                      <motion.div key={product.id} variants={itemVariants}>
+                        <EnhancedProductCard
+                          product={mappedProduct as any}
+                          viewMode={viewMode}
+                          showQuickView={true}
+                          showWishlist={true}
+                        />
+                      </motion.div>
+                    );
+                  })
                 ) : (
                   <motion.div
                     initial={{ opacity: 0, y: 50 }}

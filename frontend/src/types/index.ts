@@ -8,7 +8,7 @@ export interface Product {
   image: string;
   rating: number;
   reviews: number;
-  category: string;
+  category: Category | string;
   weight?: number;
   isNew?: boolean;
   discount?: number;

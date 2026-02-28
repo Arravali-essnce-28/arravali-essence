@@ -27,11 +27,14 @@ const ShopPage = () => {
     fetchProducts();
   }, []);
 
-  const filteredProducts = category === 'All' 
-    ? products 
-    : products.filter((product: Product) => 
-        product.category?.toLowerCase() === category.toLowerCase()
-      );
+  const filteredProducts = category === 'All'
+    ? products
+    : products.filter((product: Product) => {
+      const productCategoryName = typeof product.category === 'string'
+        ? product.category
+        : (product.category as any)?.name || '';
+      return productCategoryName.toLowerCase() === category.toLowerCase();
+    });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortBy === 'price-low') return a.price - b.price;
@@ -61,11 +64,10 @@ const ShopPage = () => {
                   <button
                     key={cat}
                     onClick={() => setSearchParams(cat === 'All' ? {} : { category: cat })}
-                    className={`block w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                      category === cat
+                    className={`block w-full text-left px-3 py-2 rounded-lg transition-colors ${category === cat
                         ? 'bg-primary-600 text-white'
                         : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600'
-                    }`}
+                      }`}
                   >
                     {cat}
                   </button>

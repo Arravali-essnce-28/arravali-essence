@@ -22,17 +22,22 @@ const EnhancedProductDetailPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
-      
+
       try {
         const [productData, allProducts] = await Promise.all([
           getProduct(id),
           getProducts()
         ]);
-        
+
         if (productData) {
           setProduct(productData);
           const related = allProducts
-            .filter((p: Product) => p.id !== id && p.category?.id === productData.category?.id)
+            .filter((p: Product) => {
+              if (p.id === id) return false;
+              const pCatId = typeof p.category === 'object' ? (p.category as any)?.id : p.category;
+              const prodCatId = typeof productData.category === 'object' ? (productData.category as any)?.id : productData.category;
+              return pCatId === prodCatId;
+            })
             .slice(0, 4);
           setRelatedProducts(related);
         }
@@ -135,7 +140,7 @@ const EnhancedProductDetailPage: React.FC = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="flex gap-4">
               {images.map((image, index) => (
                 <motion.button
@@ -143,9 +148,8 @@ const EnhancedProductDetailPage: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedImage(index)}
-                  className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                    selectedImage === index ? 'border-primary-500' : 'border-gray-200'
-                  }`}
+                  className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${selectedImage === index ? 'border-primary-500' : 'border-gray-200'
+                    }`}
                 >
                   <img src={image} alt="" className="w-full h-full object-cover" />
                 </motion.button>
@@ -229,16 +233,15 @@ const EnhancedProductDetailPage: React.FC = () => {
                 >
                   Add to Cart - ${(product.price * quantity).toFixed(2)}
                 </AnimatedButton>
-                
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsWishlisted(!isWishlisted)}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    isWishlisted 
-                      ? 'bg-red-50 border-red-200 text-red-600' 
+                  className={`p-4 rounded-xl border-2 transition-all ${isWishlisted
+                      ? 'bg-red-50 border-red-200 text-red-600'
                       : 'bg-white border-gray-200 text-gray-600 hover:border-red-200 hover:text-red-600'
-                  }`}
+                    }`}
                 >
                   <Heart className={`w-6 h-6 ${isWishlisted ? 'fill-current' : ''}`} />
                 </motion.button>
@@ -277,11 +280,10 @@ const EnhancedProductDetailPage: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 font-semibold transition-all ${
-                  activeTab === tab.id
+                className={`px-6 py-3 font-semibold transition-all ${activeTab === tab.id
                     ? 'text-primary-600 border-b-2 border-primary-600'
                     : 'text-gray-600 hover:text-primary-600'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -300,7 +302,7 @@ const EnhancedProductDetailPage: React.FC = () => {
                 <div>
                   <h3 className="text-2xl font-bold mb-4">Product Description</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    {product.description} This premium spice is carefully sourced from the finest farms 
+                    {product.description} This premium spice is carefully sourced from the finest farms
                     and processed using traditional methods to preserve its authentic flavor and aroma.
                   </p>
                 </div>
