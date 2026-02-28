@@ -95,7 +95,7 @@ const AdvancedHeroSection: React.FC = () => {
   );
 
   return (
-<section className="relative min-h-screen flex items-center justify-center overflow-hidden -mt-20">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden -mt-20">
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Parallax Background Image */}
@@ -116,8 +116,8 @@ const AdvancedHeroSection: React.FC = () => {
           className="absolute inset-0 pointer-events-none"
           style={{ x: smoothX, y: smoothY }}
         > */}
-          {/* Floating Spice Icons */}
-          {/* {floatingItems.map((_, i) => {
+        {/* Floating Spice Icons */}
+        {/* {floatingItems.map((_, i) => {
             const iconIndex = i % 4;
 
             return (
@@ -154,20 +154,12 @@ const AdvancedHeroSection: React.FC = () => {
         animate="visible"
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
       >
-        {/* Badge */}
-        <motion.div  style={{marginTop: '20px'}}
-          variants={itemVariants}
-          className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-3 mb-8"
-        >
-          <Sparkles className="w-5 h-5 text-yellow-300" />
-          <span className="text-white font-semibold">Premium Quality Since 1995</span>
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-        </motion.div>
+
 
         {/* Main Heading */}
-        <motion.div variants={itemVariants} className="mb-8">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight text-white mb-6 drop-shadow-2xl" style={{textShadow: '4px 4px 8px rgba(0,0,0,0.9), 2px 2px 4px rgba(0,0,0,0.8)'}}>
-            <span className="block text-white drop-shadow-xl" style={{textShadow: '4px 4px 8px rgba(0,0,0,0.9), 2px 2px 4px rgba(0,0,0,0.8)'}}>
+        <motion.div variants={itemVariants} className="mb-8 mt-24">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight text-white mb-6 drop-shadow-2xl" style={{ textShadow: '4px 4px 8px rgba(0,0,0,0.9), 2px 2px 4px rgba(0,0,0,0.8)' }}>
+            <span className="block text-white drop-shadow-xl" style={{ textShadow: '4px 4px 8px rgba(0,0,0,0.9), 2px 2px 4px rgba(0,0,0,0.8)' }}>
               Arravali Essence
             </span>
             <span className="block text-4xl md:text-5xl lg:text-6xl font-bold mt-4 drop-shadow-xl text-yellow-300">
@@ -179,7 +171,7 @@ const AdvancedHeroSection: React.FC = () => {
         {/* Subtitle */}
         <motion.p
           variants={itemVariants}
-          className="text-xl md:text-2xl lg:text-3xl font-semibold text-white/90 max-w-4xl mx-auto mb-12 leading-relaxed drop-shadow-xl" style={{textShadow: '3px 3px 6px rgba(0,0,0,0.9), 1px 1px 2px rgba(0,0,0,0.8)'}}
+          className="text-xl md:text-2xl lg:text-3xl font-semibold text-white/90 max-w-4xl mx-auto mb-12 leading-relaxed drop-shadow-xl" style={{ textShadow: '3px 3px 6px rgba(0,0,0,0.9), 1px 1px 2px rgba(0,0,0,0.8)' }}
         >
           Authentic spices sourced directly from Indian farms.{' '}
           <span className="text-yellow-300">Experience the true taste</span> of tradition.
@@ -226,7 +218,7 @@ const AdvancedHeroSection: React.FC = () => {
           >
             Shop Now
           </AnimatedButton>
-          
+
           <AnimatedButton
             variant="outline"
             size="xl"
@@ -238,7 +230,7 @@ const AdvancedHeroSection: React.FC = () => {
         </motion.div>
 
         {/* Trust Indicators */}
-        <motion.div  style={{marginBottom: '20px'}}
+        <motion.div style={{ marginBottom: '20px' }}
           variants={itemVariants}
           className="flex flex-wrap justify-center items-center gap-8 opacity-80"
         >

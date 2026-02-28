@@ -142,9 +142,9 @@ export const loginWithGoogle = async () => {
   }
 };
 
-export const handleGoogleCallback = async () => {
+export const handleGoogleCallback = async (searchParams: string) => {
   try {
-    const response = await axios.get(`${API_URL}/auth/google/callback`, {
+    const response = await axios.get(`${API_URL}/auth/google/callback${searchParams}`, {
       headers: {
         Accept: 'application/json',
       },

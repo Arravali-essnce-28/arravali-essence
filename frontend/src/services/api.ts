@@ -123,6 +123,25 @@ export const api = {
     return response.json();
   },
 
+  createPaymentIntent: async (shippingData: any) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/payment/create-intent`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify(shippingData),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return response.json();
+    } catch (error) {
+      console.error('Error creating payment intent:', error);
+      throw error;
+    }
+  },
+
   getOrder: async (orderNumber: string) => {
     const response = await fetch(`${API_BASE_URL}/order/${orderNumber}`, {
       headers: getHeaders(),
@@ -204,6 +223,141 @@ export const api = {
         'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(trackingData),
+    });
+    return response.json();
+  },
+
+  // Admin
+  getAdminStats: async () => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/dashboard`, {
+      headers: {
+        ...getHeaders(),
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  },
+
+  getAdminProducts: async (page: number = 1) => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/products?page=${page}`, {
+      headers: {
+        ...getHeaders(),
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  },
+
+  storeProduct: async (productData: FormData) => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/products`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'X-Session-ID': getSessionId(), // Keep session ID, but let browser set Content-Type for FormData
+        'Accept': 'application/json',
+      },
+      body: productData,
+    });
+    return response.json();
+  },
+
+  updateProduct: async (id: number, productData: FormData | any) => {
+    const token = localStorage.getItem('auth_token');
+    // Note: For FormData with PUT/PATCH in PHP/Laravel, we often need to use POST with _method=PUT
+    // or just use POST if the backend handles it.
+    // However, Laravel's API resource controller expects PUT/PATCH.
+    // FormData doesn't natively support PUT, so we use POST with _method field if using Laravel's method spoofing.
+    
+    // Check if it's FormData
+    const isFormData = productData instanceof FormData;
+    
+    if (isFormData) {
+        productData.append('_method', 'PUT');
+    }
+
+    const response = await fetch(`${API_BASE_URL}/admin/products/${id}`, {
+      method: isFormData ? 'POST' : 'PUT', 
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'X-Session-ID': getSessionId(),
+        'Accept': 'application/json',
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+      },
+      body: isFormData ? productData : JSON.stringify(productData),
+    });
+    return response.json();
+  },
+
+  deleteProduct: async (id: number) => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/products/${id}`, {
+      method: 'DELETE',
+      headers: {
+        ...getHeaders(),
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  },
+
+  getAdminOrders: async (page: number = 1) => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/orders?page=${page}`, {
+      headers: {
+        ...getHeaders(),
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  },
+
+  updateOrderStatus: async (orderId: number, status: string) => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/status`, {
+      method: 'PUT',
+      headers: {
+        ...getHeaders(),
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status }),
+    });
+    return response.json();
+  },
+
+  // User Management
+  getUsers: async (page: number = 1) => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/users?page=${page}`, {
+      headers: {
+        ...getHeaders(),
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  },
+
+  getUserDetails: async (userId: number) => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/users/${userId}`, {
+      headers: {
+        ...getHeaders(),
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.json();
+  },
+
+  deleteUser: async (userId: number) => {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE_URL}/admin/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        ...getHeaders(),
+        'Authorization': `Bearer ${token}`,
+      },
     });
     return response.json();
   },

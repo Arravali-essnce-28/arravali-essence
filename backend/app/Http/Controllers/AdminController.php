@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 
 class AdminController extends Controller
@@ -34,12 +35,23 @@ class AdminController extends Controller
             ->take(5)
             ->get();
 
+        if (request()->wantsJson()) {
+            return response()->json([
+                'stats' => $stats,
+                'recentOrders' => $recentOrders,
+                'topProducts' => $topProducts
+            ]);
+        }
+
         return view('admin.dashboard', compact('stats', 'recentOrders', 'topProducts'));
     }
 
     public function products()
     {
         $products = Product::with('category')->paginate(10);
+        if (request()->wantsJson()) {
+            return response()->json($products);
+        }
         return view('admin.products.index', compact('products'));
     }
 
@@ -98,12 +110,27 @@ class AdminController extends Controller
             'is_active' => $request->has('is_active'),
         ]);
 
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product created successfully!',
+                'product' => $product
+            ]);
+        }
+
         return redirect()->route('admin.products')->with('success', 'Product created successfully!');
     }
 
     public function editProduct(Product $product)
     {
         $categories = Category::where('is_active', true)->get();
+        if (request()->wantsJson()) {
+            $product->load('category');
+            return response()->json([
+                'product' => $product,
+                'categories' => $categories
+            ]);
+        }
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
@@ -146,12 +173,87 @@ class AdminController extends Controller
 
         $product->update($data);
 
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product updated successfully!',
+                'product' => $product
+            ]);
+        }
+
         return redirect()->route('admin.products')->with('success', 'Product updated successfully!');
     }
 
     public function deleteProduct(Product $product)
     {
         $product->delete();
+        
+        if (request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product deleted successfully!'
+            ]);
+        }
+
         return redirect()->route('admin.products')->with('success', 'Product deleted successfully!');
+    }
+
+    public function orders()
+    {
+        $orders = Order::with(['user', 'items.product'])->latest()->paginate(10);
+        return view('admin.orders.index', compact('orders'));
+    }
+
+    public function showOrder(Order $order)
+    {
+        $order->load(['user', 'items.product', 'tracking']);
+        return view('admin.orders.show', compact('order'));
+    }
+
+    public function updateOrderStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => 'required|string|in:pending,processing,shipped,delivered,cancelled'
+        ]);
+
+        $order->update(['status' => $request->status]);
+
+        // Create tracking entry
+        $order->tracking()->create([
+            'status' => $request->status,
+            'description' => 'Order status updated to ' . ucfirst($request->status),
+            'location' => 'Admin Panel'
+        ]);
+
+        return redirect()->back()->with('success', 'Order status updated successfully!');
+    }
+
+    public function users()
+    {
+        $users = User::where('id', '!=', auth()->id())
+            ->latest()
+            ->paginate(10);
+            
+        return view('admin.users.index', compact('users'));
+    }
+
+    public function deleteUser(User $user)
+    {
+        if ($user->id === auth()->id()) {
+            return redirect()->back()->with('error', 'You cannot delete your own account');
+        }
+
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User deleted successfully');
+    }
+
+    public function userDetails(User $user)
+    {
+        $user->load(['orders' => function($query) {
+            $query->latest();
+        }, 'orders.items.product']);
+
+        return view('admin.users.show', compact('user'));
     }
 }

@@ -32,7 +32,7 @@ const EnhancedProductDetailPage: React.FC = () => {
         if (productData) {
           setProduct(productData);
           const related = allProducts
-            .filter((p: Product) => p.id !== id && p.category === productData.category)
+            .filter((p: Product) => p.id !== id && p.category?.id === productData.category?.id)
             .slice(0, 4);
           setRelatedProducts(related);
         }

@@ -103,4 +103,54 @@ class PaymentController extends Controller
 
         return response()->json($order);
     }
+    public function createPaymentIntent(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
+
+            if ($cartItems->isEmpty()) {
+                return response()->json(['error' => 'Cart is empty'], 400);
+            }
+
+            $subtotal = $cartItems->sum(function ($item) {
+                return $item->product->price * $item->quantity;
+            });
+
+            // Calculate tax (assuming 20% VAT as per frontend)
+            $tax = $subtotal * 0.20;
+            
+            // Shipping (simplified logic matching frontend)
+            $shippingCost = 4.99; // Default standard shipping
+            if ($request->has('shipping_method')) {
+                // In a real app, validate shipping method and price from DB/Config
+                $shippingCost = $request->input('shipping_cost', 4.99);
+            }
+
+            $total = $subtotal + $tax + $shippingCost;
+            $amountInCents = round($total * 100);
+
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            $paymentIntent = \Stripe\PaymentIntent::create([
+                'amount' => $amountInCents,
+                'currency' => 'gbp',
+                'automatic_payment_methods' => [
+                    'enabled' => true,
+                ],
+                'metadata' => [
+                    'user_id' => $user->id,
+                    'email' => $user->email,
+                ],
+            ]);
+
+            return response()->json([
+                'clientSecret' => $paymentIntent->client_secret,
+                'amount' => $total,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

@@ -8,6 +8,12 @@ import { useCart } from '../contexts/CartContext';
 import { toast } from 'react-hot-toast';
 import { ArrowLeft, Check, CreditCard, Package, Truck, Lock, Shield, MapPin, Mail, Phone, User, Calendar, CreditCard as CreditCardIcon, Loader2 } from 'lucide-react';
 import appConfig, { formatCurrency, calculateTax, getPaymentFee, getOrderTotal } from '../config/appConfig';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import StripePaymentForm from '../components/payment/StripePaymentForm';
+import { api } from '../services/api';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 // Form validation schemas
 const shippingSchema = yup.object().shape({
@@ -23,13 +29,7 @@ const shippingSchema = yup.object().shape({
   shippingMethod: yup.string().required('Please select a shipping method')
 });
 
-const paymentSchema = yup.object().shape({
-  cardNumber: yup.string().matches(/^[0-9]{16}$/, 'Invalid card number').required('Card number is required'),
-  cardName: yup.string().required('Name on card is required'),
-  expiryDate: yup.string().matches(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/, 'Invalid expiry date').required('Expiry date is required'),
-  cvv: yup.string().matches(/^[0-9]{3,4}$/, 'Invalid CVV').required('CVV is required'),
-  saveCard: yup.boolean()
-});
+
 
 const CheckoutPage = () => {
   const { cart, clearCart } = useCart();
@@ -37,14 +37,14 @@ const CheckoutPage = () => {
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [sameAsShipping, setSameAsShipping] = useState(true);
+  const [clientSecret, setClientSecret] = useState('');
+  const [shippingData, setShippingData] = useState<any>(null);
 
   const { register: shippingRegister, handleSubmit: handleShippingSubmit, formState: { errors: shippingErrors } } = useForm({
     resolver: yupResolver(shippingSchema)
   });
 
-  const { register: paymentRegister, handleSubmit: handlePaymentSubmit, formState: { errors: paymentErrors } } = useForm({
-    resolver: yupResolver(paymentSchema)
-  });
+
 
   const [shippingMethods, setShippingMethods] = useState([
     { id: 'standard', name: 'Standard Shipping', price: 4.99, estimated: '3-5 business days' },
@@ -68,27 +68,33 @@ const CheckoutPage = () => {
   const [country, setCountry] = useState('GB');
   const [selectedShipping, setSelectedShipping] = useState(shippingMethods[0]);
 
-  const onShippingSubmit = (data: any) => {
-    setStep(2);
-    window.scrollTo(0, 0);
-  };
-
-  const onPaymentSubmit = async (data: any) => {
+  const onShippingSubmit = async (data: any) => {
+    setShippingData(data);
     setIsProcessing(true);
-    
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Try to create PaymentIntent from backend
+      const response = await api.createPaymentIntent({
+        ...data,
+        shipping_method: selectedShipping.id
+      });
       
-      // In a real app, you would process payment here
-      clearCart();
-      setStep(3);
+      if (response.clientSecret) {
+        setClientSecret(response.clientSecret);
+        setStep(2);
+        window.scrollTo(0, 0);
+      } else {
+        throw new Error('No clientSecret returned');
+      }
     } catch (error) {
-      toast.error('Payment failed. Please try again.');
+      console.error('Error in shipping submit:', error);
+      toast.error('Failed to initialize payment. Please check your shipping details.');
     } finally {
       setIsProcessing(false);
     }
+
   };
+
+
 
   const total = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
@@ -368,137 +374,64 @@ const CheckoutPage = () => {
                 <div className="mt-8">
                   <button
                     type="submit"
-                    className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+                    disabled={isProcessing}
+                    className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-70"
                   >
-                    Continue to Payment
+                    {isProcessing ? (
+                      <span className="flex items-center justify-center">
+                        <Loader2 className="animate-spin -ml-1 mr-2 h-5 w-5" />
+                        Processing...
+                      </span>
+                    ) : (
+                      'Continue to Payment'
+                    )}
                   </button>
                 </div>
               </form>
             )}
 
             {step === 2 && (
-              <form onSubmit={handlePaymentSubmit(onPaymentSubmit)} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">Payment Information</h2>
                 
-                <div className="space-y-6">
-                  <div>
-                    <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700">
-                      Card number <span className="text-red-500">*</span>
-                    </label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <CreditCardIcon className="h-5 w-5 text-gray-400" />
-                      </div>
-                      <input
-                        type="text"
-                        id="cardNumber"
-                        placeholder="0000 0000 0000 0000"
-                        {...paymentRegister('cardNumber')}
-                        className="pl-10 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
-                      />
+                {clientSecret && selectedPaymentMethod === 'card' ? (
+                  <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
+                    <StripePaymentForm onSuccess={async () => {
+                        try {
+                            setIsProcessing(true);
+                            // Create order in backend after successful payment
+                            await api.processPayment({
+                                name: `${shippingData.firstName} ${shippingData.lastName}`,
+                                email: shippingData.email,
+                                phone: shippingData.phone,
+                                address: shippingData.address,
+                                city: shippingData.city,
+                                postal_code: shippingData.zipCode,
+                                payment_method: 'card'
+                            });
+                            clearCart();
+                            setStep(3);
+                            window.scrollTo(0, 0);
+                        } catch (error) {
+                            console.error('Error creating order:', error);
+                            toast.error('Payment succeeded but order creation failed. Please contact support.');
+                        } finally {
+                            setIsProcessing(false);
+                        }
+                    }} />
+                  </Elements>
+                ) : (
+                    <div className="text-center py-8">
+                        <p className="text-red-600 mb-4">Payment initialization failed. Please try again.</p>
+                        <button 
+                            onClick={() => setStep(1)}
+                            className="text-amber-600 hover:text-amber-700 font-medium"
+                        >
+                            Return to Shipping
+                        </button>
                     </div>
-                    {paymentErrors.cardNumber && (
-                      <p className="mt-1 text-sm text-red-600">{paymentErrors.cardNumber.message}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label htmlFor="cardName" className="block text-sm font-medium text-gray-700">
-                      Name on card <span className="text-red-500">*</span>
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        id="cardName"
-                        placeholder="John Doe"
-                        {...paymentRegister('cardName')}
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
-                      />
-                    </div>
-                    {paymentErrors.cardName && (
-                      <p className="mt-1 text-sm text-red-600">{paymentErrors.cardName.message}</p>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700">
-                        Expiry date <span className="text-red-500">*</span>
-                      </label>
-                      <div className="mt-1 relative rounded-md shadow-sm">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Calendar className="h-5 w-5 text-gray-400" />
-                        </div>
-                        <input
-                          type="text"
-                          id="expiryDate"
-                          placeholder="MM/YY"
-                          {...paymentRegister('expiryDate')}
-                          className="pl-10 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
-                        />
-                      </div>
-                      {paymentErrors.expiryDate && (
-                        <p className="mt-1 text-sm text-red-600">{paymentErrors.expiryDate.message}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="cvv" className="block text-sm font-medium text-gray-700">
-                        CVV <span className="text-red-500">*</span>
-                      </label>
-                      <div className="mt-1 relative rounded-md shadow-sm">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Lock className="h-5 w-5 text-gray-400" />
-                        </div>
-                        <input
-                          type="text"
-                          id="cvv"
-                          placeholder="123"
-                          {...paymentRegister('cvv')}
-                          className="pl-10 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
-                        />
-                      </div>
-                      {paymentErrors.cvv && (
-                        <p className="mt-1 text-sm text-red-600">{paymentErrors.cvv.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <input
-                      id="saveCard"
-                      type="checkbox"
-                      {...paymentRegister('saveCard')}
-                      className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="saveCard" className="ml-2 block text-sm text-gray-700">
-                      Save card for future purchases
-                    </label>
-                  </div>
-
-                  <div className="mt-8">
-                    <button
-                      type="submit"
-                      disabled={isProcessing}
-                      className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
-                    >
-                      {isProcessing ? (
-                        <>
-                          <Loader2 className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" />
-                          Processing...
-                        </>
-                      ) : (
-                        'Place Order'
-                      )}
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-center mt-4 text-sm text-gray-500">
-                    <Lock className="h-4 w-4 mr-2 text-amber-500" />
-                    <span>Your payment is secure and encrypted</span>
-                  </div>
-                </div>
-              </form>
+                )}
+              </div>
             )}
 
             {step === 3 && (
