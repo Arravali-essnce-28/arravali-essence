@@ -14,6 +14,7 @@ export interface Product {
   discount?: number;
   isOrganic?: boolean;
   isPremium?: boolean;
+  isFeatured?: boolean;
 }
 
 export interface Category {

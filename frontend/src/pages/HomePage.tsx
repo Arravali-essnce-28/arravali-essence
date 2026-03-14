@@ -18,13 +18,17 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await getProducts();
-      const shuffled = [...data].sort(() => 0.5 - Math.random());
-      setProducts(shuffled);
+      setProducts(data);
     };
     fetchProducts();
   }, []);
 
-  const featuredProducts = products.slice(0, 4);
+  let featuredProducts = products.filter((p: Product) => p.isFeatured).slice(0, 4);
+  if (featuredProducts.length < 4) {
+    const additional = products.filter((p: Product) => !p.isFeatured).slice(0, 4 - featuredProducts.length);
+    featuredProducts = [...featuredProducts, ...additional];
+  }
+
   const bestSellers = [...products].sort((a, b) => b.rating - a.rating).slice(0, 4);
 
   return (
