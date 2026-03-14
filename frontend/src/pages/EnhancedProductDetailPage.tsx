@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Heart, ShoppingCart, Minus, Plus, Truck, Shield, Award, ArrowLeft, Share2, Zap } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { getProduct, getProducts } from '../data/products';
 import { useCart } from '../contexts/CartContext';
 import AnimatedButton from '../components/ui/AnimatedButton';
 import EnhancedProductCard from '../components/ui/EnhancedProductCard';
+import SEO from '../components/SEO';
 import type { Product } from '../types';
 
 const EnhancedProductDetailPage: React.FC = () => {
@@ -91,8 +93,44 @@ const EnhancedProductDetailPage: React.FC = () => {
     visible: { y: 0, opacity: 1, transition: { type: 'spring' as const, stiffness: 100, damping: 12 } }
   };
 
+  const productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.name,
+    "image": [product.image],
+    "description": product.description,
+    "sku": product.id,
+    "brand": {
+      "@type": "Brand",
+      "name": "Arravali Essence"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": window.location.href,
+      "priceCurrency": "USD",
+      "price": product.price,
+      "availability": product.in_stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": product.rating,
+      "reviewCount": product.reviews
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <SEO
+        title={product.name}
+        description={product.description || `Buy premium ${product.name} from Arravali Essence. High quality, authentic Indian spice.`}
+        keywords={`${product.name}, indian spice, premium ${product.name}, buy ${product.name} online`}
+        ogImage={product.image}
+      />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(productSchema)}
+        </script>
+      </Helmet>
       {/* Breadcrumb */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -239,8 +277,8 @@ const EnhancedProductDetailPage: React.FC = () => {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsWishlisted(!isWishlisted)}
                   className={`p-4 rounded-xl border-2 transition-all ${isWishlisted
-                      ? 'bg-red-50 border-red-200 text-red-600'
-                      : 'bg-white border-gray-200 text-gray-600 hover:border-red-200 hover:text-red-600'
+                    ? 'bg-red-50 border-red-200 text-red-600'
+                    : 'bg-white border-gray-200 text-gray-600 hover:border-red-200 hover:text-red-600'
                     }`}
                 >
                   <Heart className={`w-6 h-6 ${isWishlisted ? 'fill-current' : ''}`} />
@@ -281,8 +319,8 @@ const EnhancedProductDetailPage: React.FC = () => {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-6 py-3 font-semibold transition-all ${activeTab === tab.id
-                    ? 'text-primary-600 border-b-2 border-primary-600'
-                    : 'text-gray-600 hover:text-primary-600'
+                  ? 'text-primary-600 border-b-2 border-primary-600'
+                  : 'text-gray-600 hover:text-primary-600'
                   }`}
               >
                 {tab.label}

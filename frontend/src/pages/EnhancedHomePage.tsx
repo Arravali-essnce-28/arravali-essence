@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion, useScroll, useTransform, Variants, AnimationGeneratorType } from 'framer-motion';
 import {
   ArrowRight, Star, Leaf, Shield, Truck, Award, Clock, Heart,
@@ -14,6 +15,7 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import NewsletterSection from '../components/NewsletterSection';
 import FeedbackSection from '../components/FeedbackSection';
 import ContactUsSection from '../components/ContactUsSection';
+import SEO from '../components/SEO';
 import type { Product } from '../types';
 
 const EnhancedHomePage: React.FC = () => {
@@ -84,8 +86,68 @@ const EnhancedHomePage: React.FC = () => {
     );
   }
 
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Arravali Essence",
+    "url": window.location.origin,
+    "logo": `${window.location.origin}/logo.png`,
+    "sameAs": [
+      "https://facebook.com/arravaliessence",
+      "https://instagram.com/arravaliessence"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+1-555-123-SPICE",
+      "contactType": "customer service"
+    }
+  };
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Arravali Essence",
+    "image": `${window.location.origin}/og-image.jpg`,
+    "@id": window.location.origin,
+    "url": window.location.origin,
+    "telephone": "+1-555-123-SPICE",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Spice Street",
+      "addressLocality": "Flavor City",
+      "addressRegion": "Rajasthan",
+      "postalCode": "12345",
+      "addressCountry": "IN"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "09:00",
+      "closes": "18:00"
+    }
+  };
+
   return (
     <div className="space-y-0 overflow-hidden">
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(organizationSchema)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(localBusinessSchema)}
+        </script>
+      </Helmet>
+      <SEO
+        title="Premium Authentic Indian Spices & Herbs"
+        description="Experience the true flavors of India with Arravali Essence. We offer premium saffron, authentic spice blends, and organic herbs delivered worldwide."
+        keywords="premium saffron, authentic indian spices, organic herbs, best spice store india, aravali spices, online spice shopping"
+      />
       <AdvancedHeroSection />
 
       <motion.section

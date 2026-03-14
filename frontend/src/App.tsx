@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
@@ -31,47 +32,49 @@ const GoogleCallback = lazy(() => import('./components/auth/GoogleCallback'));
 
 const App: React.FC = () => {
   return (
-    <ErrorBoundary>
-      <Router>
-        <AuthProvider>
-          <NotificationProvider>
-            <CartProvider>
-              <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex flex-col">
-                <EnhancedNavbar />
-                <main className="flex-1">
-                  <Suspense fallback={<div className="flex h-[50vh] items-center justify-center text-primary-600 font-medium">Loading Arravali Essence...</div>}>
-                    <Routes>
-                      <Route path="/" element={<EnhancedHomePage />} />
-                      <Route path="/shop" element={<EnhancedShopPage />} />
-                      <Route path="/product/:id" element={<EnhancedProductDetailPage />} />
-                      <Route path="/cart" element={<EnhancedCartPage />} />
-                      <Route path="/about" element={<EnhancedAboutPage />} />
-                      <Route path="/contact" element={<EnhancedContactPage />} />
-                      <Route path="/bulk-inquiry" element={<BulkInquiryPage />} />
-                      <Route path="/blog" element={<BlogPage />} />
-                      <Route path="/blog/:slug" element={<BlogPostPage />} />
-                      <Route path="/login" element={<LoginPage />} />
-                      <Route path="/register" element={<RegisterPage />} />
-                      <Route path="/checkout" element={<CheckoutPage />} />
-                      <Route path="/profile" element={<ProfilePage />} />
-                      <Route path="/orders" element={<OrdersPage />} />
-                      <Route path="/track/:orderNumber" element={<OrderTrackingPage />} />
-                      <Route path="/notifications" element={<NotificationsPage />} />
-                      <Route path="/auth/google/callback" element={<GoogleCallback />} />
-                      <Route path="*" element={<NotFoundPage />} />
-                    </Routes>
-                  </Suspense>
-                </main>
-                <EnhancedFooter />
-                <WhatsAppWidget />
-                <ScrollToTop />
-                <Toaster position="top-right" />
-              </div>
-            </CartProvider>
-          </NotificationProvider>
-        </AuthProvider>
-      </Router>
-    </ErrorBoundary>
+    <HelmetProvider>
+      <ErrorBoundary>
+        <Router>
+          <AuthProvider>
+            <NotificationProvider>
+              <CartProvider>
+                <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex flex-col">
+                  <EnhancedNavbar />
+                  <main className="flex-1">
+                    <Suspense fallback={<div className="flex h-[50vh] items-center justify-center text-primary-600 font-medium">Loading Arravali Essence...</div>}>
+                      <Routes>
+                        <Route path="/" element={<EnhancedHomePage />} />
+                        <Route path="/shop" element={<EnhancedShopPage />} />
+                        <Route path="/product/:id" element={<EnhancedProductDetailPage />} />
+                        <Route path="/cart" element={<EnhancedCartPage />} />
+                        <Route path="/about" element={<EnhancedAboutPage />} />
+                        <Route path="/contact" element={<EnhancedContactPage />} />
+                        <Route path="/bulk-inquiry" element={<BulkInquiryPage />} />
+                        <Route path="/blog" element={<BlogPage />} />
+                        <Route path="/blog/:slug" element={<BlogPostPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/checkout" element={<CheckoutPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/orders" element={<OrdersPage />} />
+                        <Route path="/track/:orderNumber" element={<OrderTrackingPage />} />
+                        <Route path="/notifications" element={<NotificationsPage />} />
+                        <Route path="/auth/google/callback" element={<GoogleCallback />} />
+                        <Route path="*" element={<NotFoundPage />} />
+                      </Routes>
+                    </Suspense>
+                  </main>
+                  <EnhancedFooter />
+                  <WhatsAppWidget />
+                  <ScrollToTop />
+                  <Toaster position="top-right" />
+                </div>
+              </CartProvider>
+            </NotificationProvider>
+          </AuthProvider>
+        </Router>
+      </ErrorBoundary>
+    </HelmetProvider>
   );
 };
 

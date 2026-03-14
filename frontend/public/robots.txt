@@ -1,3 +1,13 @@
 User-agent: *
 Allow: /
+
+# Sitemaps
 Sitemap: https://arravaliessence.com/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin
+Disallow: /checkout
+Disallow: /profile
+Disallow: /orders
+Disallow: /notifications
+Disallow: /auth/google/callback

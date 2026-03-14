@@ -5,6 +5,7 @@ import { Star, Filter, Grid, List, Search, SlidersHorizontal, Sparkles, Trending
 import { useCart } from '../contexts/CartContext';
 import EnhancedProductCard from '../components/ui/EnhancedProductCard';
 import AnimatedButton from '../components/ui/AnimatedButton';
+import SEO from '../components/SEO';
 
 interface Product {
   id: string;
@@ -112,6 +113,11 @@ const EnhancedShopPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <SEO
+        title="Shop Premium Indian Spices"
+        description="Browse our wide collection of whole spices, ground spices, and unique spice blends. High-quality, authentic Indian spices for your kitchen."
+        keywords="buy spices online, ground spices, whole spices, spice blends, masala powders, organic seasonings"
+      />
       {/* Enhanced Header */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Star } from 'lucide-react';
 import AnimatedButton from '../components/ui/AnimatedButton';
+import SEO from '../components/SEO';
 
 const EnhancedContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +17,7 @@ const EnhancedContactPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitted(true);
@@ -48,6 +49,11 @@ const EnhancedContactPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <SEO
+        title="Contact Us - Let's Connect"
+        description="Have questions about our premium Indian spices? Reach out to Arravali Essence. We're here to help you on your spice journey."
+        keywords="contact arravali essence, spice inquiries, customer support spices, spice wholesale inquiry"
+      />
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0, y: -50 }}
@@ -77,7 +83,7 @@ const EnhancedContactPage: React.FC = () => {
             </motion.div>
           ))}
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             variants={containerVariants}
@@ -171,7 +177,7 @@ const EnhancedContactPage: React.FC = () => {
               className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100"
             >
               <h3 className="text-3xl font-black text-gray-900 mb-6">Send us a Message</h3>
-              
+
               {isSubmitted ? (
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -216,7 +222,7 @@ const EnhancedContactPage: React.FC = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-bold text-gray-700 mb-2">Subject</label>
                     <input
@@ -229,7 +235,7 @@ const EnhancedContactPage: React.FC = () => {
                       placeholder="What's this about?"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-bold text-gray-700 mb-2">Message</label>
                     <textarea
@@ -242,7 +248,7 @@ const EnhancedContactPage: React.FC = () => {
                       placeholder="Tell us more about your inquiry..."
                     />
                   </div>
-                  
+
                   <AnimatedButton
                     type="submit"
                     variant="gradient"

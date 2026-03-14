@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Award, Users, Globe, Heart, Leaf, Star, ChefHat, Truck, Shield, CheckCircle, MapPin, User } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const EnhancedAboutPage: React.FC = () => {
   const containerVariants = {
@@ -18,6 +19,11 @@ const EnhancedAboutPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <SEO
+        title="About Our Spice Heritage"
+        description="Learn about Arravali Essence's legacy of excellence since 1995. We connect you with India's finest spice farming communities for authentic global flavors."
+        keywords="about arravali essence, spice history, indian spice heritage, sustainable spice farming, organic spice source"
+      />
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0, y: -50 }}
@@ -45,7 +51,7 @@ const EnhancedAboutPage: React.FC = () => {
             />
           ))}
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             variants={containerVariants}
@@ -87,13 +93,13 @@ const EnhancedAboutPage: React.FC = () => {
                 Today, we continue this legacy by maintaining direct relationships with over 200 farming families across India's most renowned spice-growing regions. From the misty hills of Kerala for our cardamom to the arid plains of Rajasthan for our cumin, every spice in our collection tells a story of origin, quality, and passion.
               </p>
             </motion.div>
-            
+
             <motion.div variants={itemVariants} className="relative">
               <img
                 src="images/img.png"
                 alt="Spice Story"
                 className="rounded-3xl shadow-2xl"
-              /> 
+              />
               <div className="absolute -bottom-6 -right-6 bg-primary-600 text-white p-6 rounded-2xl shadow-xl">
                 <div className="text-3xl font-black">25+</div>
                 <div className="text-sm">Years of Excellence</div>
@@ -116,7 +122,7 @@ const EnhancedAboutPage: React.FC = () => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">The principles that guide every decision we make, from farm to table</p>
             <div className="w-32 h-2 bg-gradient-to-r from-primary-600 to-orange-600 mx-auto rounded-full" />
           </motion.div>
-          
+
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -160,7 +166,7 @@ const EnhancedAboutPage: React.FC = () => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">Simple. Professional. Defensible.</p>
             <div className="w-32 h-2 bg-gradient-to-r from-primary-600 to-orange-600 mx-auto rounded-full" />
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -188,7 +194,7 @@ const EnhancedAboutPage: React.FC = () => {
                   <p className="text-primary-600 font-semibold">India</p>
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <img
                   src="/images/Our team/farm.jpg"
@@ -198,11 +204,11 @@ const EnhancedAboutPage: React.FC = () => {
               </div>
 
               <p className="text-lg text-gray-700 mb-4 font-semibold">On-Ground Quality & Farm Operations</p>
-              
+
               <ul className="space-y-3">
                 {[
                   'Monitor crop quality during growth',
-                  'Guide pesticide-free farming practices', 
+                  'Guide pesticide-free farming practices',
                   'Ensure harvesting and handling meet our standards',
                   'Maintain traceability at source'
                 ].map((item, index) => (
@@ -219,7 +225,7 @@ const EnhancedAboutPage: React.FC = () => {
                   </motion.li>
                 ))}
               </ul>
-              
+
               <div className="mt-6 p-4 bg-green-50 rounded-xl border border-green-200">
                 <p className="text-green-800 font-medium">This ensures that quality issues are prevented — not discovered later.</p>
               </div>
@@ -241,7 +247,7 @@ const EnhancedAboutPage: React.FC = () => {
                   <p className="text-primary-600 font-semibold">Final Quality & Compliance</p>
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <img
                   src="/images/Our team/farmers-1.jpg"
@@ -251,7 +257,7 @@ const EnhancedAboutPage: React.FC = () => {
               </div>
 
               <p className="text-lg text-gray-700 mb-4 font-semibold">Once the spices arrive in the UK, our quality expert:</p>
-              
+
               <ul className="space-y-3">
                 {[
                   'Reviews batch consistency',
@@ -272,7 +278,7 @@ const EnhancedAboutPage: React.FC = () => {
                   </motion.li>
                 ))}
               </ul>
-              
+
               <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
                 <p className="text-blue-800 font-medium">Only products that pass both stages are approved.</p>
               </div>
@@ -294,7 +300,7 @@ const EnhancedAboutPage: React.FC = () => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">The passionate individuals who bring decades of expertise and unwavering commitment to every spice we deliver</p>
             <div className="w-32 h-2 bg-gradient-to-r from-primary-600 to-orange-600 mx-auto rounded-full mt-6" />
           </motion.div>
-          
+
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -378,7 +384,7 @@ const EnhancedAboutPage: React.FC = () => {
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Our Farm Partners</h3>
               <p className="text-gray-600 leading-relaxed">We work hand-in-hand with over 200 farming families across India's most prestigious spice-growing regions. These partnerships are built on trust, fair compensation, and a shared commitment to sustainable agricultural practices that preserve both the land and traditional farming wisdom.</p>
             </div>
-            
+
             <div className="bg-white p-8 rounded-3xl shadow-lg">
               <img
                 src="/images/Our team/farmers-2.jpg"

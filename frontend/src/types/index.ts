@@ -15,6 +15,7 @@ export interface Product {
   isOrganic?: boolean;
   isPremium?: boolean;
   isFeatured?: boolean;
+  in_stock?: boolean;
 }
 
 export interface Category {
