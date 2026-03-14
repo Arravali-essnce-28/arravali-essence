@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="google-site-verification" content="K-NFn9PGt4KPwVK1XNwi4EtohQR7raT3o8bbEUKecbo" />
+    <meta name="google-site-verification" content="google-site-verification=K-NFn9PGt4KPwVK1XNwi4EtohQR7raT3o8bbEUKecbo" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
