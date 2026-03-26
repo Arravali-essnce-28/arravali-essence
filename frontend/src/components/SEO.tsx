@@ -22,8 +22,8 @@ const SEO: React.FC<SEOProps> = ({
 }) => {
     const siteTitle = 'Arravali Essence';
     const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} - Premium Authentic Indian Spices & Herbs`;
-    const defaultDescription = 'Discover the finest selection of authentic Indian spices, herbs, and spice blends at Arravali Essence. Premium saffron, traditional masala, and more.';
-    const defaultKeywords = 'indian spices, authentic spices, premium spices, saffron, cardamom, turmeric, garam masala, biryani masala, online spices store, aravali essence, aravally essence, arravaly essence, aravaly spices';
+    const defaultDescription = 'Discover the finest selection of authentic Indian spices, herbs, and spice blends at Arravali Essence. Delivered across the UK. Premium saffron, traditional masala, and more.';
+    const defaultKeywords = 'indian spices uk, authentic spices, premium spices, saffron, cardamom, turmeric, garam masala, biryani masala, buy spices online uk, arravali essence, spice shop london, uk spice delivery';
 
     return (
         <Helmet>

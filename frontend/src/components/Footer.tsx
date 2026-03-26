@@ -83,15 +83,15 @@ const Footer: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-primary-400" />
-                  <span className="text-gray-300">123 Spice Street, Flavor City, FC 12345</span>
+                  <span className="text-gray-300">12 Spice Lane, London, E1 6RF, United Kingdom</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Phone className="w-5 h-5 text-primary-400" />
-                  <span className="text-gray-300">+1 (555) 123-SPICE</span>
+                  <span className="text-gray-300">+44 20 7123 4567</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-primary-400" />
-                  <span className="text-gray-300">hello@spicees.com</span>
+                  <span className="text-gray-300">hello@arravaliessence.co.uk</span>
                 </div>
               </div>
               
@@ -113,7 +113,7 @@ const Footer: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 Spicees. All rights reserved.
+              © 2025 Arravali Essence. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
               <a href="/privacy" className="text-gray-400 hover:text-primary-400 transition-colors">Privacy Policy</a>

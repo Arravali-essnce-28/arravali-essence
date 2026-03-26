@@ -98,7 +98,7 @@ const EnhancedHomePage: React.FC = () => {
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+1-555-123-SPICE",
+      "telephone": "+44 7774 836106",
       "contactType": "customer service"
     }
   };
@@ -110,14 +110,14 @@ const EnhancedHomePage: React.FC = () => {
     "image": `${window.location.origin}/og-image.jpg`,
     "@id": window.location.origin,
     "url": window.location.origin,
-    "telephone": "+1-555-123-SPICE",
+    "telephone": "+44 7774 836106",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "123 Spice Street",
-      "addressLocality": "Flavor City",
-      "addressRegion": "Rajasthan",
-      "postalCode": "12345",
-      "addressCountry": "IN"
+      "streetAddress": "Unit 7 Slater Street",
+      "addressLocality": "Leicester",
+      "addressRegion": "Leicestershire",
+      "postalCode": "LE3 5AS",
+      "addressCountry": "GB"
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
@@ -146,7 +146,7 @@ const EnhancedHomePage: React.FC = () => {
       <SEO
         title="Premium Authentic Indian Spices & Herbs"
         description="Experience the true flavors of India with Arravali Essence. We offer premium saffron, authentic spice blends, and organic herbs delivered worldwide."
-        keywords="premium saffron, authentic indian spices, organic herbs, best spice store india, aravali spices, online spice shopping"
+        keywords="premium saffron, authentic indian spices, organic herbs, buy spices uk, uk spice shop, london spice delivery, arravali essence uk, online spice shopping uk"
       />
       <AdvancedHeroSection />
 
@@ -288,6 +288,65 @@ const EnhancedHomePage: React.FC = () => {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* UK-Specific SEO Section */}
+      <section className="py-16 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:w-1/2"
+            >
+              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 uppercase tracking-wider">
+                UK's Leading Supplier of <span className="text-primary-600">Authentic Indian Spices</span>
+              </h2>
+              <div className="w-20 h-1.5 bg-primary-600 mb-8 rounded-full" />
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                Searching for the best <strong>spices in the UK</strong>? Arravali Essence brings the vibrant markets of India directly to your doorstep in <strong>London, Leicester, Birmingham</strong>, and across the United Kingdom.
+              </p>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                As a premier <strong>UK spice shop</strong>, we specialise in hand-picked, premium-grade spices sourced from sustainable farms. Whether you need <strong>bulk spices for your restaurant</strong> or exquisite blends for your home kitchen, our quality remains unmatched.
+              </p>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span className="font-bold text-gray-900">Next Day UK Delivery</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span className="font-bold text-gray-900">Bespoke Spice Blends</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span className="font-bold text-gray-900">100% Purity Guarantee</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span className="font-bold text-gray-900">Ethically Sourced</span>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="lg:w-1/2 relative"
+            >
+              <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl transform lg:rotate-3 hover:rotate-0 transition-transform duration-500">
+                <img 
+                  src="images/spice-hero.png" 
+                  alt="Authentic Spices UK" 
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-yellow-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
+              <div className="absolute -top-6 -left-6 w-32 h-32 bg-primary-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
+            </motion.div>
+          </div>
         </div>
       </section>
 

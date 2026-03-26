@@ -125,22 +125,22 @@ const EnhancedContactPage: React.FC = () => {
                   {
                     icon: <Phone className="w-6 h-6" />,
                     title: 'Phone',
-                    info: '+1 (555) 123-SPICE',
-                    subInfo: 'Mon-Fri 9AM-6PM EST',
+                    info: '+44 20 7123 4567',
+                    subInfo: 'Mon-Fri 9AM-6PM GMT',
                     color: 'from-green-500 to-teal-500'
                   },
                   {
                     icon: <Mail className="w-6 h-6" />,
                     title: 'Email',
-                    info: 'hello@arravaliessence.com',
+                    info: 'hello@arravaliessence.co.uk',
                     subInfo: 'We reply within 24 hours',
                     color: 'from-blue-500 to-purple-500'
                   },
                   {
                     icon: <MapPin className="w-6 h-6" />,
                     title: 'Address',
-                    info: '123 Spice Street, Flavor City',
-                    subInfo: 'FC 12345, United States',
+                    info: '12 Spice Lane, London, E1 6RF',
+                    subInfo: 'United Kingdom',
                     color: 'from-red-500 to-pink-500'
                   },
                   {

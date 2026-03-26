@@ -123,7 +123,7 @@ const EnhancedProductDetailPage: React.FC = () => {
       <SEO
         title={product.name}
         description={product.description || `Buy premium ${product.name} from Arravali Essence. High quality, authentic Indian spice.`}
-        keywords={`${product.name}, indian spice, premium ${product.name}, buy ${product.name} online`}
+        keywords={`${product.name}, indian spice uk, premium ${product.name}, buy ${product.name} online uk`}
         ogImage={product.image}
       />
       <Helmet>

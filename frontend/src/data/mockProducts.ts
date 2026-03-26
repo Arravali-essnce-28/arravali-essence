@@ -284,9 +284,9 @@ export const categories = [
 ];
 
 export const priceRanges = [
-  { min: 0, max: 10, label: "Under $10" },
-  { min: 10, max: 20, label: "$10 - $20" },
-  { min: 20, max: 50, label: "$20 - $50" },
-  { min: 50, max: 100, label: "$50 - $100" },
-  { min: 100, max: Infinity, label: "Over $100" }
+  { min: 0, max: 10, label: "Under £10" },
+  { min: 10, max: 20, label: "£10 - £20" },
+  { min: 20, max: 50, label: "£20 - £50" },
+  { min: 50, max: 100, label: "£50 - £100" },
+  { min: 100, max: Infinity, label: "Over £100" }
 ];

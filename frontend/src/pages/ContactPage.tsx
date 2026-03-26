@@ -118,7 +118,7 @@ const ContactPage = () => {
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-semibold text-gray-900">Our Location</h3>
-                  <p className="mt-1 text-gray-600">123 Spice Market, Mumbai, India 400001</p>
+                  <p className="mt-1 text-gray-600">12 Spice Lane, London, E1 6RF, United Kingdom</p>
                 </div>
               </div>
 
@@ -139,8 +139,8 @@ const ContactPage = () => {
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-semibold text-gray-900">Call Us</h3>
-                  <p className="mt-1 text-gray-600">+91 98765 43210</p>
-                  <p className="text-gray-600">Mon - Fri, 9:00 AM - 6:00 PM IST</p>
+                  <p className="mt-1 text-gray-600">+44 20 7123 4567</p>
+                  <p className="text-gray-600">Mon - Fri, 9:00 AM - 6:00 PM GMT</p>
                 </div>
               </div>
             </div>

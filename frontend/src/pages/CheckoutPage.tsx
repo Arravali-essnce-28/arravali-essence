@@ -20,11 +20,11 @@ const shippingSchema = yup.object().shape({
   firstName: yup.string().required('First name is required'),
   lastName: yup.string().required('Last name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
-  phone: yup.string().matches(/^[0-9]{10}$/, 'Phone number must be 10 digits').required('Phone number is required'),
+  phone: yup.string().matches(/^[0-9]{10,11}$/, 'Phone number must be 10-11 digits').required('Phone number is required'),
   address: yup.string().required('Address is required'),
   city: yup.string().required('City is required'),
-  state: yup.string().required('State is required'),
-  zipCode: yup.string().matches(/^[0-9]{6}$/, 'Invalid ZIP code').required('ZIP code is required'),
+  state: yup.string().required('County / Region is required'),
+  zipCode: yup.string().matches(/^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$/i, 'Invalid UK postcode (e.g. SW1A 1AA)').required('Postcode is required'),
   country: yup.string().required('Country is required'),
   shippingMethod: yup.string().required('Please select a shipping method')
 });
@@ -219,7 +219,7 @@ const CheckoutPage = () => {
                       <input
                         type="tel"
                         id="phone"
-                        placeholder="1234567890"
+                        placeholder="07123456789"
                         {...shippingRegister('phone')}
                         className="pl-10 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
                       />
@@ -268,7 +268,7 @@ const CheckoutPage = () => {
 
                   <div>
                     <label htmlFor="state" className="block text-sm font-medium text-gray-700">
-                      State <span className="text-red-500">*</span>
+                      County / Region <span className="text-red-500">*</span>
                     </label>
                     <div className="mt-1">
                       <input
@@ -285,7 +285,7 @@ const CheckoutPage = () => {
 
                   <div>
                     <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
-                      ZIP / Postal code <span className="text-red-500">*</span>
+                      Postcode <span className="text-red-500">*</span>
                     </label>
                     <div className="mt-1">
                       <input
@@ -310,11 +310,11 @@ const CheckoutPage = () => {
                         {...shippingRegister('country')}
                         className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
                       >
-                        <option value="India">India</option>
-                        <option value="United States">United States</option>
                         <option value="United Kingdom">United Kingdom</option>
-                        <option value="Canada">Canada</option>
+                        <option value="United States">United States</option>
+                        <option value="Ireland">Ireland</option>
                         <option value="Australia">Australia</option>
+                        <option value="Canada">Canada</option>
                       </select>
                     </div>
                     {shippingErrors.country && (
@@ -363,7 +363,7 @@ const CheckoutPage = () => {
                             </p>
                           </div>
                           <div className="text-sm font-medium text-gray-900">
-                            ${method.price.toFixed(2)}
+                            £{method.price.toFixed(2)}
                           </div>
                         </div>
                       </div>
@@ -478,7 +478,7 @@ const CheckoutPage = () => {
                       <p className="text-sm text-gray-500">Qty: {quantity}</p>
                     </div>
                     <p className="text-sm font-medium text-gray-900">
-                      ${(product.price * quantity).toFixed(2)}
+                      £{(product.price * quantity).toFixed(2)}
                     </p>
                   </div>
                 ))}
@@ -487,19 +487,19 @@ const CheckoutPage = () => {
               <div className="border-t border-gray-200 mt-6 pt-6 space-y-4">
                 <div className="flex justify-between text-base font-medium text-gray-900">
                   <p>Subtotal</p>
-                  <p>${subtotal.toFixed(2)}</p>
+                  <p>£{subtotal.toFixed(2)}</p>
                 </div>
                 <div className="flex justify-between text-sm text-gray-600">
                   <p>Shipping</p>
-                  <p>${selectedShipping.price.toFixed(2)}</p>
+                  <p>£{selectedShipping.price.toFixed(2)}</p>
                 </div>
                 <div className="flex justify-between text-sm text-gray-600">
-                  <p>Tax</p>
-                  <p>${tax.toFixed(2)}</p>
+                  <p>VAT (20%)</p>
+                  <p>£{tax.toFixed(2)}</p>
                 </div>
                 <div className="border-t border-gray-200 pt-4 flex justify-between text-lg font-bold text-gray-900">
                   <p>Total</p>
-                  <p>${orderTotal.toFixed(2)}</p>
+                  <p>£{orderTotal.toFixed(2)}</p>
                 </div>
               </div>
 

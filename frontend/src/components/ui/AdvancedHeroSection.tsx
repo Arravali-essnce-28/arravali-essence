@@ -163,7 +163,7 @@ const AdvancedHeroSection: React.FC = () => {
               Arravali Essence
             </span>
             <span className="block text-4xl md:text-5xl lg:text-6xl font-bold mt-4 drop-shadow-xl text-yellow-300">
-              Premium Spice Blends
+              UK's Premier Spice Destination
             </span>
           </h1>
         </motion.div>

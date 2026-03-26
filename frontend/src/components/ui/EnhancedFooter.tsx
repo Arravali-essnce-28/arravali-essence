@@ -254,7 +254,7 @@ const EnhancedFooter: React.FC = () => {
                   },
                   {
                     icon: Mail,
-                    text: 'sales@arravaliessence.com',
+                    text: 'hello@arravaliessence.co.uk',
                     color: 'text-blue-400',
                   },
                 ].map(({ icon: Icon, text, color }, index) => (
@@ -336,7 +336,7 @@ const EnhancedFooter: React.FC = () => {
             <div className="max-w-4xl mx-auto">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { icon: Truck, title: 'Free Shipping', desc: 'On orders over $50', color: 'text-blue-400' },
+                { icon: Truck, title: 'Free Shipping', desc: 'On orders over £50', color: 'text-blue-400' },
                 { icon: Award, title: 'Premium Quality', desc: 'ISO certified', color: 'text-yellow-400' },
                 { icon: Shield, title: '100% Secure', desc: 'Safe payments', color: 'text-green-400' },
                 { icon: Clock, title: 'Fast Delivery', desc: '24-48 hours', color: 'text-purple-400' },
@@ -369,7 +369,7 @@ const EnhancedFooter: React.FC = () => {
               viewport={{ once: true }}
               className="text-gray-400 text-sm text-center md:text-left"
             >
-              © 2024 Arravali Essence. All rights reserved. Made with{' '}
+              © 2025 Arravali Essence. All rights reserved. Made with{' '}
               <Heart className="inline w-4 h-4 text-red-400 fill-current mx-1" />
               for spice lovers worldwide.
             </motion.div>

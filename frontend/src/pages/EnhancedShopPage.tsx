@@ -115,7 +115,7 @@ const EnhancedShopPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <SEO
         title="Shop Premium Indian Spices"
-        description="Browse our wide collection of whole spices, ground spices, and unique spice blends. High-quality, authentic Indian spices for your kitchen."
+        description="Browse our wide collection of whole spices, ground spices, and unique spice blends. High-quality, authentic Indian spices delivered across the UK."
         keywords="buy spices online, ground spices, whole spices, spice blends, masala powders, organic seasonings"
       />
       {/* Enhanced Header */}

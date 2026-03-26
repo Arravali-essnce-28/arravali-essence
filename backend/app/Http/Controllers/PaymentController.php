@@ -84,9 +84,9 @@ class PaymentController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('PaymentController@processPayment: ' . $e->getMessage());
             return response()->json([
-                'error' => 'Failed to process order. Please try again.',
-                'details' => $e->getMessage()
+                'error' => 'Failed to process your order. Please try again or contact support.'
             ], 500);
         }
     }
@@ -150,7 +150,8 @@ class PaymentController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            \Illuminate\Support\Facades\Log::error('PaymentController@createPaymentIntent: ' . $e->getMessage());
+            return response()->json(['error' => 'Payment initialisation failed. Please try again.'], 500);
         }
     }
 }

@@ -22,7 +22,7 @@ const EnhancedAboutPage: React.FC = () => {
       <SEO
         title="About Our Spice Heritage"
         description="Learn about Arravali Essence's legacy of excellence since 1995. We connect you with India's finest spice farming communities for authentic global flavors."
-        keywords="about arravali essence, spice history, indian spice heritage, sustainable spice farming, organic spice source"
+        keywords="about arravali essence, spice history, indian spice heritage, sustainable spice farming, organic spice source, best spice store uk"
       />
       {/* Hero Section */}
       <motion.section
