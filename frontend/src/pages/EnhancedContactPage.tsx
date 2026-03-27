@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Star } from 'lucide-react';
 import AnimatedButton from '../components/ui/AnimatedButton';
 import SEO from '../components/SEO';
+import emailjs from '@emailjs/browser';
+import toast from 'react-hot-toast';
 
 const EnhancedContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -18,13 +20,28 @@ const EnhancedContactPage: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      await emailjs.send(
+        'service_6uw1f8q',
+        'template_uaok9ph',
+        {
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        'TTG4f4e0k6NeksT5v'
+      );
+      
       setIsSubmitted(true);
-      setIsSubmitting(false);
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setIsSubmitted(false), 5000);
-    }, 2000);
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      toast.error('Failed to send message. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
