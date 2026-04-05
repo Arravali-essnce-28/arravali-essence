@@ -175,7 +175,7 @@ const EnhancedLoginPage: React.FC = () => {
             <motion.div variants={itemVariants}>
               <div className="flex items-center justify-between mb-2 px-1">
                 <label className="text-sm font-semibold text-white/80">Password</label>
-                <Link to="/forgot-password" name="forgot-password" id="forgot-password" className="text-xs text-primary-400 hover:text-primary-300 transition-colors">
+                <Link to="/forgot-password" id="forgot-password" className="text-xs text-primary-400 hover:text-primary-300 transition-colors">
                   Forgot Password?
                 </Link>
               </div>
