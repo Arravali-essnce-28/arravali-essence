@@ -67,15 +67,15 @@ const TestimonialsSection: React.FC = () => {
         {/* Trust Badges */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60">
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary-600">10,000+</div>
-            <div className="text-sm text-gray-600">Happy Customers</div>
+            <div className="text-3xl font-bold text-primary-600">80+</div>
+            <div className="text-sm text-gray-600">Happy B2B Customers</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary-600">50+</div>
+            <div className="text-3xl font-bold text-primary-600">15+</div>
             <div className="text-sm text-gray-600">Premium Spices</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary-600">5★</div>
+            <div className="text-3xl font-bold text-primary-600">4.5★</div>
             <div className="text-sm text-gray-600">Average Rating</div>
           </div>
           <div className="text-center">
