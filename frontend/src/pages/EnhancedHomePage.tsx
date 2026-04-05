@@ -6,46 +6,23 @@ import {
   ArrowRight, Star, Leaf, Shield, Truck, Award, Clock, Heart,
   Sparkles, ChefHat, Users, TrendingUp, Zap, Globe, CheckCircle
 } from 'lucide-react';
-import { getProducts } from '../data/products';
-import { useCart } from '../contexts/CartContext';
 import AdvancedHeroSection from '../components/ui/AdvancedHeroSection';
-import EnhancedProductCard from '../components/ui/EnhancedProductCard';
-import AnimatedButton from '../components/ui/AnimatedButton';
 import TestimonialsSection from '../components/TestimonialsSection';
 import NewsletterSection from '../components/NewsletterSection';
 import FeedbackSection from '../components/FeedbackSection';
 import ContactUsSection from '../components/ContactUsSection';
 import SEO from '../components/SEO';
-import type { Product } from '../types';
 
 const EnhancedHomePage: React.FC = () => {
   const [visitorCount, setVisitorCount] = useState(45672);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const data = await getProducts();
-        // Randomize products
-        const shuffled = [...data].sort(() => 0.5 - Math.random());
-        setProducts(shuffled);
-      } catch (error) {
-        console.error('Failed to load products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    loadProducts();
-  }, []);
 
-  const featuredProducts = products.slice(0, 4);
-  const bestSellers = [...products].sort((a, b) => b.rating - a.rating).slice(0, 4);
-  const newArrivals = products.filter((p) => p.isNew).slice(0, 4);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -162,7 +139,7 @@ const EnhancedHomePage: React.FC = () => {
 
             <div className="flex items-center gap-2">
               <Truck className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="font-semibold text-sm sm:text-base">Free shipping worldwide</span>
+              <span className="font-semibold text-sm sm:text-base">Great Shipping</span>
             </div>
             <div className="flex items-center gap-2">
               <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -228,25 +205,25 @@ const EnhancedHomePage: React.FC = () => {
               {
                 name: 'Whole Spices',
                 count: '12+ Items',
-                image: 'images/products/whole-spices.png',
+                image: '/images/products/whole-spices.png',
                 color: 'from-amber-500'
               },
               {
                 name: 'Ground Spices',
                 count: '18+ Items',
-                image: 'images/products/ground-spices.png',
+                image: '/images/products/ground-spices.png',
                 color: 'from-red-500'
               },
               {
                 name: 'Spice Blends',
                 count: '8+ Varieties',
-                image: 'images/products/spice-blend.png',
+                image: '/images/products/spice-blend.png',
                 color: 'from-green-500'
               },
               {
                 name: 'Organic Range',
                 count: '15+ Products',
-                image: 'images/products/organic.png',
+                image: '/images/products/organic.png',
                 color: 'from-purple-500'
               },
             ].map((category, index) => (
@@ -295,7 +272,7 @@ const EnhancedHomePage: React.FC = () => {
       <section className="py-16 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-12">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -330,16 +307,16 @@ const EnhancedHomePage: React.FC = () => {
                 </div>
               </div>
             </motion.div>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               className="lg:w-1/2 relative"
             >
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl transform lg:rotate-3 hover:rotate-0 transition-transform duration-500">
-                <img 
-                  src="images/spice-hero.png" 
-                  alt="Authentic Spices UK" 
+                <img
+                  src="/images/banner-2.png"
+                  alt="Authentic Spices UK"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -347,51 +324,6 @@ const EnhancedHomePage: React.FC = () => {
               <div className="absolute -top-6 -left-6 w-32 h-32 bg-primary-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col md:flex-row justify-between items-center mb-16"
-          >
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <Zap className="w-8 h-8 text-yellow-500" />
-                <span className="text-lg font-bold text-primary-600">Featured Collection</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900">Premium Spices</h2>
-              <p className="text-lg sm:text-xl text-gray-600 mt-2">Hand-picked for exceptional quality</p>
-            </div>
-            <AnimatedButton
-              as={Link}
-              to="/shop"
-              variant="gradient"
-              size="lg"
-              icon={<ArrowRight className="w-5 h-5" />}
-              iconPosition="right"
-              className="mt-6 sm:mt-0 md:mt-0"
-            >
-              View All Products
-            </AnimatedButton>
-          </motion.div>
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
-          >
-            {featuredProducts.map((product, index) => (
-              <motion.div key={product.id} variants={itemVariants}>
-                <EnhancedProductCard product={product} />
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </section>
 

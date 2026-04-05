@@ -96,7 +96,7 @@ const EnhancedAboutPage: React.FC = () => {
 
             <motion.div variants={itemVariants} className="relative">
               <img
-                src="images/img.png"
+                src="/images/img.png"
                 alt="Spice Story"
                 className="rounded-3xl shadow-2xl"
               />

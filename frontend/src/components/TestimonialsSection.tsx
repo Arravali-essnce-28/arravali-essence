@@ -4,25 +4,25 @@ import { Star, Quote } from 'lucide-react';
 const TestimonialsSection: React.FC = () => {
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      location: "London, UK",
+      name: "Indian Rooster Queens Road",
+      location: "Leicester",
       rating: 5,
       text: "The saffron quality is absolutely incredible! My biryanis have never tasted better. Spicees has become my go-to for all authentic Indian spices.",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
+      image: "/images/customers/rooster.webp"
     },
     {
-      name: "Chef Michael Chen",
-      location: "Manchester, UK", 
+      name: "CY Cafe",
+      location: "Leicester", 
       rating: 5,
       text: "As a professional chef, I'm extremely particular about spice quality. Spicees delivers restaurant-grade spices that elevate every dish.",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
+      image: "/images/customers/cy-cafe.webp"
     },
     {
-      name: "Priya Patel",
-      location: "Birmingham, UK",
+      name: "Ashapura Millers",
+      location: "Leicester",
       rating: 5,
       text: "Finally found authentic Indian spices in the UK! The cardamom and cinnamon are exactly like what my grandmother used. Highly recommended!",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80"
+      image: "/images/customers/ashapura.jpg"
     }
   ];
 
