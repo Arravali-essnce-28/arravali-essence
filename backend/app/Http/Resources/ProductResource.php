@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProductResource extends JsonResource
 {
@@ -23,9 +24,10 @@ class ProductResource extends JsonResource
             'in_stock' => $this->in_stock,
             'quantity' => $this->quantity,
             'sku' => $this->sku,
-            'image' => $this->image ? asset('storage/' . $this->image) : null,
+            'image' => $this->image ? url(Storage::url($this->image)) : null,
+            'back_image' => $this->back_image ? url(Storage::url($this->back_image)) : null,
             'gallery' => $this->when($this->gallery, function () {
-                return collect($this->gallery)->map(fn($image) => asset('storage/' . $image))->toArray();
+                return collect($this->gallery)->map(fn($image) => url(Storage::url($image)))->toArray();
             }, []),
             'is_featured' => $this->is_featured,
             'is_active' => $this->is_active,

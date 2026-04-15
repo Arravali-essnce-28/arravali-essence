@@ -24,14 +24,7 @@
                 <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
             </div>
         </div>
-        <select class="px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm">
-            <option>All Categories</option>
-            <option>Whole Spices</option>
-            <option>Ground Spices</option>
-            <option>Spice Blends</option>
-            <option>Herbs</option>
-            <option>Premium Collection</option>
-        </select>
+
         <select class="px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm">
             <option>All Status</option>
             <option>In Stock</option>
@@ -40,6 +33,51 @@
         </select>
     </div>
 </div>
+
+<!-- Quick Stats -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-blue-100 text-sm">Total Value</p>
+                <p class="text-xl font-bold">${{ number_format($products->sum(function($p) { return $p->price * $p->quantity; }), 2) }}</p>
+            </div>
+            <i class="fas fa-dollar-sign text-2xl text-blue-200"></i>
+        </div>
+    </div>
+    
+    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-green-100 text-sm">In Stock</p>
+                <p class="text-xl font-bold">{{ $products->where('quantity', '>', 0)->count() }}</p>
+            </div>
+            <i class="fas fa-check-circle text-2xl text-green-200"></i>
+        </div>
+    </div>
+    
+    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg p-4 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-yellow-100 text-sm">Low Stock</p>
+                <p class="text-xl font-bold">{{ $products->where('quantity', '>', 0)->where('quantity', '<=', 10)->count() }}</p>
+            </div>
+            <i class="fas fa-exclamation-triangle text-2xl text-yellow-200"></i>
+        </div>
+    </div>
+    
+    <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-4 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-purple-100 text-sm">Featured</p>
+                <p class="text-xl font-bold">{{ $products->where('is_featured', true)->count() }}</p>
+            </div>
+            <i class="fas fa-star text-2xl text-purple-200"></i>
+        </div>
+    </div>
+</div>
+<br>
+
 
 <!-- Products Table -->
 <div class="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -55,7 +93,7 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -81,17 +119,7 @@
                             </div>
                         </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        @if($product->category)
-                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                {{ $product->category->name }}
-                            </span>
-                        @else
-                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-600">
-                                Uncategorized
-                            </span>
-                        @endif
-                    </td>
+
                     <td class="px-6 py-4 whitespace-nowrap">
                         @if($product->sale_price)
                             <div class="flex flex-col">
@@ -161,46 +189,5 @@
     @endif
 </div>
 
-<!-- Quick Stats -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
-    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-blue-100 text-sm">Total Value</p>
-                <p class="text-xl font-bold">${{ number_format($products->sum(function($p) { return $p->price * $p->quantity; }), 2) }}</p>
-            </div>
-            <i class="fas fa-dollar-sign text-2xl text-blue-200"></i>
-        </div>
-    </div>
-    
-    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-green-100 text-sm">In Stock</p>
-                <p class="text-xl font-bold">{{ $products->where('quantity', '>', 0)->count() }}</p>
-            </div>
-            <i class="fas fa-check-circle text-2xl text-green-200"></i>
-        </div>
-    </div>
-    
-    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg p-4 text-white">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-yellow-100 text-sm">Low Stock</p>
-                <p class="text-xl font-bold">{{ $products->where('quantity', '>', 0)->where('quantity', '<=', 10)->count() }}</p>
-            </div>
-            <i class="fas fa-exclamation-triangle text-2xl text-yellow-200"></i>
-        </div>
-    </div>
-    
-    <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-4 text-white">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-purple-100 text-sm">Featured</p>
-                <p class="text-xl font-bold">{{ $products->where('is_featured', true)->count() }}</p>
-            </div>
-            <i class="fas fa-star text-2xl text-purple-200"></i>
-        </div>
-    </div>
-</div>
+
 @endsection

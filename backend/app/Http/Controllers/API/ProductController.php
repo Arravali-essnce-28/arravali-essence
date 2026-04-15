@@ -45,6 +45,9 @@ class ProductController extends Controller
                 $query->orderBy(request('sort_by'), $sortOrder);
             }, function ($query) {
                 $query->latest();
+            })
+            ->when(!request()->has('is_active'), function ($query) {
+                $query->where('is_active', true);
             });
 
         $perPage = request('per_page', 15);

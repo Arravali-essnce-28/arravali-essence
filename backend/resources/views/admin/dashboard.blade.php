@@ -20,19 +20,7 @@
         </div>
     </div>
 
-    <!-- Total Categories -->
-    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-green-100 text-xs sm:text-sm font-medium">Categories</p>
-                <p class="text-2xl sm:text-3xl font-bold mt-1 sm:mt-2">{{ $stats['total_categories'] }}</p>
-                <p class="text-green-100 text-xs mt-1">Product types</p>
-            </div>
-            <div class="bg-white/20 p-2 sm:p-3 rounded-full">
-                <i class="fas fa-tags text-lg sm:text-2xl"></i>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Total Orders -->
     <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg shadow-lg p-4 sm:p-6 text-white transform hover:scale-105 transition-transform duration-200">

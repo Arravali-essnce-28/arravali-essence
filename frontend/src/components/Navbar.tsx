@@ -35,19 +35,19 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
+    <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl transition-all duration-500 rounded-full ${
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-        : 'bg-white shadow-md'
+        ? 'bg-black/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-white/10' 
+        : 'bg-black/30 backdrop-blur-xl border border-white/5'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img 
               src="/images/logo.svg" 
               alt="Arravali Essence Logo" 
-              className="h-12 w-auto"
+              className="h-8 w-auto hover:opacity-80 transition-opacity brightness-0 invert filter drop-shadow-md"
             />
           </Link>
           
@@ -62,11 +62,11 @@ const Navbar = () => {
           {/* Search Bar */}
           <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
               <input
                 type="text"
-                placeholder="Search spices..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
+                placeholder="Search premium spices..."
+                className="w-full pl-10 pr-4 py-1.5 text-sm bg-white/10 text-white placeholder-white/40 border-none rounded-full focus:outline-none focus:ring-1 focus:ring-amber-500 focus:bg-white/20 transition-all shadow-inner backdrop-blur-md"
               />
             </div>
           </div>
@@ -78,12 +78,12 @@ const Navbar = () => {
               <div className="relative user-menu">
                 <button 
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                  className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex items-center space-x-2 p-2 rounded-full hover:bg-white/10 transition-colors"
                 >
-                  <div className="h-8 w-8 rounded-full bg-primary-600 flex items-center justify-center">
+                  <div className="h-8 w-8 rounded-full bg-amber-600 flex items-center justify-center shadow-lg">
                     <User className="h-4 w-4 text-white" />
                   </div>
-                  <span className="hidden lg:inline text-sm font-medium text-gray-700">
+                  <span className="hidden lg:inline text-sm font-medium text-white/90">
                     Account
                   </span>
                 </button>
@@ -119,7 +119,7 @@ const Navbar = () => {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors"
+                className="flex items-center space-x-1 text-white/80 hover:text-amber-400 transition-colors"
               >
                 <LogIn className="h-5 w-5" />
                 <span className="hidden sm:inline">Login</span>
@@ -127,10 +127,10 @@ const Navbar = () => {
             )}
             
             {/* Cart */}
-            <Link to="/cart" className="relative p-2 text-gray-700 hover:text-primary-600 transition-colors">
+            <Link to="/cart" className="relative p-2 text-white/80 hover:text-amber-400 transition-colors">
               <ShoppingCart className="h-6 w-6" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                <span className="absolute -top-1 -right-1 bg-amber-500 text-black text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold shadow-[0_0_10px_rgba(245,158,11,0.6)]">
                   {itemCount > 9 ? '9+' : itemCount}
                 </span>
               )}
@@ -139,7 +139,7 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 text-gray-700 hover:text-primary-600 transition-colors"
+              className="md:hidden p-2 text-white/80 hover:text-amber-400 transition-colors"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -149,7 +149,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t shadow-lg">
+        <div className="md:hidden mt-2 bg-black/80 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden mx-4 pb-4">
           <div className="px-4 py-4 space-y-2">
             <MobileNavLink to="/" onClick={() => setIsOpen(false)}>Home</MobileNavLink>
             <MobileNavLink to="/shop" onClick={() => setIsOpen(false)}>Shop</MobileNavLink>
@@ -159,7 +159,7 @@ const Navbar = () => {
               <div className="flex items-center justify-between">
                 <span>Cart</span>
                 {itemCount > 0 && (
-                  <span className="bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="bg-amber-500 text-black font-bold text-xs rounded-full h-5 w-5 flex items-center justify-center">
                     {itemCount > 9 ? '9+' : itemCount}
                   </span>
                 )}
@@ -175,9 +175,11 @@ const Navbar = () => {
 const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <Link
     to={to}
-    className="text-gray-700 hover:text-primary-600 px-3 py-2 font-medium transition-colors"
+    className="relative text-white/80 hover:text-white px-4 py-2 text-sm font-semibold uppercase tracking-widest transition-colors group rounded-full overflow-hidden"
   >
-    {children}
+    <div className="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full z-0"></div>
+    <span className="relative z-10">{children}</span>
+    <span className="absolute inset-x-4 bottom-1 h-[1px] bg-amber-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-center shadow-[0_0_8px_rgba(251,191,36,0.8)] z-10"></span>
   </Link>
 );
 
@@ -185,7 +187,7 @@ const MobileNavLink = ({ to, children, onClick }: { to: string; children: React.
   <Link
     to={to}
     onClick={onClick}
-    className="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 font-medium transition-colors rounded-lg"
+    className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 font-semibold uppercase tracking-wider transition-colors rounded-xl"
   >
     {children}
   </Link>

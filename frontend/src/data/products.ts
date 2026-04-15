@@ -65,11 +65,12 @@ const fallbackProducts: Product[] = [
 export const getProducts = async (): Promise<Product[]> => {
   try {
     const response = await api.getProducts();
+    // Laravel API Resources wrap data in a 'data' key
     const productsData = response.data ? response.data : response;
 
-    // Safety check just in case
     if (!Array.isArray(productsData)) {
-      throw new Error("Expected an array of products");
+      console.error("Expected array but got:", productsData);
+      return fallbackProducts;
     }
 
     return productsData.map((product: any) => ({
@@ -78,27 +79,23 @@ export const getProducts = async (): Promise<Product[]> => {
       slug: product.slug,
       description: product.description || product.short_description,
       short_description: product.short_description,
-      price: product.sale_price ? Number(product.sale_price) : Number(product.price),
+      price: Number(product.price),
       originalPrice: product.sale_price ? Number(product.price) : undefined,
-      final_price: product.final_price || product.price,
-      has_discount: product.has_discount || false,
+      final_price: Number(product.final_price),
+      has_discount: Boolean(product.has_discount),
       discount_percentage: product.discount_percentage,
-      isFeatured: product.is_featured || false,
-      in_stock: product.in_stock !== false,
+      isFeatured: Boolean(product.is_featured),
+      in_stock: Boolean(product.in_stock),
       image: product.image || 'https://images.unsplash.com/photo-1599909533730-b5b6e4b5b5b5?w=500&h=500&fit=crop',
-      rating: product.rating || 4.5 + Math.random() * 0.5,
-      reviews: product.reviews || Math.floor(Math.random() * 300) + 50,
-      category: product.category, // Object {id, name}
+      rating: product.rating || 4.5,
+      reviews: product.reviews || 0,
+      category: typeof product.category === 'object' ? product.category?.name : (product.category || 'Uncategorized'),
       weight: product.weight || 100,
-      isNew: Math.random() > 0.7,
-      discount: product.discount_percentage || (product.sale_price ? Math.round((1 - product.sale_price / product.price) * 100) : 0),
-      isOrganic: product.category?.name?.includes('Organic'),
-      isPremium: product.category?.name?.includes('Premium'),
+      isNew: Boolean(product.isNew),
+      discount: product.discount_percentage || 0,
     }));
   } catch (error) {
     console.error('Error fetching products:', error);
-    // Return fallback data when API fails
-    console.log('Using fallback products data');
     return fallbackProducts;
   }
 };
@@ -106,24 +103,27 @@ export const getProducts = async (): Promise<Product[]> => {
 export const getProduct = async (id: string): Promise<Product | null> => {
   try {
     const response = await api.getProduct(id);
-    const product = response;
+    // Unpack from the 'data' wrapper
+    const product = response.data ? response.data : response;
+
+    if (!product || !product.id) return null;
+
     return {
       id: product.id.toString(),
       name: product.name,
       description: product.description,
-      price: product.price,
-      originalPrice: product.sale_price || undefined,
+      price: Number(product.price),
+      originalPrice: product.sale_price ? Number(product.price) : undefined,
       image: product.image,
-      rating: 4.5 + Math.random() * 0.5,
-      reviews: Math.floor(Math.random() * 300) + 50,
-      category: product.category?.name || 'Uncategorized',
+      rating: product.rating || 4.8,
+      reviews: product.reviews || 120,
+      category: typeof product.category === 'object' ? product.category?.name : (product.category || 'Uncategorized'),
       weight: product.weight || 100,
-      isNew: Math.random() > 0.7,
-      discount: product.sale_price ? Math.round((1 - product.sale_price / product.price) * 100) : 0
+      isNew: Boolean(product.isNew),
+      discount: product.discount_percentage || 0
     };
   } catch (error) {
     console.error('Error fetching product:', error);
-    // Return fallback product if available
     return fallbackProducts.find(p => p.id === id) || null;
   }
 };

@@ -184,7 +184,6 @@ const AdvancedHeroSection: React.FC = () => {
         >
           {[
             { number: '25+', label: 'Years Experience' },
-            { number: '80', label: 'Happy Customers' },
             { number: '4.5★', label: 'Customer Rating' },
             { number: '15+', label: 'Premium Spices' },
           ].map((stat, index) => (

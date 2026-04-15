@@ -41,21 +41,7 @@
                         @enderror
                     </div>
 
-                    <div>
-                        <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
-                        <select name="category_id" id="category_id" required
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors">
-                            <option value="">Select a category</option>
-                            @foreach(\App\Models\Category::all() as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('category_id')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+
 
                     <div>
                         <label for="weight" class="block text-sm font-semibold text-gray-700 mb-2">Weight (grams)</label>
@@ -154,28 +140,60 @@
             </div>
             
             <div class="p-6 space-y-6">
-                <div>
-                    <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">Product Image URL *</label>
-                    <input type="url" name="image" id="image" required
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
-                           value="{{ old('image') }}" placeholder="https://example.com/image.jpg">
-                    @error('image')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                    <p class="text-xs text-gray-500 mt-1">Enter a valid URL for the product image</p>
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Main Image -->
+                    <div>
+                        <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">Main Image (Front View) *</label>
+                        <div class="mt-1 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 hover:bg-white transition-all cursor-pointer" onclick="document.getElementById('image').click()">
+                            <i class="fas fa-camera-retro text-3xl text-gray-400 mb-2"></i>
+                            <span class="text-sm text-purple-600 font-medium">Click to select front photo</span>
+                            <p class="text-xs text-gray-400 mt-1">Max size: 2MB (PNG, JPG, WEBP)</p>
+                            <input id="image" name="image" type="file" class="hidden" required accept="image/*" onchange="previewImage(this, 'front-preview')">
+                        </div>
+                        @error('image')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <div id="front-preview" class="mt-4 hidden h-40 w-full rounded-lg overflow-hidden border-2 border-primary-100 shadow-sm">
+                            <img src="" class="h-full w-full object-cover">
+                        </div>
+                    </div>
 
-                <div>
-                    <label for="back_image" class="block text-sm font-semibold text-gray-700 mb-2">Back Image URL (Optional)</label>
-                    <input type="url" name="back_image" id="back_image"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
-                           value="{{ old('back_image') }}" placeholder="https://example.com/back-image.jpg">
-                    @error('back_image')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
+                    <!-- Back Image -->
+                    <div>
+                        <label for="back_image" class="block text-sm font-semibold text-gray-700 mb-2">Back Image (Optional)</label>
+                        <div class="mt-1 flex flex-col items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 hover:bg-white transition-all cursor-pointer" onclick="document.getElementById('back_image').click()">
+                            <i class="fas fa-file-image text-3xl text-gray-400 mb-2"></i>
+                            <span class="text-sm text-purple-600 font-medium">Click to select back photo</span>
+                            <input id="back_image" name="back_image" type="file" class="hidden" accept="image/*" onchange="previewImage(this, 'back-preview')">
+                        </div>
+                        @error('back_image')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <div id="back-preview" class="mt-4 hidden h-40 w-full rounded-lg overflow-hidden border-2 border-primary-100 shadow-sm">
+                            <img src="" class="h-full w-full object-cover">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            function previewImage(input, previewId) {
+                const preview = document.getElementById(previewId);
+                const img = preview.querySelector('img');
+                
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        img.src = e.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    preview.classList.add('hidden');
+                }
+            }
+        </script>
 
         <!-- Settings -->
         <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
@@ -210,174 +228,6 @@
             <button type="submit" class="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-3 rounded-lg hover:from-orange-600 hover:to-amber-600 transition-all duration-200 transform hover:scale-105 shadow-lg">
                 <i class="fas fa-save mr-2"></i>Create Product
             </button>
-        </div>
-    </form>
-</div>
-@endsection
-                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                    <select name="category_id" id="category_id"
-                            class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                        <option value="">Select category</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('category_id')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="weight" class="block text-sm font-medium text-gray-700 mb-2">Weight (grams)</label>
-                    <input type="number" name="weight" id="weight" step="0.01"
-                           class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                           value="{{ old('weight') }}" placeholder="100">
-                    @error('weight')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <div>
-                    <h3 class="text-xl font-semibold text-gray-800">Pricing & inventory</h3>
-                    <p class="text-sm text-gray-500">Control how the product is priced and stocked.</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Regular price ($) *</label>
-                    <input type="number" name="price" id="price" step="0.01" required
-                           class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                           value="{{ old('price') }}" placeholder="19.99">
-                    @error('price')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="sale_price" class="block text-sm font-medium text-gray-700 mb-2">Sale price ($)</label>
-                    <input type="number" name="sale_price" id="sale_price" step="0.01"
-                           class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                           value="{{ old('sale_price') }}" placeholder="15.99">
-                    @error('sale_price')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">Stock quantity *</label>
-                    <input type="number" name="quantity" id="quantity" required min="0"
-                           class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                           value="{{ old('quantity', 0) }}" placeholder="50">
-                    @error('quantity')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Product status</label>
-                    <div class="flex flex-wrap gap-6 mt-2">
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}
-                                   class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
-                            <span class="text-sm text-gray-700">Featured product</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}
-                                   class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
-                            <span class="text-sm text-gray-700">Active</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <div>
-                    <h3 class="text-xl font-semibold text-gray-800">Product imagery</h3>
-                    <p class="text-sm text-gray-500">Upload clear photos of both the front and the back of the product.</p>
-                </div>
-                <span class="inline-flex items-center text-xs font-medium uppercase tracking-wide text-primary-600 bg-primary-50 px-3 py-1 rounded-full">Media</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="image" class="block text-sm font-medium text-gray-700 mb-3">Front image *</label>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-24 h-24 rounded-xl bg-gray-50 border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-sm">
-                            <span>Front</span>
-                        </div>
-                        <div class="flex-1">
-                            <input type="file" name="image" id="image" accept="image/*" required
-                                   class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-600 hover:file:bg-primary-100">
-                            <p class="mt-2 text-xs text-gray-500">JPG, PNG, GIF up to 2MB.</p>
-                            @error('image')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label for="back_image" class="block text-sm font-medium text-gray-700 mb-3">Back image</label>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-24 h-24 rounded-xl bg-gray-50 border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-sm">
-                            <span>Back</span>
-                        </div>
-                        <div class="flex-1">
-                            <input type="file" name="back_image" id="back_image" accept="image/*"
-                                   class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-600 hover:file:bg-primary-100">
-                            <p class="mt-2 text-xs text-gray-500">Optional but recommended for a complete view.</p>
-                            @error('back_image')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <div>
-                    <h3 class="text-xl font-semibold text-gray-800">Product copy</h3>
-                    <p class="text-sm text-gray-500">Help customers understand why they should care.</p>
-                </div>
-            </div>
-
-            <div class="space-y-6">
-                <div>
-                    <label for="short_description" class="block text-sm font-medium text-gray-700 mb-2">Short description</label>
-                    <input type="text" name="short_description" id="short_description"
-                           class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                           value="{{ old('short_description') }}" placeholder="One-line teaser shown across the store">
-                    @error('short_description')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Full description *</label>
-                    <textarea name="description" id="description" rows="5" required
-                              class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                              placeholder="Share ingredients, flavor notes, and serving suggestions">{{ old('description') }}</textarea>
-                    @error('description')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col md:flex-row md:justify-end md:items-center gap-3 md:gap-4 pt-4">
-            <a href="{{ route('admin.products') }}" class="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">Cancel</a>
-            <button type="submit" class="inline-flex items-center justify-center px-6 py-2.5 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-400">Create product</button>
         </div>
     </form>
 </div>

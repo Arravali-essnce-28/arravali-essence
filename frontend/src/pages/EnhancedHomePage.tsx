@@ -131,23 +131,22 @@ const EnhancedHomePage: React.FC = () => {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="py-8 bg-gradient-to-r from-green-600 to-blue-600 text-white relative overflow-hidden"
+        className="py-8 bg-gradient-to-r from-stone-900 to-black text-white relative overflow-hidden border-y border-stone-800"
       >
-        <div className="absolute inset-0 bg-black/10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-center">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-12 text-center">
 
-            <div className="flex items-center gap-2">
-              <Truck className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="font-semibold text-sm sm:text-base">Great Shipping</span>
+            <div className="flex items-center gap-3">
+              <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
+              <span className="font-semibold text-sm sm:text-base text-stone-200 uppercase tracking-widest">Great Shipping</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="font-semibold text-sm sm:text-base">100% authentic</span>
+            <div className="flex items-center gap-3">
+              <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
+              <span className="font-semibold text-sm sm:text-base text-stone-200 uppercase tracking-widest">100% Authentic</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Award className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="font-semibold text-sm sm:text-base">Premium quality</span>
+            <div className="flex items-center gap-3">
+              <Award className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
+              <span className="font-semibold text-sm sm:text-base text-stone-200 uppercase tracking-widest">Premium Quality</span>
             </div>
           </div>
         </div>
