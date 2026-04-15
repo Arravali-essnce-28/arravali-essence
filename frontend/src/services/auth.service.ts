@@ -1,60 +1,25 @@
 // src/services/auth.service.ts
-import axios, { AxiosError } from 'axios';
+import httpClient, { extractErrorMessage } from '../lib/httpClient';
 import { LoginCredentials, RegisterData, User, AuthResponse } from '../types/auth';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-const extractErrorMessage = (error: unknown): string => {
-  if (axios.isAxiosError(error)) {
-    const axiosError = error as AxiosError<{ message?: string; errors?: Record<string, string[]> } | string>;
-    const responseData = axiosError.response?.data;
-
-    if (typeof responseData === 'string') {
-      return responseData;
-    }
-
-    if (responseData && typeof responseData === 'object') {
-      if (responseData.message) {
-        return responseData.message;
-      }
-
-      const firstErrorKey = Object.keys(responseData.errors ?? {})[0];
-      if (firstErrorKey) {
-        const firstErrorMessage = responseData.errors?.[firstErrorKey]?.[0];
-        if (firstErrorMessage) {
-          return firstErrorMessage;
-        }
-      }
-    }
-
-    if (axiosError.message) {
-      return axiosError.message;
-    }
-  }
-
-  return 'Something went wrong. Please try again.';
-};
-
-export const register = async (data: RegisterData) => {
+/**
+ * Register a new user
+ */
+export const register = async (data: RegisterData): Promise<any> => {
   try {
-    const response = await axios.post(`${API_URL}/register`, data, {
-      headers: {
-        Accept: 'application/json',
-      },
-    });
+    const response = await httpClient.post('/register', data);
     return response.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
 };
 
-export const login = async (credentials: LoginCredentials) => {
+/**
+ * Login user
+ */
+export const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   try {
-    const response = await axios.post(`${API_URL}/login`, credentials, {
-      headers: {
-        Accept: 'application/json',
-      },
-    });
+    const response = await httpClient.post('/login', credentials);
 
     if (response.data.access_token) {
       localStorage.setItem('user', JSON.stringify(response.data));
@@ -66,57 +31,60 @@ export const login = async (credentials: LoginCredentials) => {
   }
 };
 
+/**
+ * Logout user
+ */
 export const logout = async (): Promise<void> => {
   try {
-    await axios.post(`${API_URL}/logout`, {}, {
-      headers: {
-        'Authorization': `Bearer ${getAuthToken()}`,
-        'Accept': 'application/json',
-      }
-    });
+    await httpClient.post('/logout');
   } catch (error) {
-    throw new Error(extractErrorMessage(error));
+    console.error('Logout error:', extractErrorMessage(error));
   } finally {
     localStorage.removeItem('user');
+    localStorage.removeItem('auth_token');
   }
 };
 
-export const verifyEmail = async (token: string) => {
+/**
+ * Verify email with token
+ */
+export const verifyEmail = async (token: string): Promise<any> => {
   try {
-    const response = await axios.get(`${API_URL}/email/verify/${token}`, {
-      headers: {
-        Accept: 'application/json',
-      },
-    });
+    const response = await httpClient.get(`/email/verify/${token}`);
     return response.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
 };
 
-export const resendVerificationEmail = async (email: string) => {
+/**
+ * Resend verification email
+ */
+export const resendVerificationEmail = async (email: string): Promise<any> => {
   try {
-    const response = await axios.post(
-      `${API_URL}/email/resend`,
-      { email },
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const response = await httpClient.post('/email/resend', { email });
     return response.data;
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
 };
 
+/**
+ * Get stored auth data
+ */
 export const getAuthData = (): AuthResponse | null => {
   const userStr = localStorage.getItem('user');
-  return userStr ? JSON.parse(userStr) : null;
+  if (!userStr) return null;
+  try {
+    return JSON.parse(userStr);
+  } catch {
+    return null;
+  }
 };
 
+/**
+ * Hook-like function for auth store access
+ */
 export const useAuthStore = () => {
   const authData = getAuthData();
   return {
@@ -125,38 +93,35 @@ export const useAuthStore = () => {
   };
 };
 
+/**
+ * Get current user
+ */
 export const getCurrentUser = (): User | null => {
   const authData = getAuthData();
   return authData?.user || null;
 };
 
-const getAuthToken = (): string | null => {
-  const authData = getAuthData();
-  return authData?.access_token || null;
-};
-
-export const loginWithGoogle = async () => {
+/**
+ * Social Auth: Google
+ */
+export const loginWithGoogle = async (): Promise<void> => {
   try {
-    const response = await axios.get(`${API_URL}/auth/google`, {
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-
+    const response = await httpClient.get('/auth/google');
     const authUrl = response.data.url;
-    window.location.href = authUrl;
+    if (authUrl) {
+      window.location.href = authUrl;
+    }
   } catch (error) {
     throw new Error(extractErrorMessage(error));
   }
 };
 
-export const handleGoogleCallback = async (searchParams: string) => {
+/**
+ * Handle Google callback
+ */
+export const handleGoogleCallback = async (searchParams: string): Promise<AuthResponse> => {
   try {
-    const response = await axios.get(`${API_URL}/auth/google/callback${searchParams}`, {
-      headers: {
-        Accept: 'application/json',
-      },
-    });
+    const response = await httpClient.get(`/auth/google/callback${searchParams}`);
 
     if (response.data.access_token) {
       localStorage.setItem('user', JSON.stringify(response.data));

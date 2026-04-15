@@ -6,6 +6,7 @@ import { useCart } from '../contexts/CartContext';
 import EnhancedProductCard from '../components/ui/EnhancedProductCard';
 import AnimatedButton from '../components/ui/AnimatedButton';
 import SEO from '../components/SEO';
+import api from '../services/api';
 
 interface Product {
   id: string;
@@ -37,36 +38,20 @@ const EnhancedShopPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+
   // Fetch products from API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
-        const data = await response.json();
-
-        // Transform API data to match the expected Product interface
-        const transformedProducts = (data.data || []).map((product: any) => ({
-          id: String(product.id),
-          name: product.name,
-          slug: product.slug,
-          description: product.description,
-          short_description: product.short_description,
-          price: product.price,
-          sale_price: product.sale_price,
-          final_price: product.final_price,
-          has_discount: product.has_discount,
-          discount_percentage: product.discount_percentage,
-          in_stock: product.in_stock,
-          category: product.category,
-          rating: product.rating || 4.5,
-          reviews: product.reviews || Math.floor(Math.random() * 100) + 10,
-          image: product.image || 'https://images.unsplash.com/photo-1599909533730-b5b6e4b5b5b5?w=500&h=500&fit=crop',
-          quantity: product.quantity,
-          weight: product.weight || 100,
-          isNew: Math.random() > 0.8,
-          discount: product.discount_percentage,
-          isOrganic: product.category?.name.includes('Organic'),
-          isPremium: product.category?.name.includes('Premium'),
+        const responseData = await api.getProducts();
+        
+        // Products are already transformed by the api service
+        const transformedProducts = (responseData.data || []).map((product: any) => ({
+          ...product,
+          // Add frontend-only flags if needed
+          isNew: product.isNew ?? Math.random() > 0.8,
+          isOrganic: product.isOrganic ?? product.category?.name?.includes('Organic'),
+          isPremium: product.isPremium ?? product.category?.name?.includes('Premium'),
         }));
 
         setProducts(transformedProducts);

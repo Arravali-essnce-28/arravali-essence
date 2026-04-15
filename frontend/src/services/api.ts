@@ -1,108 +1,75 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+import httpClient from '../lib/httpClient';
+import { getStorageUrl } from '../lib/imageUtils';
 
-// Generate session ID for guest users
-const getSessionId = () => {
-  let sessionId = localStorage.getItem('session_id');
-  if (!sessionId) {
-    sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem('session_id', sessionId);
-  }
-  return sessionId;
+/**
+ * Transforms product data from API to UI format
+ */
+const transformProduct = (product: any) => {
+  if (!product) return null;
+  return {
+    ...product,
+    id: String(product.id),
+    image: getStorageUrl(product.image),
+    // Fallback for missing fields or formatting
+    rating: product.rating || 4.5,
+    reviews: product.reviews || 0,
+  };
 };
 
-// Common headers
-const getHeaders = () => ({
-  'Content-Type': 'application/json',
-  'X-Session-ID': getSessionId(),
-  'Accept': 'application/json',
-});
-
+/**
+ * Main API service for Arravali Essence
+ */
 export const api = {
   // Products
   getProducts: async () => {
-    try {
-      console.log('Fetching products from:', API_BASE_URL);
-      const response = await fetch(`${API_BASE_URL}/products`, {
-        headers: getHeaders(),
-      });
-
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log('Response data:', data);
-      return data;
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      throw error;
+    const response = await httpClient.get('/products');
+    const data = response.data;
+    if (data && Array.isArray(data.data)) {
+      data.data = data.data.map(transformProduct);
     }
+    return data;
   },
 
-  getProduct: async (id: string) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/products/${id}`, {
-        headers: getHeaders(),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching product:', error);
-      throw error;
+  getProduct: async (id: string | number) => {
+    const response = await httpClient.get(`/products/${id}`);
+    const data = response.data;
+    if (data && data.data) {
+      data.data = transformProduct(data.data);
+    } else if (data && !data.data && data.id) {
+      // Handle cases where data is at the root
+      return transformProduct(data);
     }
+    return data;
   },
 
   // Categories
   getCategories: async () => {
-    const response = await fetch(`${API_BASE_URL}/categories`, {
-      headers: getHeaders(),
-    });
-    return response.json();
+    const response = await httpClient.get('/categories');
+    return response.data;
   },
 
   // Cart
   getCart: async () => {
-    const response = await fetch(`${API_BASE_URL}/cart`, {
-      headers: getHeaders(),
-    });
-    return response.json();
+    const response = await httpClient.get('/cart');
+    return response.data;
   },
 
   addToCart: async (productId: number, quantity: number = 1) => {
-    const response = await fetch(`${API_BASE_URL}/cart`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({
-        product_id: productId,
-        quantity: quantity,
-      }),
+    const response = await httpClient.post('/cart', {
+      product_id: productId,
+      quantity: quantity,
     });
-    return response.json();
+    return response.data;
   },
 
   updateCartItem: async (cartItemId: number, quantity: number) => {
-    const response = await fetch(`${API_BASE_URL}/cart/${cartItemId}`, {
-      method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify({ quantity }),
-    });
-    return response.json();
+    const response = await httpClient.put(`/cart/${cartItemId}`, { quantity });
+    return response.data;
   },
 
   removeFromCart: async (cartItemId: number) => {
-    const response = await fetch(`${API_BASE_URL}/cart/${cartItemId}`, {
-      method: 'DELETE',
-      headers: getHeaders(),
-    });
-    return response.json();
+    const response = await httpClient.delete(`/cart/${cartItemId}`);
+    return response.data;
   },
 
   // Payment
@@ -115,96 +82,52 @@ export const api = {
     postal_code: string;
     payment_method: string;
   }) => {
-    const response = await fetch(`${API_BASE_URL}/payment/process`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(orderData),
-    });
-    return response.json();
+    const response = await httpClient.post('/payment/process', orderData);
+    return response.data;
   },
 
   createPaymentIntent: async (shippingData: any) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/payment/create-intent`, {
-        method: 'POST',
-        headers: getHeaders(),
-        body: JSON.stringify(shippingData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      return response.json();
-    } catch (error) {
-      console.error('Error creating payment intent:', error);
-      throw error;
-    }
+    const response = await httpClient.post('/payment/create-intent', shippingData);
+    return response.data;
   },
 
   getOrder: async (orderNumber: string) => {
-    const response = await fetch(`${API_BASE_URL}/order/${orderNumber}`, {
-      headers: getHeaders(),
-    });
-    return response.json();
+    const response = await httpClient.get(`/order/${orderNumber}`);
+    return response.data;
   },
 
-  // Auth
+  // Auth (Proxying to auth service or keeping simple here)
   login: async (credentials: { email: string; password: string }) => {
-    const response = await fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(credentials),
-    });
-    return response.json();
+    const response = await httpClient.post('/login', credentials);
+    return response.data;
   },
 
-  register: async (userData: { name: string; email: string; password: string; password_confirmation: string }) => {
-    const response = await fetch(`${API_BASE_URL}/register`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(userData),
-    });
-    return response.json();
+  register: async (userData: any) => {
+    const response = await httpClient.post('/register', userData);
+    return response.data;
   },
 
   logout: async () => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/logout`, {
-      method: 'POST',
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    const response = await httpClient.post('/logout');
     localStorage.removeItem('auth_token');
-    return response.json();
+    localStorage.removeItem('user');
+    return response.data;
   },
 
   // Order Tracking
   getUserOrders: async () => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/orders`, {
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.json();
+    const response = await httpClient.get('/orders');
+    return response.data;
   },
 
   trackOrder: async (orderNumber: string) => {
-    const response = await fetch(`${API_BASE_URL}/track/${orderNumber}`, {
-      headers: getHeaders(),
-    });
-    return response.json();
+    const response = await httpClient.get(`/track/${orderNumber}`);
+    return response.data;
   },
 
   getOrderTrackingTimeline: async (orderNumber: string) => {
-    const response = await fetch(`${API_BASE_URL}/track/${orderNumber}/timeline`, {
-      headers: getHeaders(),
-    });
-    return response.json();
+    const response = await httpClient.get(`/track/${orderNumber}/timeline`);
+    return response.data;
   },
 
   updateOrderTracking: async (orderNumber: string, trackingData: {
@@ -215,151 +138,73 @@ export const api = {
     tracking_number?: string;
     carrier?: string;
   }) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/track/${orderNumber}`, {
-      method: 'PUT',
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(trackingData),
-    });
-    return response.json();
+    const response = await httpClient.put(`/track/${orderNumber}`, trackingData);
+    return response.data;
   },
 
   // Admin
   getAdminStats: async () => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/dashboard`, {
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.json();
+    const response = await httpClient.get('/admin/dashboard');
+    return response.data;
   },
 
   getAdminProducts: async (page: number = 1) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/products?page=${page}`, {
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
+    const response = await httpClient.get('/admin/products', {
+      params: { page }
     });
-    return response.json();
+    return response.data;
   },
 
   storeProduct: async (productData: FormData) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/products`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'X-Session-ID': getSessionId(), // Keep session ID, but let browser set Content-Type for FormData
-        'Accept': 'application/json',
-      },
-      body: productData,
-    });
-    return response.json();
+    const response = await httpClient.post('/admin/products', productData);
+    return response.data;
   },
 
   updateProduct: async (id: number, productData: FormData | any) => {
-    const token = localStorage.getItem('auth_token');
-    // Note: For FormData with PUT/PATCH in PHP/Laravel, we often need to use POST with _method=PUT
-    // or just use POST if the backend handles it.
-    // However, Laravel's API resource controller expects PUT/PATCH.
-    // FormData doesn't natively support PUT, so we use POST with _method field if using Laravel's method spoofing.
-
-    // Check if it's FormData
     const isFormData = productData instanceof FormData;
-
+    
     if (isFormData) {
+      // Laravel handles PUT with FormData by using POST + _method spoofing
       productData.append('_method', 'PUT');
     }
 
-    const response = await fetch(`${API_BASE_URL}/admin/products/${id}`, {
-      method: isFormData ? 'POST' : 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'X-Session-ID': getSessionId(),
-        'Accept': 'application/json',
-        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
-      },
-      body: isFormData ? productData : JSON.stringify(productData),
-    });
-    return response.json();
+    const response = await httpClient.post(`/admin/products/${id}`, productData);
+    return response.data;
   },
 
   deleteProduct: async (id: number) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/products/${id}`, {
-      method: 'DELETE',
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.json();
+    const response = await httpClient.delete(`/admin/products/${id}`);
+    return response.data;
   },
 
   getAdminOrders: async (page: number = 1) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/orders?page=${page}`, {
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
+    const response = await httpClient.get('/admin/orders', {
+      params: { page }
     });
-    return response.json();
+    return response.data;
   },
 
   updateOrderStatus: async (orderId: number, status: string) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/status`, {
-      method: 'PUT',
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify({ status }),
-    });
-    return response.json();
+    const response = await httpClient.put(`/admin/orders/${orderId}/status`, { status });
+    return response.data;
   },
 
   // User Management
   getUsers: async (page: number = 1) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/users?page=${page}`, {
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
+    const response = await httpClient.get('/admin/users', {
+      params: { page }
     });
-    return response.json();
+    return response.data;
   },
 
   getUserDetails: async (userId: number) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/users/${userId}`, {
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.json();
+    const response = await httpClient.get(`/admin/users/${userId}`);
+    return response.data;
   },
 
   deleteUser: async (userId: number) => {
-    const token = localStorage.getItem('auth_token');
-    const response = await fetch(`${API_BASE_URL}/admin/users/${userId}`, {
-      method: 'DELETE',
-      headers: {
-        ...getHeaders(),
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    return response.json();
+    const response = await httpClient.delete(`/admin/users/${userId}`);
+    return response.data;
   },
 };
 

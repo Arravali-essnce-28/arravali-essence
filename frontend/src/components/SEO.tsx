@@ -21,9 +21,9 @@ const SEO: React.FC<SEOProps> = ({
     twitterCard = 'summary_large_image',
 }) => {
     const siteTitle = 'Arravali Essence';
-    const fullTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} - Premium Authentic Indian Spices & Herbs`;
-    const defaultDescription = 'Discover the finest selection of authentic Indian spices, herbs, and spice blends at Arravali Essence. Delivered across the UK. Premium saffron, traditional masala, and more.';
-    const defaultKeywords = 'indian spices uk, authentic spices, premium spices, saffron, cardamom, turmeric, garam masala, biryani masala, buy spices online uk, arravali essence, spice shop london, uk spice delivery';
+    const fullTitle = title ? `${title} | ${siteTitle}` : `Best Spices in UK | Buy Indian Spices Online | ${siteTitle}`;
+    const defaultDescription = 'Arravali Essence – the best spices website in the UK. Buy authentic Indian spices online with fast UK delivery to London, Birmingham, Leicester, Manchester & more.';
+    const defaultKeywords = 'best spices in uk, spices in uk, spices website uk, buy spices uk, spices online uk, best spices in london, spice shop uk, indian spices uk, spices london, spices birmingham, spices leicester, spices manchester, uk spice delivery, authentic indian spices, premium spices uk, arravali essence, spice shop london, garam masala uk, turmeric uk, saffron uk';
 
     return (
         <Helmet>

@@ -84,6 +84,7 @@ const EnhancedHomePage: React.FC = () => {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Arravali Essence",
+    "description": "Best spices in UK. Authentic Indian spices online shop with delivery across London, Birmingham, Leicester, Manchester and all UK cities.",
     "image": `${window.location.origin}/og-image.jpg`,
     "@id": window.location.origin,
     "url": window.location.origin,
@@ -96,15 +97,18 @@ const EnhancedHomePage: React.FC = () => {
       "postalCode": "LE3 5AS",
       "addressCountry": "GB"
     },
+    "areaServed": [
+      { "@type": "City", "name": "London" },
+      { "@type": "City", "name": "Birmingham" },
+      { "@type": "City", "name": "Leicester" },
+      { "@type": "City", "name": "Manchester" },
+      { "@type": "City", "name": "Leeds" },
+      { "@type": "City", "name": "Bristol" },
+      { "@type": "Country", "name": "United Kingdom" }
+    ],
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-      ],
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
       "opens": "09:00",
       "closes": "18:00"
     }
@@ -121,9 +125,9 @@ const EnhancedHomePage: React.FC = () => {
         </script>
       </Helmet>
       <SEO
-        title="Premium Authentic Indian Spices & Herbs"
-        description="Experience the true flavors of India with Arravali Essence. We offer premium saffron, authentic spice blends, and organic herbs delivered worldwide."
-        keywords="premium saffron, authentic indian spices, organic herbs, buy spices uk, uk spice shop, london spice delivery, arravali essence uk, online spice shopping uk"
+        title="Best Spices in UK | Buy Authentic Indian Spices Online"
+        description="Arravali Essence – the best spices website in the UK. Buy authentic Indian spices online. Fast delivery to London, Birmingham, Leicester, Manchester & all UK cities."
+        keywords="best spices in uk, spices in uk, spices website uk, buy spices uk, best spices in london, spices london, spices birmingham, spices leicester, spices manchester, indian spices uk, uk spice shop, spice delivery uk"
       />
       <AdvancedHeroSection />
 
@@ -327,6 +331,27 @@ const EnhancedHomePage: React.FC = () => {
       </section>
 
       <TestimonialsSection />
+
+      {/* City-targeted SEO section */}
+      <section className="py-12 bg-amber-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4 text-center">
+            The Best Spices Website in the UK – Delivered to Your Door
+          </h2>
+          <p className="text-gray-600 text-center max-w-3xl mx-auto mb-8">
+            Whether you're searching for <strong>spices in London</strong>, <strong>spices in Birmingham</strong>, <strong>spices in Leicester</strong>, <strong>spices in Manchester</strong>, or anywhere across the UK – Arravali Essence is your trusted online spice shop. We deliver premium, authentic Indian spices to every UK city.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
+            {['London', 'Birmingham', 'Leicester', 'Manchester', 'Leeds', 'Bristol'].map(city => (
+              <div key={city} className="bg-white rounded-xl p-4 shadow-sm border border-amber-100">
+                <p className="font-semibold text-gray-800 text-sm">Spices in {city}</p>
+                <p className="text-xs text-primary-600 mt-1">Fast UK Delivery</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <NewsletterSection />
       <ContactUsSection />
       <FeedbackSection />
