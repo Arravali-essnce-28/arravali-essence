@@ -70,7 +70,5 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 public
 
 # Expose port 9000 for php-fpm
-EXPOSE 9000
-
-# Start php-fpm
-CMD ["php-fpm"]
+EXPOSE 10000
+CMD php artisan serve --host=0.0.0.0 --port=10000
