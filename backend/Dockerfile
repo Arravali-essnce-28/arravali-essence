@@ -13,7 +13,7 @@ RUN apk add --no-cache \
     oniguruma-dev \
     libxml2-dev \
     libjpeg-turbo-dev \
-    freetype-dev
+    freetype-dev \
     libpq-dev
 
 # Install PHP extensions
