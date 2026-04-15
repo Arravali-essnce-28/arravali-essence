@@ -33,11 +33,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install Node.js for building frontend assets
-COPY --from=node:20-alpine /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=node:20-alpine /usr/local/bin/node /usr/local/bin/node
-RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
-
 # Set working directory
 WORKDIR /var/www/html
 
@@ -46,14 +41,6 @@ COPY composer.json composer.lock ./
 
 # Install PHP dependencies (production only)
 RUN composer install --no-dev --no-autoloader --no-scripts --optimize-autoloader
-
-# Copy package files
-COPY package.json package-lock.json ./
-
-# Install Node dependencies and build assets
-RUN npm ci --production=false \
-    && npm run build \
-    && rm -rf node_modules
 
 # Copy application code
 COPY . .
