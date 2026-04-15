@@ -68,13 +68,6 @@
                     Sign In to Admin Panel
                 </button>
             </form>
-
-            <!-- Demo Credentials -->
-            <div class="mt-6 p-4 bg-orange-50 rounded-lg border border-orange-200">
-                <p class="text-sm font-medium text-orange-800 mb-2">Demo Credentials:</p>
-                <p class="text-xs text-orange-700">Email: admin@arravaliessence.com</p>
-                <p class="text-xs text-orange-700">Password: admin123</p>
-            </div>
         </div>
 
         <!-- Footer -->
