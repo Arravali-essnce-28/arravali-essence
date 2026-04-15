@@ -1,5 +1,5 @@
-# Use PHP 8.3 FPM image for better performance and compatibility
-FROM php:8.3-fpm-alpine
+# Use PHP 8.4 FPM image for better performance and compatibility
+FROM php:8.4-fpm-alpine
 
 # Install system dependencies
 RUN apk add --no-cache \
