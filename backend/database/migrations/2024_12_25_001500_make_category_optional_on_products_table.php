@@ -13,7 +13,9 @@ return new class extends Migration
             $table->dropForeign(['category_id']);
         });
 
-        DB::statement('ALTER TABLE products MODIFY category_id BIGINT UNSIGNED NULL');
+        Schema::table('products', function (Blueprint $table) {
+            $table->unsignedBigInteger('category_id')->nullable()->change();
+        });
 
         Schema::table('products', function (Blueprint $table) {
             $table->foreign('category_id')->references('id')->on('categories')->nullOnDelete();
@@ -26,7 +28,9 @@ return new class extends Migration
             $table->dropForeign(['category_id']);
         });
 
-        DB::statement('ALTER TABLE products MODIFY category_id BIGINT UNSIGNED NOT NULL');
+        Schema::table('products', function (Blueprint $table) {
+            $table->unsignedBigInteger('category_id')->nullable(false)->change();
+        });
 
         Schema::table('products', function (Blueprint $table) {
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
