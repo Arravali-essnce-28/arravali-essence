@@ -315,7 +315,7 @@ const EnhancedAboutPage: React.FC = () => {
                 image: '/images/Our team/founding-member.jpeg',
                 color: 'from-green-500 to-teal-600',
                 bio: 'Third-generation spice merchant with over 25 years of experience in building sustainable farmer relationships and ensuring premium quality standards.',
-                location: 'India'
+                location: 'UK'
               },
               {
                 name: 'Anita Chaudrie',
@@ -391,7 +391,7 @@ const EnhancedAboutPage: React.FC = () => {
                 alt="Quality Team"
                 className="w-full h-64 object-cover rounded-2xl mb-6"
               />
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Quality Assurance Team</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Quality Assurance</h3>
               <p className="text-gray-600 leading-relaxed">Our dedicated quality experts implement rigorous testing protocols at every stage, from farm inspection to final packaging. They ensure that every spice bearing the Arravali Essence name meets our exacting standards for purity, flavor, and safety.</p>
             </div>
           </motion.div>
@@ -412,7 +412,7 @@ const EnhancedAboutPage: React.FC = () => {
               { number: '25+', label: 'Years Experience', icon: <Users className="w-8 h-8" /> },
               { number: '15+', label: 'Premium Spices', icon: <Star className="w-8 h-8" /> },
               { number: '80', label: 'Happy Customers', icon: <Globe className="w-8 h-8" /> },
-              { number: '4.9★', label: 'Customer Rating', icon: <Award className="w-8 h-8" /> },
+              { number: '4.5★', label: 'Customer Rating', icon: <Award className="w-8 h-8" /> },
             ].map((stat, index) => (
               <motion.div
                 key={index}
