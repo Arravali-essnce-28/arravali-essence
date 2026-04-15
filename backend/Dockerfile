@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     libxml2-dev \
     libjpeg-turbo-dev \
     freetype-dev
+    libpq-dev
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
