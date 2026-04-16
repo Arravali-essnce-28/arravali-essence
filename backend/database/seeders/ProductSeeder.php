@@ -36,18 +36,17 @@ class ProductSeeder extends Seeder
         foreach ($products as $product) {
             $slug = Str::slug($product['name']);
 
-            $exists = DB::table('products')->where('slug', $slug)->whereNull('deleted_at')->first();
-
-            if ($exists) {
-                DB::table('products')->where('slug', $slug)->update(array_merge($product, ['updated_at' => $now]));
-            } else {
-                DB::table('products')->insert(array_merge($product, [
-                    'slug' => $slug,
-                    'sku'  => 'SKU-' . strtoupper(Str::random(8)),
+            DB::table('products')->upsert(
+                array_merge($product, [
+                    'slug'       => $slug,
+                    'sku'        => 'SKU-' . strtoupper(Str::random(8)),
                     'created_at' => $now,
                     'updated_at' => $now,
-                ]));
-            }
+                    'deleted_at' => null,
+                ]),
+                ['slug'],
+                ['name', 'category_id', 'description', 'short_description', 'price', 'quantity', 'image', 'weight', 'updated_at', 'deleted_at']
+            );
         }
     }
 }
