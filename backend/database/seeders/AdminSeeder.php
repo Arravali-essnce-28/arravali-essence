@@ -14,7 +14,7 @@ class AdminSeeder extends Seeder
             'email' => 'admin@arravaliessence.com',
         ], [
             'name' => 'Admin User',
-            'password' => Hash::make('Vinay@135246'),
+            'password' => 'Vinay@135246',
             'email_verified_at' => now(),
             'is_admin' => true,
         ]);
