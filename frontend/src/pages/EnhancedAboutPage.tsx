@@ -21,7 +21,7 @@ const EnhancedAboutPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <SEO
         title="About Our Spice Heritage"
-        description="Learn about Arravali Essence's legacy of excellence since 1995. We connect you with India's finest spice farming communities for authentic global flavors."
+        description="Learn about Arravali Essence's legacy of excellence. We connect you with India's finest spice farming communities for authentic global flavors."
         keywords="about arravali essence, spice history, indian spice heritage, sustainable spice farming, organic spice source, best spice store uk"
       />
       {/* Hero Section */}
@@ -81,7 +81,7 @@ const EnhancedAboutPage: React.FC = () => {
           >
             <motion.div variants={itemVariants}>
               <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
-                A Legacy of <span className="text-primary-600">Excellence</span> Since 1995
+                A Legacy of <span className="text-primary-600">Excellence</span>
               </h2>
               <p className="text-xl text-gray-600 mb-6 leading-relaxed">
                 Arravali Essence began as a humble family venture with a simple yet powerful mission: to share the authentic flavors of India's spice heritage with the world. What started in a small warehouse in Rajasthan has blossomed into a trusted global brand, connecting discerning chefs and home cooks with the finest spices nature can provide.
@@ -310,35 +310,27 @@ const EnhancedAboutPage: React.FC = () => {
           >
             {[
               {
-                name: 'Vinay Chaudrie',
+                name: 'Vinay Chaudhari',
                 role: 'Chief Executive Officer',
                 image: '/images/Our team/founding-member.jpeg',
                 color: 'from-green-500 to-teal-600',
-                bio: 'Third-generation spice merchant with over 25 years of experience in building sustainable farmer relationships and ensuring premium quality standards.',
+                bio: 'Coming from a farming background, third-generation merchant who combines heritage with academic excellence. Holding a Master’s in Global Supply Chain Management, he oversees the company’s strategic direction, focusing on building ethical farmer partnerships and optimizing global distribution for the finest spices.',
                 location: 'UK'
               },
               {
-                name: 'Anita Chaudrie',
-                role: 'QA in UK',
+                name: 'Anita Chaudhari',
+                role: 'Head of quality control UK',
                 image: '/images/Our team/sales-manager-uk.jpeg',
                 color: 'from-blue-500 to-purple-600',
-                bio: 'Quality assurance specialist ensuring all products meet stringent UK food safety standards and customer expectations.',
+                bio: 'Based in the UK, Anita is our leading Quality Expert, responsible for upholding the rigorous standards and certifications that define our brand. With a specialized focus on quality reassurance and local sourcing, she personally oversees the inspection of domestic suppliers to ensure every product meets our premium benchmarks before reaching our customers. ',
                 location: 'UK'
               },
               {
-                name: 'Nirav Chuadrie',
-                role: 'Sales Manager UK',
-                image: '/images/Our team/sales-manager.jpeg',
-                color: 'from-orange-500 to-red-600',
-                bio: 'Expert in international spice trade and supply chain management, dedicated to bringing authentic Indian flavors to global markets.',
-                location: 'UK'
-              },
-              {
-                name: 'Sammar Chaudrie',
-                role: 'QA Ind',
+                name: 'Samar Chaudhari',
+                role: 'Head of Procurement & Farm Relations',
                 image: '/images/Our team/QA-india.jpeg',
                 color: 'from-purple-500 to-pink-600',
-                bio: 'Quality control expert overseeing farm operations and ensuring compliance with international standards at source.',
+                bio: '​With a hands-on approach to quality, Samar is present at the source during every harvest. He works directly with farmers to minimize pesticide use and oversees the cleaning and preparation of crops to guarantee they meet UK regulatory benchmarks. His oversight covers the entire journey of the crop—from the farm to the port—ensuring total transparency and premium quality.',
                 location: 'India'
               }
             ].map((member, index) => (

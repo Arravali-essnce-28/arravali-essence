@@ -70,8 +70,8 @@ const EnhancedHomePage: React.FC = () => {
     "url": window.location.origin,
     "logo": `${window.location.origin}/logo.png`,
     "sameAs": [
-      "https://facebook.com/arravaliessence",
-      "https://instagram.com/arravaliessence"
+      "https://www.facebook.com/Aravalli-essence",
+      "https://www.instagram.com/aravalli_essence"
     ],
     "contactPoint": {
       "@type": "ContactPoint",

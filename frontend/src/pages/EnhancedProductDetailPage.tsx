@@ -107,7 +107,7 @@ const EnhancedProductDetailPage: React.FC = () => {
     "offers": {
       "@type": "Offer",
       "url": window.location.href,
-      "priceCurrency": "USD",
+      "priceCurrency": "GBP",
       "price": product.price,
       "availability": product.in_stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
     },
@@ -221,15 +221,15 @@ const EnhancedProductDetailPage: React.FC = () => {
             <div className="flex items-center gap-4">
               {product.originalPrice && (
                 <span className="text-2xl text-gray-400 line-through">
-                  ${product.originalPrice.toFixed(2)}
+                  £{product.originalPrice.toFixed(2)}
                 </span>
               )}
               <span className="text-4xl font-black text-primary-600">
-                ${product.price.toFixed(2)}
+                £{product.price.toFixed(2)}
               </span>
               {product.discount && (
                 <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold">
-                  Save ${((product.originalPrice || 0) - product.price).toFixed(2)}
+                  Save £{((product.originalPrice || 0) - product.price).toFixed(2)}
                 </span>
               )}
             </div>
@@ -269,7 +269,7 @@ const EnhancedProductDetailPage: React.FC = () => {
                   icon={<ShoppingCart className="w-5 h-5" />}
                   className="flex-1 text-lg font-bold py-4"
                 >
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
+                  Add to Cart - £{(product.price * quantity).toFixed(2)}
                 </AnimatedButton>
 
                 <motion.button

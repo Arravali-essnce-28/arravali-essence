@@ -142,7 +142,7 @@ const EnhancedContactPage: React.FC = () => {
                   {
                     icon: <Phone className="w-6 h-6" />,
                     title: 'Phone',
-                    info: '+44 20 7123 4567',
+                    info: '07774836106',
                     subInfo: 'Mon-Fri 9AM-6PM GMT',
                     color: 'from-green-500 to-teal-500'
                   },
@@ -156,7 +156,7 @@ const EnhancedContactPage: React.FC = () => {
                   {
                     icon: <MapPin className="w-6 h-6" />,
                     title: 'Address',
-                    info: '12 Spice Lane, London, E1 6RF',
+                    info: 'Unit 7 Slater Street, Leicester, UK, LE3 5AS',
                     subInfo: 'United Kingdom',
                     color: 'from-red-500 to-pink-500'
                   },

@@ -134,20 +134,21 @@ const EnhancedFooter: React.FC = () => {
               
               <p className="text-gray-300 mb-6 leading-relaxed">
                 Your premium destination for authentic spices from around the world. 
-                Quality guaranteed, flavor delivered with passion since 1995.
+                Quality guaranteed, flavor delivered with passion.
               </p>
               
               <div className="flex space-x-4">
                 {[
-                  { icon: Facebook, color: 'hover:text-blue-400', bg: 'hover:bg-blue-400/10' },
-                  { icon: Twitter, color: 'hover:text-sky-400', bg: 'hover:bg-sky-400/10' },
-                  { icon: Instagram, color: 'hover:text-pink-400', bg: 'hover:bg-pink-400/10' },
-                  { icon: Music, color: 'hover:text-gray-400', bg: 'hover:bg-gray-400/10' },
-                  { icon: Youtube, color: 'hover:text-red-400', bg: 'hover:bg-red-400/10' },
-                ].map(({ icon: Icon, color, bg }, index) => (
+                  { icon: Facebook, color: 'hover:text-blue-400', bg: 'hover:bg-blue-400/10', href: 'https://www.facebook.com/Aravalli-essence' },
+                  { icon: Instagram, color: 'hover:text-pink-400', bg: 'hover:bg-pink-400/10', href: 'https://www.instagram.com/aravalli_essence' },
+                  { icon: Music, color: 'hover:text-gray-400', bg: 'hover:bg-gray-400/10', href: '#' },
+                  { icon: Youtube, color: 'hover:text-red-400', bg: 'hover:bg-red-400/10', href: '#' },
+                ].map(({ icon: Icon, color, bg, href }, index) => (
                   <motion.a
                     key={index}
-                    href="#"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}
                     className={`p-3 rounded-xl bg-gray-800 text-gray-400 ${color} ${bg} transition-all duration-300`}
@@ -301,13 +302,15 @@ const EnhancedFooter: React.FC = () => {
             {/* Sticky Social Media Buttons */}
             <div className="flex items-center gap-3">
               {[
-                { icon: Instagram, color: 'hover:text-pink-400', bg: 'hover:bg-pink-400/10' },
-                { icon: Youtube, color: 'hover:text-red-400', bg: 'hover:bg-red-400/10' },
-                { icon: Facebook, color: 'hover:text-blue-400', bg: 'hover:bg-blue-400/10' },
-              ].map(({ icon: Icon, color, bg }, index) => (
+                { icon: Instagram, color: 'hover:text-pink-400', bg: 'hover:bg-pink-400/10', href: 'https://www.instagram.com/aravalli_essence' },
+                { icon: Youtube, color: 'hover:text-red-400', bg: 'hover:bg-red-400/10', href: '#' },
+                { icon: Facebook, color: 'hover:text-blue-400', bg: 'hover:bg-blue-400/10', href: 'https://www.facebook.com/Aravalli-essence' },
+              ].map(({ icon: Icon, color, bg, href }, index) => (
                 <motion.a
                   key={index}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                   className={`p-2 rounded-full bg-gray-800 text-gray-400 ${color} ${bg} transition-all duration-300 sticky`}

@@ -118,7 +118,7 @@ const ContactPage = () => {
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-semibold text-gray-900">Our Location</h3>
-                  <p className="mt-1 text-gray-600">12 Spice Lane, London, E1 6RF, United Kingdom</p>
+                  <p className="mt-1 text-gray-600">Unit 7 Slater Street, Leicester, UK, LE3 5AS</p>
                 </div>
               </div>
 

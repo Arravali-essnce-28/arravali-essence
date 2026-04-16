@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Package, Send, Phone, Mail, Clock, Users, Truck, Calculator, FileText, CheckCircle, Star, Quote, Globe, Shield, Award, TrendingUp, HelpCircle, DollarSign, Ship, Warehouse, Leaf, Zap, Target, AlertCircle, TrendingDown, Timer, Crown, Flame } from 'lucide-react';
 import AnimatedButton from '../components/ui/AnimatedButton';
+import TestimonialsSection from '@/components/TestimonialsSection';
 
 const BulkInquiryPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -313,35 +314,10 @@ const BulkInquiryPage: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-black mb-4">Why 1,247+ Businesses Trust Spicees</h2>
-            <p className="text-xl text-gray-300">Join the leaders in premium spice sourcing</p>
+            <h2 className="text-xl text-gray-300">Join the leaders in premium spice sourcing</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            {[
-              { number: "1,247", label: "Active Business Clients", icon: <Users className="w-6 h-6" /> },
-              { number: "50,000+", label: "kg Spices Shipped Monthly", icon: <Package className="w-6 h-6" /> },
-              { number: "98%", label: "Customer Satisfaction", icon: <Star className="w-6 h-6" /> },
-              { number: "15+", label: "Years in Business", icon: <Award className="w-6 h-6" /> }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                  <div className="flex justify-center mb-3 text-primary-400">
-                    {stat.icon}
-                  </div>
-                  <div className="text-3xl font-black text-primary-400 mb-2">{stat.number}</div>
-                  <div className="text-sm text-gray-300">{stat.label}</div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -747,7 +723,7 @@ const BulkInquiryPage: React.FC = () => {
                 tier: "Starter",
                 minOrder: "10-50 kg",
                 discount: "5-10%",
-                features: ["Standard packaging", "Email support", "2-3 week delivery"],
+                features: ["Standard packaging", "Email support", "2-3 Days delivery in all UK"],
                 color: "from-blue-500 to-cyan-500",
                 popular: false
               },
@@ -755,7 +731,7 @@ const BulkInquiryPage: React.FC = () => {
                 tier: "Business",
                 minOrder: "50-100 kg",
                 discount: "10-15%",
-                features: ["Custom labeling", "Priority support", "1-2 week delivery", "Quality reports"],
+                features: ["Custom labeling", "Priority support", "2-3 Days delivery in all UK", "Quality reports"],
                 color: "from-green-500 to-emerald-500",
                 popular: true
               },
@@ -763,7 +739,7 @@ const BulkInquiryPage: React.FC = () => {
                 tier: "Professional",
                 minOrder: "100-500 kg",
                 discount: "15-20%",
-                features: ["Branded packaging", "Dedicated account manager", "1 week delivery", "Batch testing", "Flexible payment"],
+                features: ["Branded packaging", "Dedicated account manager", "2-3 Days delivery in all UK", "Batch testing", "Flexible payment"],
                 color: "from-purple-500 to-pink-500",
                 popular: false
               },
@@ -771,7 +747,7 @@ const BulkInquiryPage: React.FC = () => {
                 tier: "Enterprise",
                 minOrder: "500+ kg",
                 discount: "20-30%",
-                features: ["Fully custom solutions", "VIP support", "Express delivery", "R&D collaboration", "Exclusive pricing"],
+                features: ["Fully custom solutions", "VIP support", "2-3 Days delivery in all UK", "R&D collaboration", "Exclusive pricing"],
                 color: "from-orange-500 to-red-500",
                 popular: false
               }
@@ -814,101 +790,7 @@ const BulkInquiryPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-black text-gray-900 mb-4">What Our Partners Say</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">Trusted by leading restaurants, retailers, and manufacturers worldwide</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Maria Rodriguez",
-                position: "Executive Chef",
-                company: "La Bella Vista Restaurant",
-                content: "The quality of spices from Spicees has transformed our kitchen. The consistency in flavor and color is unmatched, and their bulk pricing has helped us reduce costs significantly.",
-                rating: 5,
-                avatar: "MR"
-              },
-              {
-                name: "James Chen",
-                position: "Purchasing Manager",
-                company: "Global Foods Distributors",
-                content: "We've been partnering with Spicees for over 3 years. Their reliable supply chain, competitive pricing, and exceptional customer service make them our preferred spice supplier.",
-                rating: 5,
-                avatar: "JC"
-              },
-              {
-                name: "Priya Sharma",
-                position: "CEO",
-                company: "Authentic Spice Co.",
-                content: "The custom blending services and quality control from Spicees have helped us launch several successful product lines. They truly understand the B2B spice business.",
-                rating: 5,
-                avatar: "PS"
-              },
-              {
-                name: "Michael Thompson",
-                position: "Operations Director",
-                company: "Restaurant Group Inc.",
-                content: "Managing spice inventory across 50 restaurants was challenging until we found Spicees. Their bulk ordering system and consistent delivery schedules have streamlined our operations.",
-                rating: 5,
-                avatar: "MT"
-              },
-              {
-                name: "Sarah Johnson",
-                position: "Product Developer",
-                company: "Gourmet Foods Manufacturing",
-                content: "The R&D team at Spicees has been invaluable in developing custom spice blends for our products. Their expertise and flexibility are second to none.",
-                rating: 5,
-                avatar: "SJ"
-              },
-              {
-                name: "David Kim",
-                position: "Store Manager",
-                company: "International Market Chain",
-                content: "Our customers love the premium quality spices we stock from Spicees. The branded packaging and consistent quality have helped us build a loyal customer base.",
-                rating: 5,
-                avatar: "DK"
-              }
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="bg-white rounded-2xl shadow-xl hover:shadow-2xl p-8 border border-gray-100"
-              >
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <Quote className="w-8 h-8 text-primary-200 mb-4" />
-                <p className="text-gray-700 mb-6 italic">"{testimonial.content}"</p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white font-bold">
-                    {testimonial.avatar}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-600">{testimonial.position}</p>
-                    <p className="text-xs text-primary-600">{testimonial.company}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TestimonialsSection/>
 
       {/* FAQ Section */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
@@ -981,130 +863,6 @@ const BulkInquiryPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Shipping & Logistics Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-black text-gray-900 mb-4">Shipping & Logistics</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">Global delivery solutions tailored to your business needs</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="space-y-8"
-            >
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <Ship className="w-8 h-8 text-primary-600" />
-                  Global Shipping Network
-                </h3>
-                <div className="space-y-4">
-                  {[
-                    "North America: 2-5 business days",
-                    "Europe: 5-10 business days", 
-                    "Asia Pacific: 7-14 business days",
-                    "Middle East & Africa: 10-15 business days",
-                    "South America: 10-20 business days"
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
-                      <span className="text-gray-700">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <Warehouse className="w-8 h-8 text-primary-600" />
-                  Storage & Warehousing
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Our state-of-the-art warehousing facilities ensure optimal spice preservation:
-                </p>
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    "Climate-controlled storage",
-                    "Pest control systems",
-                    "First-in-first-out inventory",
-                    "Real-time stock monitoring"
-                  ].map((feature, index) => (
-                    <div key={index} className="bg-gray-50 rounded-xl p-4">
-                      <Shield className="w-6 h-6 text-primary-600 mb-2" />
-                      <span className="text-sm text-gray-700">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="space-y-8"
-            >
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <Package className="w-8 h-8 text-primary-600" />
-                  Packaging Options
-                </h3>
-                <div className="space-y-4">
-                  {[
-                    { size: "100g - 1kg", type: "Retail packaging", ideal: "Small businesses" },
-                    { size: "5kg - 25kg", type: "Bulk bags", ideal: "Restaurants" },
-                    { size: "50kg - 100kg", type: "Industrial drums", ideal: "Manufacturers" },
-                    { size: "200kg+", type: "Custom containers", ideal: "Distributors" }
-                  ].map((option, index) => (
-                    <div key={index} className="bg-gradient-to-r from-gray-50 to-white rounded-xl p-4 border border-gray-200">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h4 className="font-bold text-gray-900">{option.size}</h4>
-                          <p className="text-sm text-gray-600">{option.type}</p>
-                        </div>
-                        <span className="text-xs bg-primary-100 text-primary-700 px-3 py-1 rounded-full">
-                          {option.ideal}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <Truck className="w-8 h-8 text-primary-600" />
-                  Delivery Options
-                </h3>
-                <div className="grid grid-cols-1 gap-4">
-                  {[
-                    { name: "Standard Ground", time: "5-10 days", cost: "Most economical" },
-                    { name: "Express Air", time: "2-5 days", cost: "For urgent orders" },
-                    { name: "Ocean Freight", time: "15-30 days", cost: "Large volumes" },
-                    { name: "White Glove", time: "Scheduled", cost: "Premium service" }
-                  ].map((service, index) => (
-                    <div key={index} className="flex items-center justify-between bg-white rounded-xl p-4 shadow-md border border-gray-100">
-                      <div>
-                        <h4 className="font-bold text-gray-900">{service.name}</h4>
-                        <p className="text-sm text-gray-600">{service.time}</p>
-                      </div>
-                      <span className="text-sm text-primary-600 font-medium">{service.cost}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

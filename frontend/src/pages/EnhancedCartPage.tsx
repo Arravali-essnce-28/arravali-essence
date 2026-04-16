@@ -118,9 +118,9 @@ const EnhancedCartPage: React.FC = () => {
                         <p className="text-gray-600 text-sm mb-2">{item.product.weight}g</p>
                         <div className="flex items-center gap-4">
                           {item.product.originalPrice && (
-                            <span className="text-gray-400 line-through">${item.product.originalPrice.toFixed(2)}</span>
+                            <span className="text-gray-400 line-through">£{item.product.originalPrice.toFixed(2)}</span>
                           )}
-                          <span className="text-2xl font-bold text-primary-600">${item.product.price.toFixed(2)}</span>
+                          <span className="text-2xl font-bold text-primary-600">£{item.product.price.toFixed(2)}</span>
                         </div>
                       </div>
                       
@@ -173,7 +173,7 @@ const EnhancedCartPage: React.FC = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal ({itemCount} items)</span>
-                  <span>${getTotalPrice().toFixed(2)}</span>
+                  <span>£{getTotalPrice().toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
@@ -181,12 +181,12 @@ const EnhancedCartPage: React.FC = () => {
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax</span>
-                  <span>${(getTotalPrice() * 0.08).toFixed(2)}</span>
+                  <span>£{(getTotalPrice() * 0.08).toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-4">
                   <div className="flex justify-between text-xl font-bold text-gray-900">
                     <span>Total</span>
-                    <span>${(getTotalPrice() * 1.08).toFixed(2)}</span>
+                    <span>£{(getTotalPrice() * 1.08).toFixed(2)}</span>
                   </div>
                 </div>
               </div>

@@ -123,11 +123,11 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
             <div className="flex items-center gap-2">
               {product.originalPrice && (
                 <span className="text-lg text-gray-400 line-through">
-                  ${product.originalPrice.toFixed(2)}
+                  £{product.originalPrice.toFixed(2)}
                 </span>
               )}
               <span className="text-2xl font-bold text-primary-600">
-                ${product.price.toFixed(2)}
+                £{product.price.toFixed(2)}
               </span>
             </div>
             
@@ -289,11 +289,11 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
             <div className="text-right">
               {product.originalPrice && (
                 <span className="text-sm text-gray-400 line-through block">
-                  ${product.originalPrice.toFixed(2)}
+                  £{product.originalPrice.toFixed(2)}
                 </span>
               )}
               <span className="text-lg sm:text-xl font-bold text-primary-600">
-                ${product.price.toFixed(2)}
+                £{product.price.toFixed(2)}
               </span>
             </div>
           </div>
@@ -371,11 +371,11 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
                   <div className="flex items-center gap-4 mb-6">
                     {product.originalPrice && (
                       <span className="text-xl text-gray-400 line-through">
-                        ${product.originalPrice.toFixed(2)}
+                        £{product.originalPrice.toFixed(2)}
                       </span>
                     )}
                     <span className="text-3xl font-bold text-primary-600">
-                      ${product.price.toFixed(2)}
+                      £{product.price.toFixed(2)}
                     </span>
                   </div>
                   
