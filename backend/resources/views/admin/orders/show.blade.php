@@ -28,9 +28,9 @@
                     <div class="ml-4 flex-1">
                         <div class="flex justify-between text-base font-medium text-gray-900">
                             <h3>{{ $item->product_name }}</h3>
-                            <p>${{ number_format($item->price * $item->quantity, 2) }}</p>
+                            <p>£{{ number_format($item->price * $item->quantity, 2) }}</p>
                         </div>
-                        <p class="mt-1 text-sm text-gray-500">Qty {{ $item->quantity }} x ${{ number_format($item->price, 2) }}</p>
+                        <p class="mt-1 text-sm text-gray-500">Qty {{ $item->quantity }} x £{{ number_format($item->price, 2) }}</p>
                     </div>
                 </div>
                 @endforeach
@@ -38,7 +38,7 @@
             <div class="border-t border-gray-200 mt-4 pt-4">
                 <div class="flex justify-between text-base font-medium text-gray-900">
                     <p>Total</p>
-                    <p>${{ number_format($order->total_amount, 2) }}</p>
+                    <p>£{{ number_format($order->total_amount, 2) }}</p>
                 </div>
             </div>
         </div>

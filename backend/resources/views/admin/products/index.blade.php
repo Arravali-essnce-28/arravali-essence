@@ -40,9 +40,9 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-blue-100 text-sm">Total Value</p>
-                <p class="text-xl font-bold">${{ number_format($products->sum(function($p) { return $p->price * $p->quantity; }), 2) }}</p>
+                <p class="text-xl font-bold">£{{ number_format($products->sum(function($p) { return $p->price * $p->quantity; }), 2) }}</p>
             </div>
-            <i class="fas fa-dollar-sign text-2xl text-blue-200"></i>
+            <i class="fas fa-sterling-sign text-2xl text-blue-200"></i>
         </div>
     </div>
     
@@ -123,14 +123,14 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         @if($product->sale_price)
                             <div class="flex flex-col">
-                                <span class="line-through text-gray-400 text-sm">${{ number_format($product->price, 2) }}</span>
-                                <span class="text-red-600 font-bold">${{ number_format($product->sale_price, 2) }}</span>
+                                <span class="line-through text-gray-400 text-sm">£{{ number_format($product->price, 2) }}</span>
+                                <span class="text-red-600 font-bold">£{{ number_format($product->sale_price, 2) }}</span>
                                 <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full mt-1">
                                     {{ round((1 - $product->sale_price / $product->price) * 100) }}% OFF
                                 </span>
                             </div>
                         @else
-                            <span class="text-lg font-semibold text-gray-900">${{ number_format($product->price, 2) }}</span>
+                            <span class="text-lg font-semibold text-gray-900">£{{ number_format($product->price, 2) }}</span>
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">

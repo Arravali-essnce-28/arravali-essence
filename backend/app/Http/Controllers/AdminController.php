@@ -90,15 +90,15 @@ class AdminController extends Controller
                 throw new \Exception('Primary image missing.');
             }
 
-            $imageUrl = Cloudinary::upload($request->file('image')->getRealPath(), [
+            $imageUrl = Cloudinary::uploadApi()->upload($request->file('image')->getRealPath(), [
                 'folder' => 'arravali/products',
-            ])->getSecurePath();
+            ])['secure_url'];
 
             $backImageUrl = null;
             if ($request->hasFile('back_image')) {
-                $backImageUrl = Cloudinary::upload($request->file('back_image')->getRealPath(), [
+                $backImageUrl = Cloudinary::uploadApi()->upload($request->file('back_image')->getRealPath(), [
                     'folder' => 'arravali/products',
-                ])->getSecurePath();
+                ])['secure_url'];
             }
 
             $product = Product::create([
@@ -167,15 +167,15 @@ class AdminController extends Controller
             ];
 
             if ($request->hasFile('image')) {
-                $data['image'] = Cloudinary::upload($request->file('image')->getRealPath(), [
+                $data['image'] = Cloudinary::uploadApi()->upload($request->file('image')->getRealPath(), [
                     'folder' => 'arravali/products',
-                ])->getSecurePath();
+                ])['secure_url'];
             }
 
             if ($request->hasFile('back_image')) {
-                $data['back_image'] = Cloudinary::upload($request->file('back_image')->getRealPath(), [
+                $data['back_image'] = Cloudinary::uploadApi()->upload($request->file('back_image')->getRealPath(), [
                     'folder' => 'arravali/products',
-                ])->getSecurePath();
+                ])['secure_url'];
             }
 
             $product->update($data);

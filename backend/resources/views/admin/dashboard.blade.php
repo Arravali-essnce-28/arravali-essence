@@ -143,7 +143,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors gap-2">
                     <div>
                         <p class="font-medium text-gray-800 text-sm sm:text-base">{{ $order->order_number }}</p>
-                        <p class="text-sm text-gray-600">${{ number_format($order->total_amount, 2) }}</p>
+                        <p class="text-sm text-gray-600">£{{ number_format($order->total_amount, 2) }}</p>
                     </div>
                     <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">{{ $order->status }}</span>
                 </div>
@@ -173,7 +173,7 @@
                         </div>
                         <div>
                             <p class="font-medium text-gray-800 text-sm sm:text-base">{{ Str::limit($product->name, 20) }}</p>
-                            <p class="text-sm text-gray-600">${{ number_format($product->price, 2) }}</p>
+                            <p class="text-sm text-gray-600">£{{ number_format($product->price, 2) }}</p>
                         </div>
                     </div>
                     <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">In Stock</span>
