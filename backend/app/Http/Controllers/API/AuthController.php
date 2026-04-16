@@ -172,12 +172,19 @@ class AuthController extends Controller
      */
     public function redirectToGoogle()
     {
-        $url = Socialite::driver('google')
-            ->stateless()
-            ->redirect()
-            ->getTargetUrl();
+        try {
+            $url = Socialite::driver('google')
+                ->stateless()
+                ->redirect()
+                ->getTargetUrl();
 
-        return response()->json(['url' => $url]);
+            return response()->json(['url' => $url]);
+        } catch (\Exception $e) {
+            Log::error('Google Auth Redirect Error: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Google Authentication is not configured correctly. Please use email/password login.'
+            ], 500);
+        }
     }
 
     /**

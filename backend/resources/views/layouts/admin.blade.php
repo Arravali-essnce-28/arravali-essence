@@ -6,6 +6,16 @@
     <meta name="google-site-verification" content="google-site-verification=K-NFn9PGt4KPwVK1XNwi4EtohQR7raT3o8bbEUKecbo" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>@yield('title', 'Admin Panel') - Arravali Essence</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ea580c">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AE Admin">
+    <link rel="apple-touch-icon" href="/favicon.ico">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -138,6 +148,23 @@
         </div>
     </div>
 
+    <!-- PWA Install Banner -->
+    <div id="pwa-banner" class="hidden fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-80 z-50 bg-white border border-orange-200 rounded-2xl shadow-xl p-4 flex items-start gap-3">
+        <div class="p-2 bg-orange-100 rounded-xl flex-shrink-0">
+            <i class="fas fa-mobile-alt text-orange-600"></i>
+        </div>
+        <div class="flex-1">
+            <p class="font-semibold text-gray-900 text-sm">Install Admin App</p>
+            <p id="pwa-banner-msg" class="text-xs text-gray-500 mt-0.5">Install for quick access — works offline too.</p>
+            <button id="pwa-install-btn" class="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold rounded-lg transition-colors">
+                <i class="fas fa-download text-xs"></i> Install Now
+            </button>
+        </div>
+        <button onclick="dismissPWA()" class="text-gray-400 hover:text-gray-600 flex-shrink-0">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
     <script>
         function toggleSidebar() {
             const sidebar = document.querySelector('.mobile-sidebar');
@@ -168,6 +195,54 @@
                 overlay.classList.remove('show');
             }
         });
+    </script>
+
+    <script>
+        // PWA Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+        }
+
+        // PWA Install prompt
+        let deferredPrompt = null;
+        const banner = document.getElementById('pwa-banner');
+        const installBtn = document.getElementById('pwa-install-btn');
+
+        function dismissPWA() {
+            banner.classList.add('hidden');
+            sessionStorage.setItem('pwa-dismissed', '1');
+        }
+
+        // Don't show if already installed or dismissed
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        const isDismissed = sessionStorage.getItem('pwa-dismissed');
+
+        if (!isStandalone && !isDismissed) {
+            // iOS
+            const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+            if (isIOS && !window.navigator.standalone) {
+                document.getElementById('pwa-banner-msg').textContent = 'Tap Share then "Add to Home Screen" to install.';
+                installBtn.classList.add('hidden');
+                banner.classList.remove('hidden');
+            }
+
+            // Android / Desktop Chrome
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                banner.classList.remove('hidden');
+            });
+
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') banner.classList.add('hidden');
+                deferredPrompt = null;
+            });
+        }
     </script>
 </body>
 

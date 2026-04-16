@@ -55,12 +55,9 @@ const EnhancedRegisterPage: React.FC = () => {
 
       {/* Left Panel */}
       <div className="hidden lg:flex lg:w-5/12 relative overflow-hidden">
-        <img src="/images/banner-2.png" alt="Spices" className="absolute inset-0 w-full h-full object-cover" />
+        <img src="/images/hero.png" alt="Spices" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-br from-amber-900/85 via-orange-800/75 to-red-900/65" />
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
-          <Link to="/">
-            <img src="/images/logo.png" alt="Arravali Essence" className="h-12 w-auto brightness-0 invert" />
-          </Link>
           <div>
             <div className="inline-flex items-center gap-2 bg-white/10 text-amber-300 px-4 py-2 rounded-full text-sm font-semibold mb-6">
               <Sparkles className="w-4 h-4" />

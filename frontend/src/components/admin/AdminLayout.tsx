@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../services/auth.service';
 import { LayoutDashboard, ShoppingBag, Users, Package, LogOut } from 'lucide-react';
 import toast from 'react-hot-toast';
+import AdminPWAInstallBanner from './AdminPWAInstallBanner';
 
 export const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
@@ -85,6 +86,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     {children}
                 </div>
             </main>
+            <AdminPWAInstallBanner />
         </div>
     );
 };

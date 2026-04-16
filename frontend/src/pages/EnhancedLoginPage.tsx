@@ -52,9 +52,6 @@ const EnhancedLoginPage: React.FC = () => {
         <img src="/images/hero.png" alt="Spices" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-br from-amber-900/80 via-orange-800/70 to-red-900/60" />
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
-          <Link to="/">
-            <img src="/images/logo.png" alt="Arravali Essence" className="h-12 w-auto brightness-0 invert" />
-          </Link>
           <div>
             <h1 className="text-4xl font-black text-white leading-tight mb-4">
               The Finest Spices,<br />

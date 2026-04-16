@@ -71,8 +71,8 @@ const EnhancedNavbar: React.FC = () => {
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 w-full ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 py-1'
-          : 'bg-white/80 backdrop-blur-sm border-b border-gray-200/50 py-3'
+          ? 'bg-amber-100/90 backdrop-blur-md shadow-sm border-b border-amber-200/50 py-1'
+          : 'bg-amber-100/70 backdrop-blur-sm border-b border-amber-200/30 py-3'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -192,7 +192,7 @@ const EnhancedNavbar: React.FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden bg-white border-t border-gray-100 shadow-xl overflow-hidden mobile-menu-container absolute w-full left-0 top-full"
+            className="lg:hidden bg-amber-100 border-t border-amber-200/50 shadow-xl overflow-hidden mobile-menu-container absolute w-full left-0 top-full"
           >
             <div className="px-4 py-6 space-y-2">
               {!user && !isLoading && (

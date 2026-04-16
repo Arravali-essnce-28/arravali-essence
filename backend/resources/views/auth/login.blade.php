@@ -7,6 +7,13 @@
         content="google-site-verification=K-NFn9PGt4KPwVK1XNwi4EtohQR7raT3o8bbEUKecbo" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Arravali Essence</title>
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ea580c">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="AE Admin">
+    <link rel="apple-touch-icon" href="/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -77,6 +84,11 @@
             </p>
         </div>
     </div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+        }
+    </script>
 </body>
 
 </html>
