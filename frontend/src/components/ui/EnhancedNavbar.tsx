@@ -92,7 +92,7 @@ const EnhancedNavbar: React.FC = () => {
             <NavLink to="/" icon={<Home className="w-4 h-4" />} active={isActive('/')}>Home</NavLink>
             <NavLink to="/shop" icon={<Store className="w-4 h-4" />} active={isActive('/shop')}>Shop</NavLink>
             <NavLink to="/notifications" icon={<Bell className="w-4 h-4" />} active={isActive('/notifications')}>Notifications</NavLink>
-            <NavLink to="/bulk-inquiry" icon={<MessageSquare className="w-4 h-4" />} active={isActive('/bulk-inquiry')}>Inquiry</NavLink>
+            <NavLink to="/bulk-inquiry" icon={<MessageSquare className="w-4 h-4" />} active={isActive('/bulk-inquiry')}>Bulk Inquiry</NavLink>
             <NavLink to="/blog" icon={<BookOpen className="w-4 h-4" />} active={isActive('/blog')}>Blog</NavLink>
             <NavLink to="/about" icon={<Info className="w-4 h-4" />} active={isActive('/about')}>About</NavLink>
             <NavLink to="/contact" icon={<Phone className="w-4 h-4" />} active={isActive('/contact')}>Contact</NavLink>

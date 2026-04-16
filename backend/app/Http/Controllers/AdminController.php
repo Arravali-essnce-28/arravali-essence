@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\User;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 
 class AdminController extends Controller
@@ -83,29 +84,35 @@ class AdminController extends Controller
             $count++;
         }
 
-        // Improved upload handling
+        // Upload images to Cloudinary
         try {
             if (!$request->hasFile('image')) {
                 throw new \Exception('Primary image missing.');
             }
 
-            $imagePath = $request->file('image')->store('products', 'public');
-            $backImagePath = $request->hasFile('back_image')
-                ? $request->file('back_image')->store('products', 'public')
-                : null;
+            $imageUrl = Cloudinary::upload($request->file('image')->getRealPath(), [
+                'folder' => 'arravali/products',
+            ])->getSecurePath();
+
+            $backImageUrl = null;
+            if ($request->hasFile('back_image')) {
+                $backImageUrl = Cloudinary::upload($request->file('back_image')->getRealPath(), [
+                    'folder' => 'arravali/products',
+                ])->getSecurePath();
+            }
 
             $product = Product::create([
                 'name' => $request->name,
                 'slug' => $slug,
-                'category_id' => null, // No longer using categories
+                'category_id' => null,
                 'description' => $request->description,
                 'short_description' => $request->short_description,
                 'price' => $request->price,
                 'sale_price' => $request->sale_price,
                 'quantity' => $request->quantity,
                 'weight' => $request->weight,
-                'image' => $imagePath,
-                'back_image' => $backImagePath ?: null,
+                'image' => $imageUrl,
+                'back_image' => $backImageUrl,
                 'is_featured' => $request->has('is_featured'),
                 'is_active' => $request->has('is_active'),
             ]);
@@ -160,11 +167,15 @@ class AdminController extends Controller
             ];
 
             if ($request->hasFile('image')) {
-                $data['image'] = $request->file('image')->store('products', 'public');
+                $data['image'] = Cloudinary::upload($request->file('image')->getRealPath(), [
+                    'folder' => 'arravali/products',
+                ])->getSecurePath();
             }
 
             if ($request->hasFile('back_image')) {
-                $data['back_image'] = $request->file('back_image')->store('products', 'public');
+                $data['back_image'] = Cloudinary::upload($request->file('back_image')->getRealPath(), [
+                    'folder' => 'arravali/products',
+                ])->getSecurePath();
             }
 
             $product->update($data);

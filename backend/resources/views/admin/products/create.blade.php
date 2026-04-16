@@ -82,14 +82,14 @@
         <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
             <div class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-4">
                 <h3 class="text-lg font-semibold flex items-center">
-                    <i class="fas fa-dollar-sign mr-2"></i>Pricing & Inventory
+                    <i class="fas fa-sterling-sign mr-2"></i>Pricing & Inventory
                 </h3>
             </div>
             
             <div class="p-6 space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div>
-                        <label for="price" class="block text-sm font-semibold text-gray-700 mb-2">Regular Price ($) *</label>
+                        <label for="price" class="block text-sm font-semibold text-gray-700 mb-2">Regular Price (£) *</label>
                         <input type="number" name="price" id="price" step="0.01" min="0" required
                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
                                value="{{ old('price') }}" placeholder="24.99">
@@ -99,7 +99,7 @@
                     </div>
 
                     <div>
-                        <label for="sale_price" class="block text-sm font-semibold text-gray-700 mb-2">Sale Price ($)</label>
+                        <label for="sale_price" class="block text-sm font-semibold text-gray-700 mb-2">Sale Price (£)</label>
                         <input type="number" name="sale_price" id="sale_price" step="0.01" min="0"
                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
                                value="{{ old('sale_price') }}" placeholder="19.99">

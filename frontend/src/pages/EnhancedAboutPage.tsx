@@ -101,8 +101,8 @@ const EnhancedAboutPage: React.FC = () => {
                 className="rounded-3xl shadow-2xl"
               />
               <div className="absolute -bottom-6 -right-6 bg-primary-600 text-white p-6 rounded-2xl shadow-xl">
-                <div className="text-3xl font-black">25+</div>
-                <div className="text-sm">Years of Excellence</div>
+                <div className="text-3xl font-black">15+</div>
+                <div className="text-sm">Premium Spices</div>
               </div>
             </motion.div>
           </motion.div>
@@ -409,7 +409,6 @@ const EnhancedAboutPage: React.FC = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
             {[
-              { number: '25+', label: 'Years Experience', icon: <Users className="w-8 h-8" /> },
               { number: '15+', label: 'Premium Spices', icon: <Star className="w-8 h-8" /> },
               { number: '80', label: 'Happy Customers', icon: <Globe className="w-8 h-8" /> },
               { number: '4.5★', label: 'Customer Rating', icon: <Award className="w-8 h-8" /> },

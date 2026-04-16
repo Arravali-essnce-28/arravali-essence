@@ -289,8 +289,8 @@ const EnhancedProductDetailPage: React.FC = () => {
             {/* Benefits */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t">
               {[
-                { icon: <Truck className="w-5 h-5" />, text: 'Free Shipping', color: 'text-blue-600' },
-                { icon: <Shield className="w-5 h-5" />, text: '30-Day Returns', color: 'text-green-600' },
+                { icon: <Truck className="w-5 h-5" />, text: 'Great Shipping', color: 'text-blue-600' },
+                // { icon: <Shield className="w-5 h-5" />, text: '30-Day Returns', color: 'text-green-600' },
                 { icon: <Award className="w-5 h-5" />, text: 'Premium Quality', color: 'text-purple-600' },
               ].map((benefit, index) => (
                 <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">

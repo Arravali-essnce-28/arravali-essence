@@ -52,7 +52,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Regular price ($) *</label>
+                    <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Regular price (£) *</label>
                     <input type="number" name="price" id="price" step="0.01" required
                            class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                            value="{{ old('price', $product->price) }}" placeholder="19.99">
@@ -62,7 +62,7 @@
                 </div>
 
                 <div>
-                    <label for="sale_price" class="block text-sm font-medium text-gray-700 mb-2">Sale price ($)</label>
+                    <label for="sale_price" class="block text-sm font-medium text-gray-700 mb-2">Sale price (£)</label>
                     <input type="number" name="sale_price" id="sale_price" step="0.01"
                            class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                            value="{{ old('sale_price', $product->sale_price) }}" placeholder="15.99">
