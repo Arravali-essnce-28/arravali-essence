@@ -254,7 +254,7 @@ const EnhancedFooter: React.FC = () => {
                   },
                   {
                     icon: Mail,
-                    text: 'hello@arravaliessence.co.uk',
+                    text: 'sales@arravaliessence.com',
                     color: 'text-blue-400',
                   },
                 ].map(({ icon: Icon, text, color }, index) => (

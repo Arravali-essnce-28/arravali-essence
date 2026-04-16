@@ -149,7 +149,7 @@ const EnhancedContactPage: React.FC = () => {
                   {
                     icon: <Mail className="w-6 h-6" />,
                     title: 'Email',
-                    info: 'hello@arravaliessence.co.uk',
+                    info: 'sales@arravaliessence.com',
                     subInfo: 'We reply within 24 hours',
                     color: 'from-blue-500 to-purple-500'
                   },

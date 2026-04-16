@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
@@ -30,12 +31,23 @@ class ProductSeeder extends Seeder
             ],
         ];
 
+        $now = now();
+
         foreach ($products as $product) {
-            $slug = \Illuminate\Support\Str::slug($product['name']);
-            Product::updateOrCreate(
-                ['slug' => $slug],
-                $product
-            );
+            $slug = Str::slug($product['name']);
+
+            $exists = DB::table('products')->where('slug', $slug)->whereNull('deleted_at')->first();
+
+            if ($exists) {
+                DB::table('products')->where('slug', $slug)->update(array_merge($product, ['updated_at' => $now]));
+            } else {
+                DB::table('products')->insert(array_merge($product, [
+                    'slug' => $slug,
+                    'sku'  => 'SKU-' . strtoupper(Str::random(8)),
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]));
+            }
         }
     }
 }
