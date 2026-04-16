@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductResource extends JsonResource
 {
+    private function resolveImageUrl(?string $image): ?string
+    {
+        if (!$image) return null;
+        // Already a full URL (Cloudinary or external) — return as-is
+        if (str_starts_with($image, 'http')) return $image;
+        // Local storage path — build full URL
+        return url(Storage::url($image));
+    }
+
     public function toArray(Request $request): array
     {
         return [
@@ -24,10 +33,10 @@ class ProductResource extends JsonResource
             'in_stock' => $this->in_stock,
             'quantity' => $this->quantity,
             'sku' => $this->sku,
-            'image' => $this->image ? url(Storage::url($this->image)) : null,
-            'back_image' => $this->back_image ? url(Storage::url($this->back_image)) : null,
+            'image' => $this->resolveImageUrl($this->image),
+            'back_image' => $this->resolveImageUrl($this->back_image),
             'gallery' => $this->when($this->gallery, function () {
-                return collect($this->gallery)->map(fn($image) => url(Storage::url($image)))->toArray();
+                return collect($this->gallery)->map(fn($image) => $this->resolveImageUrl($image))->toArray();
             }, []),
             'is_featured' => $this->is_featured,
             'is_active' => $this->is_active,

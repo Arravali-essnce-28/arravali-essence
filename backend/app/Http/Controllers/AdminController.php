@@ -9,11 +9,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\User;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Cloudinary;
+use Cloudinary\Configuration\Configuration;
 
 
 class AdminController extends Controller
 {
+    private function uploadToCloudinary(string $filePath): string
+    {
+        $cloudinary = new Cloudinary(env('CLOUDINARY_URL'));
+        $result = $cloudinary->uploadApi()->upload($filePath, ['folder' => 'arravali/products']);
+        return $result['secure_url'];
+    }
+
     public function dashboard()
     {
         $stats = [
@@ -90,15 +98,11 @@ class AdminController extends Controller
                 throw new \Exception('Primary image missing.');
             }
 
-            $imageUrl = Cloudinary::uploadApi()->upload($request->file('image')->getRealPath(), [
-                'folder' => 'arravali/products',
-            ])['secure_url'];
+            $imageUrl = $this->uploadToCloudinary($request->file('image')->getRealPath());
 
             $backImageUrl = null;
             if ($request->hasFile('back_image')) {
-                $backImageUrl = Cloudinary::uploadApi()->upload($request->file('back_image')->getRealPath(), [
-                    'folder' => 'arravali/products',
-                ])['secure_url'];
+                $backImageUrl = $this->uploadToCloudinary($request->file('back_image')->getRealPath());
             }
 
             $product = Product::create([
@@ -114,7 +118,7 @@ class AdminController extends Controller
                 'image' => $imageUrl,
                 'back_image' => $backImageUrl,
                 'is_featured' => $request->has('is_featured'),
-                'is_active' => $request->has('is_active'),
+                'is_active' => true,
             ]);
 
             return redirect()->route('admin.products')->with('success', 'Product created successfully!');
@@ -167,15 +171,11 @@ class AdminController extends Controller
             ];
 
             if ($request->hasFile('image')) {
-                $data['image'] = Cloudinary::uploadApi()->upload($request->file('image')->getRealPath(), [
-                    'folder' => 'arravali/products',
-                ])['secure_url'];
+                $data['image'] = $this->uploadToCloudinary($request->file('image')->getRealPath());
             }
 
             if ($request->hasFile('back_image')) {
-                $data['back_image'] = Cloudinary::uploadApi()->upload($request->file('back_image')->getRealPath(), [
-                    'folder' => 'arravali/products',
-                ])['secure_url'];
+                $data['back_image'] = $this->uploadToCloudinary($request->file('back_image')->getRealPath());
             }
 
             $product->update($data);
