@@ -31,8 +31,9 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $product) {
+            $slug = \Illuminate\Support\Str::slug($product['name']);
             Product::updateOrCreate(
-                ['name' => $product['name'], 'category_id' => $product['category_id']],
+                ['slug' => $slug],
                 $product
             );
         }
