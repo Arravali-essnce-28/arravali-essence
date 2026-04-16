@@ -17,19 +17,7 @@ class ProductSeeder extends Seeder
         $premium = Category::where('slug', 'premium-collection')->first();
 
         $products = [
-            // Whole Spices
-            [
-                'category_id' => $wholeSpices->id,
-                'name' => 'Green Cardamom Pods',
-                'description' => 'Premium green cardamom pods from Kerala hills. Known as the "Queen of Spices", these aromatic pods add a sweet, floral flavor to both sweet and savory dishes. Hand-selected for size and freshness.',
-                'short_description' => 'Premium green cardamom pods from Kerala',
-                'price' => 24.99,
-                'sale_price' => 19.99,
-                'quantity' => 50,
-                'image' => 'https://images.unsplash.com/photo-1599909533730-b5b6e4b5b5b5?w=500&h=500&fit=crop',
-                'weight' => 100,
-                'is_featured' => true,
-            ],
+           
             [
                 'category_id' => $wholeSpices->id,
                 'name' => 'Black Peppercorns',
@@ -43,7 +31,10 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $product) {
-            Product::create($product);
+            Product::updateOrCreate(
+                ['name' => $product['name'], 'category_id' => $product['category_id']],
+                $product
+            );
         }
     }
 }

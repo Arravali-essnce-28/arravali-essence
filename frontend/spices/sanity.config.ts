@@ -17,7 +17,7 @@ export default defineConfig({
   name: 'default',
   title: 'spices',
 
-  projectId: 'g0zp1tdb',
+  projectId: '1nzkvksc',
   dataset: 'production',
 
   plugins: [

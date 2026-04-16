@@ -3,7 +3,7 @@ import imageUrlBuilder from '@sanity/image-url'
 import { mockBlogPosts, mockCategories } from '../data/mockBlogPosts'
 
 export const client = createClient({
-  projectId: 'g0zp1tdb',
+  projectId: '1nzkvksc',
   dataset: 'production',
   useCdn: true, // `false` if you want to ensure fresh data
   apiVersion: '2024-02-26', // use a UTC date string

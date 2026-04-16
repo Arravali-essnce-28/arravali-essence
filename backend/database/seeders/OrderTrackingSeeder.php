@@ -154,7 +154,10 @@ class OrderTrackingSeeder extends Seeder
         }
 
         foreach ($trackingSteps as $step) {
-            OrderTracking::create(array_merge($step, ['order_id' => $order->id]));
+            OrderTracking::updateOrCreate(
+                ['order_id' => $order->id, 'status' => $step['status']],
+                $step
+            );
         }
     }
 }
