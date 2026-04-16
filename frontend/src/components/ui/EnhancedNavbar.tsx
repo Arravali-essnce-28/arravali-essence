@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import {
   ShoppingCart, Menu, X, Search, User, LogIn, Bell,
-  ChevronDown, Sparkles, Award, Leaf, Star, TrendingUp, Package, BookOpen
+  ChevronDown, Sparkles, Award, Leaf, Star, TrendingUp, Package, BookOpen,
+  Home, Store, MessageSquare, Info, Phone
 } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
@@ -20,6 +21,7 @@ const EnhancedNavbar: React.FC = () => {
   const { itemCount = 0 } = useCart() || {};
   const { user, logout, isLoading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -60,6 +62,11 @@ const EnhancedNavbar: React.FC = () => {
     }
   };
 
+  const isActive = (path: string) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
+
   return (
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 w-full ${
@@ -81,12 +88,13 @@ const EnhancedNavbar: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-center space-x-6 flex-1 px-8">
-            <NavLink to="/shop">Shop</NavLink>
-            <NavLink to="/bulk-inquiry">Bulk Inquiry</NavLink>
-            <NavLink to="/blog">Blog</NavLink>
-            <NavLink to="/about">About</NavLink>
-            <NavLink to="/contact">Contact</NavLink>
+          <div className="hidden lg:flex items-center justify-center space-x-4 flex-1 px-8">
+            <NavLink to="/" icon={<Home className="w-4 h-4" />} active={isActive('/')}>Home</NavLink>
+            <NavLink to="/shop" icon={<Store className="w-4 h-4" />} active={isActive('/shop')}>Shop</NavLink>
+            <NavLink to="/bulk-inquiry" icon={<MessageSquare className="w-4 h-4" />} active={isActive('/bulk-inquiry')}>Inquiry</NavLink>
+            <NavLink to="/blog" icon={<BookOpen className="w-4 h-4" />} active={isActive('/blog')}>Blog</NavLink>
+            <NavLink to="/about" icon={<Info className="w-4 h-4" />} active={isActive('/about')}>About</NavLink>
+            <NavLink to="/contact" icon={<Phone className="w-4 h-4" />} active={isActive('/contact')}>Contact</NavLink>
           </div>
 
           {/* Right Side Actions */}
@@ -141,7 +149,9 @@ const EnhancedNavbar: React.FC = () => {
             ) : (
               <Link
                 to="/login"
-                className="hidden sm:flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-gray-700 hover:text-amber-600 transition-colors"
+                className={`hidden sm:flex items-center gap-2 text-sm font-bold uppercase tracking-wider transition-colors ${
+                  isActive('/login') ? 'text-amber-600' : 'text-gray-700 hover:text-amber-600'
+                }`}
               >
                 <LogIn className="h-4 w-4" />
                 <span>Login</span>
@@ -151,7 +161,9 @@ const EnhancedNavbar: React.FC = () => {
             {/* Cart */}
             <Link
               to="/cart"
-              className="relative p-1 text-gray-700 hover:text-amber-600 transition-colors group"
+              className={`relative p-1 transition-colors group ${
+                isActive('/cart') ? 'text-amber-600' : 'text-gray-700 hover:text-amber-600'
+              }`}
             >
               <ShoppingCart className="h-5 w-5 transform group-hover:scale-110 transition-transform" />
               {itemCount > 0 && (
@@ -196,11 +208,12 @@ const EnhancedNavbar: React.FC = () => {
                 </div>
               )}
 
-              <MobileNavLink to="/shop" onClick={() => setIsOpen(false)}>Shop</MobileNavLink>
-              <MobileNavLink to="/bulk-inquiry" onClick={() => setIsOpen(false)}>Bulk Inquiry</MobileNavLink>
-              <MobileNavLink to="/blog" onClick={() => setIsOpen(false)}>Blog</MobileNavLink>
-              <MobileNavLink to="/about" onClick={() => setIsOpen(false)}>About</MobileNavLink>
-              <MobileNavLink to="/contact" onClick={() => setIsOpen(false)}>Contact</MobileNavLink>
+              <MobileNavLink to="/" icon={<Home className="w-5 h-5" />} active={isActive('/')} onClick={() => setIsOpen(false)}>Home</MobileNavLink>
+              <MobileNavLink to="/shop" icon={<Store className="w-5 h-5" />} active={isActive('/shop')} onClick={() => setIsOpen(false)}>Shop</MobileNavLink>
+              <MobileNavLink to="/bulk-inquiry" icon={<MessageSquare className="w-5 h-5" />} active={isActive('/bulk-inquiry')} onClick={() => setIsOpen(false)}>Bulk Inquiry</MobileNavLink>
+              <MobileNavLink to="/blog" icon={<BookOpen className="w-5 h-5" />} active={isActive('/blog')} onClick={() => setIsOpen(false)}>Blog</MobileNavLink>
+              <MobileNavLink to="/about" icon={<Info className="w-5 h-5" />} active={isActive('/about')} onClick={() => setIsOpen(false)}>About</MobileNavLink>
+              <MobileNavLink to="/contact" icon={<Phone className="w-5 h-5" />} active={isActive('/contact')} onClick={() => setIsOpen(false)}>Contact</MobileNavLink>
             </div>
           </motion.div>
         )}
@@ -209,22 +222,45 @@ const EnhancedNavbar: React.FC = () => {
   );
 };
 
-const NavLink: React.FC<{ to: string; children: React.ReactNode }> = ({ to, children }) => (
+interface NavLinkProps {
+  to: string;
+  children: React.ReactNode;
+  icon?: React.ReactNode;
+  active?: boolean;
+}
+
+const NavLink: React.FC<NavLinkProps> = ({ to, children, icon, active }) => (
   <Link
     to={to}
-    className="relative text-[11px] md:text-xs font-bold uppercase tracking-[0.15em] text-gray-600 hover:text-stone-900 px-3 py-2 transition-colors group"
+    className={`relative flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold uppercase tracking-widest transition-colors px-2 py-2 group ${
+      active ? 'text-amber-600' : 'text-gray-600 hover:text-stone-900'
+    }`}
   >
+    {icon && <span className={`transition-transform group-hover:scale-110 ${active ? 'text-amber-600' : 'text-amber-500'}`}>{icon}</span>}
     {children}
-    <span className="absolute left-1/2 bottom-0 w-0 h-[2px] bg-amber-500 group-hover:w-[calc(100%-1.5rem)] transition-all duration-300 transform -translate-x-1/2"></span>
+    <span className={`absolute left-1/2 bottom-0 h-[2px] bg-amber-500 transition-all duration-300 transform -translate-x-1/2 ${
+      active ? 'w-full' : 'w-0 group-hover:w-full'
+    }`}></span>
   </Link>
 );
 
-const MobileNavLink: React.FC<{ to: string; children: React.ReactNode; onClick: () => void }> = ({ to, children, onClick }) => (
+interface MobileNavLinkProps {
+  to: string;
+  children: React.ReactNode;
+  onClick: () => void;
+  icon?: React.ReactNode;
+  active?: boolean;
+}
+
+const MobileNavLink: React.FC<MobileNavLinkProps> = ({ to, children, onClick, icon, active }) => (
   <Link
     to={to}
     onClick={onClick}
-    className="block px-4 py-3 text-sm font-bold uppercase tracking-wider text-gray-700 hover:text-amber-600 hover:bg-gray-50 rounded-lg transition-colors"
+    className={`flex items-center gap-4 px-4 py-3 text-sm font-bold uppercase tracking-wider rounded-lg transition-colors group ${
+      active ? 'text-amber-600 bg-amber-50' : 'text-gray-700 hover:text-amber-600 hover:bg-gray-50'
+    }`}
   >
+    {icon && <span className={`transition-transform group-hover:scale-110 ${active ? 'text-amber-600' : 'text-amber-500'}`}>{icon}</span>}
     {children}
   </Link>
 );
