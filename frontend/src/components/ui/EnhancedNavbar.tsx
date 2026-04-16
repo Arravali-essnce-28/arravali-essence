@@ -91,6 +91,7 @@ const EnhancedNavbar: React.FC = () => {
           <div className="hidden lg:flex items-center justify-center space-x-4 flex-1 px-8">
             <NavLink to="/" icon={<Home className="w-4 h-4" />} active={isActive('/')}>Home</NavLink>
             <NavLink to="/shop" icon={<Store className="w-4 h-4" />} active={isActive('/shop')}>Shop</NavLink>
+            <NavLink to="/notifications" icon={<Bell className="w-4 h-4" />} active={isActive('/notifications')}>Notifications</NavLink>
             <NavLink to="/bulk-inquiry" icon={<MessageSquare className="w-4 h-4" />} active={isActive('/bulk-inquiry')}>Inquiry</NavLink>
             <NavLink to="/blog" icon={<BookOpen className="w-4 h-4" />} active={isActive('/blog')}>Blog</NavLink>
             <NavLink to="/about" icon={<Info className="w-4 h-4" />} active={isActive('/about')}>About</NavLink>
@@ -210,6 +211,7 @@ const EnhancedNavbar: React.FC = () => {
 
               <MobileNavLink to="/" icon={<Home className="w-5 h-5" />} active={isActive('/')} onClick={() => setIsOpen(false)}>Home</MobileNavLink>
               <MobileNavLink to="/shop" icon={<Store className="w-5 h-5" />} active={isActive('/shop')} onClick={() => setIsOpen(false)}>Shop</MobileNavLink>
+              <MobileNavLink to="/notifications" icon={<Bell className="w-5 h-5" />} active={isActive('/notifications')} onClick={() => setIsOpen(false)}>Notifications</MobileNavLink>
               <MobileNavLink to="/bulk-inquiry" icon={<MessageSquare className="w-5 h-5" />} active={isActive('/bulk-inquiry')} onClick={() => setIsOpen(false)}>Bulk Inquiry</MobileNavLink>
               <MobileNavLink to="/blog" icon={<BookOpen className="w-5 h-5" />} active={isActive('/blog')} onClick={() => setIsOpen(false)}>Blog</MobileNavLink>
               <MobileNavLink to="/about" icon={<Info className="w-5 h-5" />} active={isActive('/about')} onClick={() => setIsOpen(false)}>About</MobileNavLink>
