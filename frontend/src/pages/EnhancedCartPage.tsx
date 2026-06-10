@@ -129,7 +129,7 @@ const EnhancedCartPage: React.FC = () => {
                           <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => updateQuantity(Number(item.product.id), Math.max(0, item.quantity - 1))}
+                            onClick={() => updateQuantity(item.product.id, Math.max(0, item.quantity - 1))}
                             className="p-3 hover:bg-gray-200 rounded-l-xl transition-colors"
                           >
                             <Minus className="w-4 h-4" />
@@ -138,7 +138,7 @@ const EnhancedCartPage: React.FC = () => {
                           <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => updateQuantity(Number(item.product.id), item.quantity + 1)}
+                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                             className="p-3 hover:bg-gray-200 rounded-r-xl transition-colors"
                           >
                             <Plus className="w-4 h-4" />
@@ -148,7 +148,7 @@ const EnhancedCartPage: React.FC = () => {
                         <motion.button
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           whileTap={{ scale: 0.9 }}
-                          onClick={() => removeFromCart(Number(item.product.id))}
+                          onClick={() => removeFromCart(item.product.id)}
                           className="p-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                         >
                           <Trash2 className="w-5 h-5" />

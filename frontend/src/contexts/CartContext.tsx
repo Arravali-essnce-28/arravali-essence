@@ -7,8 +7,8 @@ import { toast } from 'react-hot-toast';
 interface CartContextType {
   cart: CartItem[];
   addToCart: (product: Product, quantity?: number) => void;
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  removeFromCart: (productId: string | number) => void;
+  updateQuantity: (productId: string | number, quantity: number) => void;
   clearCart: () => void;
   itemCount: number;
   cartTotal: number;
@@ -31,11 +31,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addToCart = (product: Product, quantity: number = 1) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.product.id === product.id);
+      const existingItem = prevCart.find((item) => String(item.product.id) === String(product.id));
       
       if (existingItem) {
         return prevCart.map((item) =>
-          item.product.id === product.id
+          String(item.product.id) === String(product.id)
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
@@ -46,12 +46,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     toast.success(`${product.name} added to cart`);
   };
 
-  const removeFromCart = (productId: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.product.id !== productId));
+  const removeFromCart = (productId: string | number) => {
+    setCart((prevCart) => prevCart.filter((item) => String(item.product.id) !== String(productId)));
     toast.success('Item removed from cart');
   };
 
-  const updateQuantity = (productId: number, quantity: number) => {
+  const updateQuantity = (productId: string | number, quantity: number) => {
     if (quantity < 1) {
       removeFromCart(productId);
       return;
@@ -59,7 +59,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
+        String(item.product.id) === String(productId) ? { ...item, quantity } : item
       )
     );
   };

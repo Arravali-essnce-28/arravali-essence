@@ -183,7 +183,7 @@ const AdvancedHeroSection: React.FC = () => {
           className="flex flex-wrap justify-center gap-8 mb-12"
         >
           {[
-            { number: '4.5★', label: 'Customer Rating' },
+            { number: 'Next Day', label: 'UK Delivery' },
             { number: '15+', label: 'Premium Spices' },
           ].map((stat, index) => (
             <motion.div
