@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Package, Send, Phone, Mail, Clock, Users, Truck, Calculator, FileText, CheckCircle, Star, Quote, Globe, Shield, Award, TrendingUp, HelpCircle, DollarSign, Ship, Warehouse, Leaf, Zap, Target, AlertCircle, TrendingDown, Timer, Crown, Flame } from 'lucide-react';
 import AnimatedButton from '../components/ui/AnimatedButton';
-import TestimonialsSection from '@/components/TestimonialsSection';
+import TestimonialsSection from '../components/TestimonialsSection';
 
 const BulkInquiryPage: React.FC = () => {
   const [formData, setFormData] = useState({
