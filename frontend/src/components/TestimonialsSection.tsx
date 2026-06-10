@@ -79,7 +79,7 @@ const TestimonialsSection: React.FC = () => {
             <div className="text-sm text-gray-600">Average Rating</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary-600">24h</div>
+            <div className="text-3xl font-bold text-primary-600">2-3 days</div>
             <div className="text-sm text-gray-600">Fast Delivery</div>
           </div>
         </div>

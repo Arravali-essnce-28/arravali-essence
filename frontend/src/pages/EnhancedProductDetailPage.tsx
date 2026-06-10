@@ -74,7 +74,11 @@ const EnhancedProductDetailPage: React.FC = () => {
     );
   }
 
-  const images = [product.image, product.image, product.image]; // Mock multiple images
+  const images = Array.from(new Set([
+    product.image,
+    product.back_image,
+    ...(Array.isArray(product.gallery) ? product.gallery : [])
+  ].filter(Boolean) as string[]));
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -199,23 +203,13 @@ const EnhancedProductDetailPage: React.FC = () => {
           <motion.div variants={itemVariants} className="space-y-6">
             <div>
               <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">{product.name}</h1>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex items-center">
-                  <div className="flex text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        size={20}
-                        fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'}
-                        className={i < product.rating ? 'text-yellow-400' : 'text-gray-300'}
-                      />
-                    ))}
-                  </div>
-                  <span className="ml-2 text-gray-600">({product.reviews} reviews)</span>
+              {product.weight && (
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full text-sm font-bold">
+                    {product.weight}g
+                  </span>
                 </div>
-                <span className="text-gray-400">•</span>
-                <span className="text-gray-600">{product.weight}g</span>
-              </div>
+              )}
             </div>
 
             <div className="flex items-center gap-4">
@@ -234,7 +228,7 @@ const EnhancedProductDetailPage: React.FC = () => {
               )}
             </div>
 
-            <p className="text-lg text-gray-600 leading-relaxed">{product.description}</p>
+            <p className="text-lg text-gray-600 leading-relaxed">{product.short_description || product.description}</p>
 
             {/* Quantity & Add to Cart */}
             <div className="space-y-4">
@@ -313,7 +307,6 @@ const EnhancedProductDetailPage: React.FC = () => {
             {[
               { id: 'description', label: 'Description' },
               { id: 'ingredients', label: 'Ingredients' },
-              { id: 'reviews', label: 'Reviews' },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -349,12 +342,6 @@ const EnhancedProductDetailPage: React.FC = () => {
                 <div>
                   <h3 className="text-2xl font-bold mb-4">Ingredients</h3>
                   <p className="text-gray-600">100% Pure {product.name} - No additives, preservatives, or artificial colors.</p>
-                </div>
-              )}
-              {activeTab === 'reviews' && (
-                <div>
-                  <h3 className="text-2xl font-bold mb-4">Customer Reviews</h3>
-                  <p className="text-gray-600">Reviews feature coming soon. Current rating: {product.rating}/5 stars from {product.reviews} customers.</p>
                 </div>
               )}
             </motion.div>

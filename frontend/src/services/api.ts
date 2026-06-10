@@ -10,6 +10,10 @@ const transformProduct = (product: any) => {
     ...product,
     id: String(product.id),
     image: getStorageUrl(product.image),
+    back_image: product.back_image ? getStorageUrl(product.back_image) : undefined,
+    gallery: Array.isArray(product.gallery)
+      ? product.gallery.map((img: any) => getStorageUrl(img))
+      : [],
     // Fallback for missing fields or formatting
     rating: product.rating || 4.5,
     reviews: product.reviews || 0,

@@ -193,7 +193,7 @@ const NewsletterSection: React.FC = () => {
                     glow
                     className="px-10 py-5 text-lg font-bold rounded-2xl shadow-xl"
                   >
-                    {isLoading ? 'Subscribing...' : 'Get 15% Off'}
+                    {isLoading ? 'Subscribing...' : 'Subscribe'}
                   </AnimatedButton>
                 </div>
                 

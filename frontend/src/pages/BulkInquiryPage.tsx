@@ -67,8 +67,8 @@ const BulkInquiryPage: React.FC = () => {
   const benefits = [
     {
       icon: <Truck className="w-6 h-6" />,
-      title: 'Free Shipping',
-      description: 'On orders over $500',
+      title: 'Great Shipping',
+      description: 'All over UK in 2-3 days',
       color: 'from-blue-500 to-cyan-500'
     },
     {
@@ -297,7 +297,6 @@ const BulkInquiryPage: React.FC = () => {
               </p>
               <div className="text-sm space-y-1">
                 <p>✓ Skip the queue - Immediate response from senior account managers</p>
-                <p>✓ Free sample kit with your inquiry ($199 value)</p>
                 <p>✓ Exclusive access to limited stock premium spices</p>
               </div>
             </div>

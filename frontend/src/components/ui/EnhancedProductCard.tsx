@@ -17,7 +17,7 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
   product,
   viewMode = 'grid',
   showQuickView = true,
-  showWishlist = true
+  showWishlist = false
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -87,36 +87,24 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
             
             <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
             
-            <div className="flex items-center gap-4 mb-3">
-              <div className="flex items-center">
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={16}
-                      fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'}
-                      className={i < product.rating ? 'text-yellow-400' : 'text-gray-300'}
-                    />
-                  ))}
+            {(product.isOrganic || product.isPremium) && (
+              <div className="flex items-center gap-4 mb-3">
+                <div className="flex gap-2">
+                  {product.isOrganic && (
+                    <span className="flex items-center text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                      <Leaf className="w-3 h-3 mr-1" />
+                      Organic
+                    </span>
+                  )}
+                  {product.isPremium && (
+                    <span className="flex items-center text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                      <Award className="w-3 h-3 mr-1" />
+                      Premium
+                    </span>
+                  )}
                 </div>
-                <span className="text-sm text-gray-500 ml-2">({product.reviews})</span>
               </div>
-              
-              <div className="flex gap-2">
-                {product.isOrganic && (
-                  <span className="flex items-center text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                    <Leaf className="w-3 h-3 mr-1" />
-                    Organic
-                  </span>
-                )}
-                {product.isPremium && (
-                  <span className="flex items-center text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
-                    <Award className="w-3 h-3 mr-1" />
-                    Premium
-                  </span>
-                )}
-              </div>
-            </div>
+            )}
           </div>
           
           <div className="flex items-center justify-between">
@@ -300,30 +288,18 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
           
           <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="flex text-yellow-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={14}
-                    fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'}
-                    className={i < product.rating ? 'text-yellow-400' : 'text-gray-300'}
-                  />
-                ))}
+          {(product.isPremium || product.isOrganic) && (
+            <div className="flex items-center justify-end">
+              <div className="flex gap-1">
+                {product.isPremium && (
+                  <Award className="w-4 h-4 text-purple-500" />
+                )}
+                {product.isOrganic && (
+                  <Leaf className="w-4 h-4 text-green-500" />
+                )}
               </div>
-              <span className="text-xs text-gray-500 ml-2">({product.reviews})</span>
             </div>
-            
-            <div className="flex gap-1">
-              {product.isPremium && (
-                <Award className="w-4 h-4 text-purple-500" />
-              )}
-              {product.isOrganic && (
-                <Leaf className="w-4 h-4 text-green-500" />
-              )}
-            </div>
-          </div>
+          )}
         </div>
       </motion.div>
       
@@ -352,21 +328,9 @@ const EnhancedProductCard: React.FC<EnhancedProductCardProps> = ({
                 />
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h2>
-                  <p className="text-gray-600 mb-4">{product.description}</p>
+                  <p className="text-gray-600 mb-4">{product.short_description || product.description}</p>
                   
-                  <div className="flex items-center mb-4">
-                    <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          size={16}
-                          fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'}
-                          className={i < product.rating ? 'text-yellow-400' : 'text-gray-300'}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-sm text-gray-500 ml-2">({product.reviews} reviews)</span>
-                  </div>
+                  {/* Rating removed */}
                   
                   <div className="flex items-center gap-4 mb-6">
                     {product.originalPrice && (

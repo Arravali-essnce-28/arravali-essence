@@ -398,7 +398,7 @@ const EnhancedAboutPage: React.FC = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto text-center"
           >
             {[
               { number: '15+', label: 'Premium Spices', icon: <Star className="w-8 h-8" /> },

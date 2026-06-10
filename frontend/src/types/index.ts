@@ -3,9 +3,12 @@ export interface Product {
   id: string | number;
   name: string;
   description: string;
+  short_description?: string;
   price: number;
   originalPrice?: number;
   image: string;
+  back_image?: string;
+  gallery?: string[];
   rating: number;
   reviews: number;
   category: Category | string;
