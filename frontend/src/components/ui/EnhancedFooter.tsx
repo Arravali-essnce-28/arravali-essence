@@ -297,6 +297,16 @@ const EnhancedFooter: React.FC = () => {
               © 2025 Arravali Essence. All rights reserved. Made with{' '}
               <Heart className="inline w-4 h-4 text-red-400 fill-current mx-1" />
               for spice lovers worldwide.
+              <br />
+              Developed and maintained by{' '}
+              <a
+                href="https://engeniusdigitech.netlify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-primary-400 underline underline-offset-2 transition-colors"
+              >
+                Engenius Digitech
+              </a>
             </motion.div>
             
             {/* Sticky Social Media Buttons */}

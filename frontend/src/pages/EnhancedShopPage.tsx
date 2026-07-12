@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Filter, Grid, List, Search, SlidersHorizontal, Sparkles, TrendingUp } from 'lucide-react';
@@ -48,6 +48,16 @@ const EnhancedShopPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+
+  const headerParticles = useMemo(
+    () =>
+      Array.from({ length: 10 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 10 + Math.random() * 5,
+      })),
+    []
+  );
 
   const categoryParam = searchParams.get('category');
   const searchParam = searchParams.get('search');
@@ -170,20 +180,20 @@ const EnhancedShopPage = () => {
         className="bg-gradient-to-br from-primary-600 via-orange-600 to-red-600 text-white py-20 relative overflow-hidden"
       >
         <div className="absolute inset-0">
-          {[...Array(10)].map((_, i) => (
+          {headerParticles.map((p, i) => (
             <motion.div
               key={i}
               className="absolute w-32 h-32 bg-white/10 rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
               }}
               animate={{
                 scale: [0.8, 1.2, 0.8],
                 rotate: [0, 180, 360],
               }}
               transition={{
-                duration: 10 + Math.random() * 5,
+                duration: p.duration,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}

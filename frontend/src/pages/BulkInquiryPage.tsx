@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Package, Send, Phone, Mail, Clock, Users, Truck, Calculator, FileText, CheckCircle, Star, Quote, Globe, Shield, Award, TrendingUp, HelpCircle, DollarSign, Ship, Warehouse, Leaf, Zap, Target, AlertCircle, TrendingDown, Timer, Crown, Flame } from 'lucide-react';
 import AnimatedButton from '../components/ui/AnimatedButton';
@@ -19,6 +19,26 @@ const BulkInquiryPage: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const packageParticles = useMemo(
+    () =>
+      Array.from({ length: 20 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 15 + Math.random() * 10,
+      })),
+    []
+  );
+
+  const flameParticles = useMemo(
+    () =>
+      Array.from({ length: 8 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 20 + Math.random() * 10,
+      })),
+    []
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,20 +120,20 @@ const BulkInquiryPage: React.FC = () => {
         className="bg-gradient-to-br from-primary-600 via-orange-600 to-red-600 text-white py-24 relative overflow-hidden"
       >
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+          {packageParticles.map((p, i) => (
             <motion.div
               key={i}
               className="absolute"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
               }}
               animate={{
                 rotate: [0, 360],
                 scale: [0.5, 1, 0.5],
               }}
               transition={{
-                duration: 15 + Math.random() * 10,
+                duration: p.duration,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
@@ -178,20 +198,20 @@ const BulkInquiryPage: React.FC = () => {
       {/* Urgency & Priority Section */}
       <section className="py-16 bg-gradient-to-r from-red-600 to-orange-600 text-white relative overflow-hidden">
         <div className="absolute inset-0">
-          {[...Array(8)].map((_, i) => (
+          {flameParticles.map((p, i) => (
             <motion.div
               key={i}
               className="absolute"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
               }}
               animate={{
                 rotate: [0, 360],
                 scale: [0.5, 1, 0.5],
               }}
               transition={{
-                duration: 20 + Math.random() * 10,
+                duration: p.duration,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}

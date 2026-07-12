@@ -8,7 +8,7 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import NewsletterSection from '../components/NewsletterSection';
 import ContactUsSection from '../components/ContactUsSection';
 import { useState, useEffect } from 'react';
-import heroImage from '/images/hero.png';
+import heroImage from '/images/hero.jpg';
 import type { Product } from '../types';
 
 const HomePage = () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, User, Clock, ArrowRight, Search, Filter, BookOpen } from 'lucide-react';
@@ -25,6 +25,16 @@ const BlogPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
+
+  const heroParticles = useMemo(
+    () =>
+      Array.from({ length: 10 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 15 + Math.random() * 10,
+      })),
+    []
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,20 +103,20 @@ const BlogPage: React.FC = () => {
         className="bg-gradient-to-br from-primary-600 via-orange-600 to-red-600 text-white py-20 relative overflow-hidden"
       >
         <div className="absolute inset-0">
-          {[...Array(10)].map((_, i) => (
+          {heroParticles.map((p, i) => (
             <motion.div
               key={i}
               className="absolute"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
               }}
               animate={{
                 rotate: [0, 360],
                 scale: [0.5, 1, 0.5],
               }}
               transition={{
-                duration: 15 + Math.random() * 10,
+                duration: p.duration,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}

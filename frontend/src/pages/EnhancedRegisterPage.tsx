@@ -55,7 +55,7 @@ const EnhancedRegisterPage: React.FC = () => {
 
       {/* Left Panel */}
       <div className="hidden lg:flex lg:w-5/12 relative overflow-hidden">
-        <img src="/images/hero.png" alt="Spices" className="absolute inset-0 w-full h-full object-cover" />
+        <img src="/images/hero.jpg" alt="Spices" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-br from-amber-900/85 via-orange-800/75 to-red-900/65" />
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           <div>

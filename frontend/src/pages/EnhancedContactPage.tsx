@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Star } from 'lucide-react';
 import AnimatedButton from '../components/ui/AnimatedButton';
@@ -15,6 +15,16 @@ const EnhancedContactPage: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const heroParticles = useMemo(
+    () =>
+      Array.from({ length: 15 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 10 + Math.random() * 5,
+      })),
+    []
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,20 +88,20 @@ const EnhancedContactPage: React.FC = () => {
         className="bg-gradient-to-br from-primary-600 via-orange-600 to-red-600 text-white py-24 relative overflow-hidden"
       >
         <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
+          {heroParticles.map((p, i) => (
             <motion.div
               key={i}
               className="absolute"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
               }}
               animate={{
                 rotate: [0, 360],
                 scale: [0.5, 1, 0.5],
               }}
               transition={{
-                duration: 10 + Math.random() * 5,
+                duration: p.duration,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}

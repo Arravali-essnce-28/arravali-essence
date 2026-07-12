@@ -16,6 +16,7 @@ const EnhancedLoginPage: React.FC = () => {
 
   const successMessage = (location.state as { message?: string } | null)?.message;
   const errorMessage = (location.state as { error?: string } | null)?.error;
+  const redirectTo = (location.state as { from?: string } | null)?.from || '/';
 
   useEffect(() => { if (errorMessage) setError(errorMessage); }, [errorMessage]);
 
@@ -25,7 +26,7 @@ const EnhancedLoginPage: React.FC = () => {
     try {
       setIsSubmitting(true);
       await login({ email: formData.email, password: formData.password });
-      navigate('/');
+      navigate(redirectTo);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to log in. Please try again.');
     } finally {
@@ -49,7 +50,7 @@ const EnhancedLoginPage: React.FC = () => {
 
       {/* Left Panel */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <img src="/images/hero.png" alt="Spices" className="absolute inset-0 w-full h-full object-cover" />
+        <img src="/images/hero.jpg" alt="Spices" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-br from-amber-900/80 via-orange-800/70 to-red-900/60" />
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           <div>
@@ -94,6 +95,13 @@ const EnhancedLoginPage: React.FC = () => {
           </div>
 
           <AnimatePresence mode="wait">
+            {!successMessage && !error && redirectTo === '/checkout' && (
+              <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm flex items-center gap-3">
+                <Lock className="w-4 h-4 flex-shrink-0" />
+                Please sign in to continue to checkout.
+              </motion.div>
+            )}
             {successMessage && (
               <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                 className="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-700 text-sm flex items-center gap-3">

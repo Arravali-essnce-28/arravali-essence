@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Gift, Truck, Shield } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 import AnimatedButton from '../components/ui/AnimatedButton';
 
 const EnhancedCartPage: React.FC = () => {
   const { cart: items, updateQuantity, removeFromCart, cartTotal, itemCount } = useCart();
+  const { user } = useAuth();
 
   const getTotalPrice = () => cartTotal;
 
@@ -193,14 +195,15 @@ const EnhancedCartPage: React.FC = () => {
 
               <AnimatedButton
                 as={Link}
-                to="/checkout"
+                to={user ? '/checkout' : '/login'}
+                state={user ? undefined : { from: '/checkout' }}
                 variant="gradient"
                 size="lg"
                 className="w-full mb-4 text-lg font-bold py-4"
                 icon={<ArrowRight className="w-5 h-5" />}
                 iconPosition="right"
               >
-                Proceed to Checkout
+                {user ? 'Proceed to Checkout' : 'Sign in to Continue'}
               </AnimatedButton>
 
               <AnimatedButton

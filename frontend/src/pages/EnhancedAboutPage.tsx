@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Award, Users, Globe, Heart, Leaf, Star, ChefHat, Truck, Shield, CheckCircle, MapPin, User } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const EnhancedAboutPage: React.FC = () => {
+  const heroParticles = useMemo(
+    () =>
+      Array.from({ length: 20 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 3 + Math.random() * 2,
+        delay: Math.random() * 2,
+      })),
+    []
+  );
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -31,22 +42,22 @@ const EnhancedAboutPage: React.FC = () => {
         className="bg-gradient-to-br from-primary-600 via-orange-600 to-red-600 text-white py-24 relative overflow-hidden"
       >
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+          {heroParticles.map((p, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 bg-white rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${p.left}%`,
+                top: `${p.top}%`,
               }}
               animate={{
                 opacity: [0, 1, 0],
                 scale: [0, 1, 0],
               }}
               transition={{
-                duration: 3 + Math.random() * 2,
+                duration: p.duration,
                 repeat: Infinity,
-                delay: Math.random() * 2,
+                delay: p.delay,
               }}
             />
           ))}
@@ -96,7 +107,7 @@ const EnhancedAboutPage: React.FC = () => {
 
             <motion.div variants={itemVariants} className="relative">
               <img
-                src="/images/img.png"
+                src="/images/img.jpg"
                 alt="Spice Story"
                 className="rounded-3xl shadow-2xl"
               />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion, useScroll, useTransform, Variants, AnimationGeneratorType } from 'framer-motion';
@@ -14,22 +14,20 @@ import ContactUsSection from '../components/ContactUsSection';
 import SEO from '../components/SEO';
 
 const EnhancedHomePage: React.FC = () => {
-  const [visitorCount, setVisitorCount] = useState(45672);
   const [loading, setLoading] = useState(false);
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -50]);
 
-
-
-
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setVisitorCount(prev => prev + Math.floor(Math.random() * 5));
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  const floatingBlobs = useMemo(
+    () =>
+      Array.from({ length: 8 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 10 + Math.random() * 5,
+      })),
+    []
+  );
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -126,7 +124,7 @@ const EnhancedHomePage: React.FC = () => {
       </Helmet>
       <SEO
         title="Best Spices in UK | Buy Authentic Indian Spices Online"
-        description="Arravali Essence – the best spices website in the UK. Buy authentic Indian spices online. Fast delivery to London, Birmingham, Leicester, Manchester & all UK cities."
+        description="Arravali Essence â€“ the best spices website in the UK. Buy authentic Indian spices online. Fast delivery to London, Birmingham, Leicester, Manchester & all UK cities."
         keywords="best spices in uk, spices in uk, spices website uk, buy spices uk, best spices in london, spices london, spices birmingham, spices leicester, spices manchester, indian spices uk, uk spice shop, spice delivery uk"
       />
       <AdvancedHeroSection />
@@ -158,20 +156,20 @@ const EnhancedHomePage: React.FC = () => {
 
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-white relative">
         <motion.div style={{ y: y1 }} className="absolute inset-0 opacity-30">
-          {[...Array(8)].map((_, i) => (
+          {floatingBlobs.map((blob, i) => (
             <motion.div
               key={i}
               className="absolute w-32 h-32 bg-gradient-to-r from-primary-200 to-orange-200 rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${blob.left}%`,
+                top: `${blob.top}%`,
               }}
               animate={{
                 scale: [0.8, 1.2, 0.8],
                 rotate: [0, 180, 360],
               }}
               transition={{
-                duration: 10 + Math.random() * 5,
+                duration: blob.duration,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
@@ -208,25 +206,25 @@ const EnhancedHomePage: React.FC = () => {
               {
                 name: 'Whole Spices',
                 count: '12+ Items',
-                image: '/images/products/whole-spices.png',
+                image: '/images/products/whole-spices.jpg',
                 color: 'from-amber-500'
               },
               {
                 name: 'Ground Spices',
                 count: '18+ Items',
-                image: '/images/products/ground-spices.png',
+                image: '/images/products/ground-spices.jpg',
                 color: 'from-red-500'
               },
               {
                 name: 'Spice Blends',
                 count: '8+ Varieties',
-                image: '/images/products/spice-blend.png',
+                image: '/images/products/spice-blend.jpg',
                 color: 'from-green-500'
               },
               {
                 name: 'Organic Range',
                 count: '15+ Products',
-                image: '/images/products/organic.png',
+                image: '/images/products/organic.jpg',
                 color: 'from-purple-500'
               },
             ].map((category, index) => (
@@ -318,7 +316,7 @@ const EnhancedHomePage: React.FC = () => {
             >
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl transform lg:rotate-3 hover:rotate-0 transition-transform duration-500">
                 <img
-                  src="/images/banner-2.png"
+                  src="/images/banner-2.jpg"
                   alt="Authentic Spices UK"
                   className="w-full h-auto object-cover"
                 />
@@ -336,10 +334,10 @@ const EnhancedHomePage: React.FC = () => {
       <section className="py-12 bg-amber-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4 text-center">
-            The Best Spices Website in the UK – Delivered to Your Door
+            The Best Spices Website in the UK â€“ Delivered to Your Door
           </h2>
           <p className="text-gray-600 text-center max-w-3xl mx-auto mb-8">
-            Whether you're searching for <strong>spices in London</strong>, <strong>spices in Birmingham</strong>, <strong>spices in Leicester</strong>, <strong>spices in Manchester</strong>, or anywhere across the UK – Arravali Essence is your trusted online spice shop. We deliver premium, authentic Indian spices to every UK city.
+            Whether you're searching for <strong>spices in London</strong>, <strong>spices in Birmingham</strong>, <strong>spices in Leicester</strong>, <strong>spices in Manchester</strong>, or anywhere across the UK â€“ Arravali Essence is your trusted online spice shop. We deliver premium, authentic Indian spices to every UK city.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
             {['London', 'Birmingham', 'Leicester', 'Manchester', 'Leeds', 'Bristol'].map(city => (

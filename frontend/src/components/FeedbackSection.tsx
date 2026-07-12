@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Star, Send, CheckCircle, User, Mail, MessageCircle, ThumbsUp } from 'lucide-react';
 import AnimatedButton from './ui/AnimatedButton';
@@ -30,6 +30,17 @@ const FeedbackSection: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<FeedbackErrors>({});
+
+  const bgParticles = useMemo(
+    () =>
+      Array.from({ length: 12 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 6 + Math.random() * 3,
+        delay: Math.random() * 2,
+      })),
+    []
+  );
 
   const categories = [
     { value: 'general', label: 'General Feedback' },
@@ -111,13 +122,13 @@ const FeedbackSection: React.FC = () => {
     <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0">
-        {[...Array(12)].map((_, i) => (
+        {bgParticles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${p.left}%`,
+              top: `${p.top}%`,
             }}
             animate={{
               y: [-15, 15, -15],
@@ -125,10 +136,10 @@ const FeedbackSection: React.FC = () => {
               scale: [0.8, 1.1, 0.8],
             }}
             transition={{
-              duration: 6 + Math.random() * 3,
+              duration: p.duration,
               repeat: Infinity,
               ease: 'easeInOut',
-              delay: Math.random() * 2,
+              delay: p.delay,
             }}
           >
             <div className="w-6 h-6 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full opacity-30" />

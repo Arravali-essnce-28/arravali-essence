@@ -1,10 +1,11 @@
 // frontend/src/pages/CheckoutPage.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-hot-toast';
 import { ArrowLeft, Check, CreditCard, Package, Truck, Lock, Shield, MapPin, Mail, Phone, User, Calendar, CreditCard as CreditCardIcon, Loader2 } from 'lucide-react';
 import appConfig, { formatCurrency, calculateTax, getPaymentFee, getOrderTotal } from '../config/appConfig';
@@ -33,7 +34,15 @@ const shippingSchema = yup.object().shape({
 
 const CheckoutPage = () => {
   const { cart, clearCart } = useCart();
+  const { user, isLoading: isAuthLoading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthLoading && !user) {
+      navigate('/login', { replace: true, state: { from: '/checkout' } });
+    }
+  }, [isAuthLoading, user, navigate]);
+
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [sameAsShipping, setSameAsShipping] = useState(true);
@@ -111,6 +120,17 @@ const CheckoutPage = () => {
       maximumFractionDigits: 2
     }).format(amount);
   };
+
+  if (isAuthLoading || !user) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center space-y-2">
+          <div className="h-12 w-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-gray-500">Checking your session…</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

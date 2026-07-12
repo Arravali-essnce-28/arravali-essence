@@ -1,275 +1,90 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useSpring,
-  useReducedMotion,
-  type Variants,
-  type AnimationGeneratorType,
-} from 'framer-motion';
-import { ArrowRight, Play, Star, Sparkles, ChefHat, Award } from 'lucide-react';
+import { ArrowRight, Play, Star } from 'lucide-react';
 import AnimatedButton from './AnimatedButton';
-import heroImage from '/images/hero.png';
+import heroImage from '/images/hero-section.png';
 
 const AdvancedHeroSection: React.FC = () => {
-  const prefersReducedMotion = useReducedMotion();
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const smoothX = useSpring(mouseX, { stiffness: 120, damping: 22, mass: 0.4 });
-  const smoothY = useSpring(mouseY, { stiffness: 120, damping: 22, mass: 0.4 });
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 40;
-      const yPos = (e.clientY / window.innerHeight - 0.5) * 40;
-      mouseX.set(x);
-      mouseY.set(yPos);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY, prefersReducedMotion]);
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      mouseX.set(0);
-      mouseY.set(0);
-    }
-  }, [mouseX, mouseY, prefersReducedMotion]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring' as AnimationGeneratorType,
-        stiffness: 100,
-        damping: 12,
-      },
-    },
-  };
-
-  const floatingVariants = useMemo<Variants | undefined>(() => {
-    if (prefersReducedMotion) {
-      return undefined;
-    }
-
-    return {
-      float: {
-        y: [-8, 8, -8],
-        rotate: [-4, 4, -4],
-        transition: {
-          duration: 7,
-          repeat: Infinity,
-          ease: [0.42, 0, 0.58, 1],
-        },
-      },
-    };
-  }, [prefersReducedMotion]);
-
-  const floatingItems = useMemo(
-    () => Array.from({ length: prefersReducedMotion ? 4 : 8 }),
-    [prefersReducedMotion]
-  );
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden -mt-20">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        {/* Parallax Background Image */}
-        <motion.div
-          style={{ y }}
-          className="absolute inset-0 scale-110"
-        >
-          <img
-            src={heroImage}
-            alt="Spices Background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/85" />
-        </motion.div>
-
-        {/* Interactive Floating Elements */}
-        {/* <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{ x: smoothX, y: smoothY }}
-        > */}
-        {/* Floating Spice Icons */}
-        {/* {floatingItems.map((_, i) => {
-            const iconIndex = i % 4;
-
-            return (
-              <motion.div
-                key={i}
-                variants={floatingVariants}
-                animate={floatingVariants ? 'float' : undefined}
-                className="absolute"
-                style={{
-                  left: `${12 + i * 12}%`,
-                  top: `${18 + i * 9}%`,
-                }}
-              >
-                <div className="w-9 h-9 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center">
-                  {iconIndex === 0 && <Sparkles className="w-4 h-4 text-yellow-300" />}
-                  {iconIndex === 1 && <ChefHat className="w-4 h-4 text-orange-300" />}
-                  {iconIndex === 2 && <Star className="w-4 h-4 text-red-300" />}
-                  {iconIndex === 3 && <Award className="w-4 h-4 text-green-300" />}
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div> */}
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+    <section className="relative overflow-hidden -mt-5 flex flex-col sm:min-h-[85vh] sm:justify-center pt-24 pb-10 sm:pb-16">
+      {/* Desktop/tablet: full-bleed background, product pack untouched on the right, clear space on the left for copy */}
+      <div className="hidden sm:block absolute inset-0 scale-105">
+        <img
+          src={heroImage}
+          alt="Arravali Essence spices, sourced from Indian farms"
+          className="w-full h-full object-cover"
+        />
+        {/* Soft scrim over the left clear-space only, so the product art stays untouched */}
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-50/85 via-amber-50/40 to-transparent" />
       </div>
 
       {/* Content */}
-      <motion.div
-        style={{ opacity }}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-      >
-
-
-        {/* Main Heading */}
-        <motion.div variants={itemVariants} className="mb-8 mt-24">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight text-white mb-6 drop-shadow-2xl" style={{ textShadow: '4px 4px 8px rgba(0,0,0,0.9), 2px 2px 4px rgba(0,0,0,0.8)' }}>
-            <span className="block text-white drop-shadow-xl" style={{ textShadow: '4px 4px 8px rgba(0,0,0,0.9), 2px 2px 4px rgba(0,0,0,0.8)' }}>
-              Arravali Essence
-            </span>
-            <span className="block text-4xl md:text-5xl lg:text-6xl font-bold mt-4 drop-shadow-xl text-yellow-300">
-              UK's Premier Spice Destination
-            </span>
+      <div className="order-1 relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="max-w-xl mx-auto sm:mx-0 text-center sm:text-left">
+          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-stone-900 leading-[1.05] mb-4">
+            Arravali <span className="text-primary-600">Essence</span>
           </h1>
-        </motion.div>
 
-        {/* Subtitle */}
-        <motion.p
-          variants={itemVariants}
-          className="text-xl md:text-2xl lg:text-3xl font-semibold text-white/90 max-w-4xl mx-auto mb-12 leading-relaxed drop-shadow-xl" style={{ textShadow: '3px 3px 6px rgba(0,0,0,0.9), 1px 1px 2px rgba(0,0,0,0.8)' }}
-        >
-          Authentic spices sourced directly from Indian farms.{' '}
-          <span className="text-yellow-300">Experience the true taste</span> of tradition.
-        </motion.p>
+          <p className="text-lg md:text-xl font-semibold uppercase tracking-widest text-primary-700 mb-6">
+            UK's Premier Spice Destination
+          </p>
 
-        {/* Stats */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-wrap justify-center gap-8 mb-12"
-        >
-          {[
-            { number: 'Next Day', label: 'UK Delivery' },
-            { number: '15+', label: 'Premium Spices' },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.1 }}
-              className="text-center bg-white/10 backdrop-blur-md rounded-2xl px-6 py-4 border border-white/20"
+          <p className="text-lg text-stone-700 mb-10 leading-relaxed">
+            Authentic spices sourced directly from Indian farms, milled in small batches
+            and delivered fresh across the UK.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-6 mb-12">
+            <AnimatedButton
+              as={Link}
+              to="/shop"
+              variant="gradient"
+              size="lg"
+              icon={<ArrowRight className="w-5 h-5" />}
+              iconPosition="right"
+              className="text-lg px-10 py-4 shadow-xl"
             >
-              <div className="text-2xl md:text-3xl font-black text-white mb-1">
-                {stat.number}
-              </div>
-              <div className="text-sm text-white/80 font-medium">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
+              Shop Now
+            </AnimatedButton>
 
-        {/* CTA Buttons */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-col sm:flex-row justify-center gap-6 mb-16"
-        >
-          <AnimatedButton
-            as={Link}
-            to="/shop"
-            variant="gradient"
-            size="xl"
-            glow
-            icon={<ArrowRight className="w-6 h-6" />}
-            iconPosition="right"
-            className="text-xl px-12 py-6 shadow-2xl"
-          >
-            Shop Now
-          </AnimatedButton>
+            <button className="group flex items-center gap-3 text-stone-800 font-semibold">
+              <span className="w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center">
+                <Play className="w-4 h-4 text-primary-600 ml-0.5" fill="currentColor" />
+              </span>
+              Watch Our Story
+            </button>
+          </div>
 
-          <AnimatedButton
-            variant="outline"
-            size="xl"
-            icon={<Play className="w-6 h-6" />}
-            className="text-xl px-12 py-6 border-white text-white hover:bg-white hover:text-gray-900 backdrop-blur-md"
-          >
-            Watch Story
-          </AnimatedButton>
-        </motion.div>
+          <div className="inline-flex items-center gap-6 bg-white/70 backdrop-blur-md border border-amber-100 rounded-2xl px-8 py-4 shadow-sm">
+            <div>
+              <div className="text-xl font-black text-stone-900">Next Day</div>
+              <div className="text-xs uppercase tracking-wide text-stone-500">UK Delivery</div>
+            </div>
+            <div className="w-px h-9 bg-stone-300" />
+            <div>
+              <div className="text-xl font-black text-stone-900">15+</div>
+              <div className="text-xs uppercase tracking-wide text-stone-500">Premium Spices</div>
+            </div>
+            <div className="w-px h-9 bg-stone-300" />
+            <div className="flex gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
-        {/* Trust Indicators */}
-        <motion.div style={{ marginBottom: '20px' }}
-          variants={itemVariants}
-          className="flex flex-wrap justify-center items-center gap-8 opacity-80"
-        >
-          <div className="flex items-center gap-2 text-white">
-            <Award className="w-5 h-5 text-yellow-400" />
-            <span className="text-sm font-medium">ISO Certified</span>
-          </div>
-          <div className="flex items-center gap-2 text-white">
-            <Star className="w-5 h-5 text-yellow-400 fill-current" />
-            <span className="text-sm font-medium">Premium Quality</span>
-          </div>
-          <div className="flex items-center gap-2 text-white">
-            <ChefHat className="w-5 h-5 text-yellow-400" />
-            <span className="text-sm font-medium">Chef Approved</span>
-          </div>
-          <div className="flex items-center gap-2 text-white">
-            <Sparkles className="w-5 h-5 text-yellow-400" />
-            <span className="text-sm font-medium">Farm Fresh</span>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      {/* <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center"
-        >
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-1 h-3 bg-white/70 rounded-full mt-2"
+      {/* Mobile: product image shown as its own framed card below the copy, never behind text */}
+      <div className="order-2 sm:hidden relative z-10 px-4 mt-10">
+        <div className="rounded-3xl overflow-hidden shadow-xl aspect-[4/3]">
+          <img
+            src={heroImage}
+            alt="Arravali Essence spices, sourced from Indian farms"
+            className="w-full h-full object-cover object-[65%_center]"
           />
-        </motion.div>
-      </motion.div> */}
+        </div>
+      </div>
     </section>
   );
 };

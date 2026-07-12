@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Gift, CheckCircle, Sparkles, Star, Award, Users, TrendingUp } from 'lucide-react';
 import AnimatedButton from './ui/AnimatedButton';
@@ -38,16 +38,27 @@ const NewsletterSection: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const floatingBlobs = useMemo(
+    () =>
+      Array.from({ length: 15 }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 8 + Math.random() * 4,
+        delay: Math.random() * 2,
+      })),
+    []
+  );
+
   return (
     <section className="py-24 bg-gradient-to-br from-primary-50 via-orange-50 to-yellow-50 relative overflow-hidden">
       <div className="absolute inset-0">
-        {[...Array(15)].map((_, i) => (
+        {floatingBlobs.map((blob, i) => (
           <motion.div
             key={i}
             className="absolute"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${blob.left}%`,
+              top: `${blob.top}%`,
             }}
             animate={{
               y: [-20, 20, -20],
@@ -55,10 +66,10 @@ const NewsletterSection: React.FC = () => {
               scale: [0.8, 1.2, 0.8],
             }}
             transition={{
-              duration: 8 + Math.random() * 4,
+              duration: blob.duration,
               repeat: Infinity,
               ease: 'easeInOut',
-              delay: Math.random() * 2,
+              delay: blob.delay,
             }}
           >
             <div className="w-8 h-8 bg-gradient-to-r from-primary-200 to-orange-200 rounded-full opacity-20" />
