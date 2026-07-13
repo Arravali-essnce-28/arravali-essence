@@ -1,40 +1,81 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Play, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
 import AnimatedButton from './AnimatedButton';
 import heroImage from '/images/hero-section.png';
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: (delay: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: [0.22, 1, 0.36, 1],
+      delay,
+    },
+  }),
+};
+
 const AdvancedHeroSection: React.FC = () => {
   return (
-    <section className="relative overflow-hidden -mt-5 flex flex-col sm:min-h-[85vh] sm:justify-center pt-24 pb-10 sm:pb-16">
-      {/* Desktop/tablet: full-bleed background, product pack untouched on the right, clear space on the left for copy */}
-      <div className="hidden sm:block absolute inset-0 scale-105">
+    <section className="relative overflow-hidden -mt-5 flex flex-col min-h-screen sm:justify-center pt-24 pb-10 sm:pb-16">
+
+      {/* Desktop/tablet: full-bleed background — object-right-center keeps the product pack visible */}
+      <div className="hidden sm:block absolute inset-0">
         <img
           src={heroImage}
           alt="Arravali Essence spices, sourced from Indian farms"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-right-center"
+          style={{ objectPosition: 'right center' }}
         />
-        {/* Soft scrim over the left clear-space only, so the product art stays untouched */}
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-50/85 via-amber-50/40 to-transparent" />
+        {/* Soft scrim on the left so text stays legible */}
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-50/90 via-amber-50/55 to-transparent" />
       </div>
 
-      {/* Content */}
+      {/* Content — each block animates up from below on mount */}
       <div className="order-1 relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="max-w-xl mx-auto sm:mx-0 text-center sm:text-left">
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-stone-900 leading-[1.05] mb-4">
+
+          <motion.h1
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0}
+            className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-stone-900 leading-[1.05] mb-4"
+          >
             Arravali <span className="text-primary-600">Essence</span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-lg md:text-xl font-semibold uppercase tracking-widest text-primary-700 mb-6">
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.12}
+            className="text-lg md:text-xl font-semibold uppercase tracking-widest text-primary-700 mb-6"
+          >
             UK's Premier Spice Destination
-          </p>
+          </motion.p>
 
-          <p className="text-lg text-stone-700 mb-10 leading-relaxed">
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.22}
+            className="text-lg text-stone-700 mb-10 leading-relaxed"
+          >
             Authentic spices sourced directly from Indian farms, milled in small batches
             and delivered fresh across the UK.
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-6 mb-12">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.33}
+            className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start gap-6 mb-12"
+          >
             <AnimatedButton
               as={Link}
               to="/shop"
@@ -53,9 +94,15 @@ const AdvancedHeroSection: React.FC = () => {
               </span>
               Watch Our Story
             </button>
-          </div>
+          </motion.div>
 
-          <div className="inline-flex items-center gap-6 bg-white/70 backdrop-blur-md border border-amber-100 rounded-2xl px-8 py-4 shadow-sm">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0.44}
+            className="inline-flex items-center gap-6 bg-white/70 backdrop-blur-md border border-amber-100 rounded-2xl px-8 py-4 shadow-sm"
+          >
             <div>
               <div className="text-xl font-black text-stone-900">Next Day</div>
               <div className="text-xs uppercase tracking-wide text-stone-500">UK Delivery</div>
@@ -71,20 +118,27 @@ const AdvancedHeroSection: React.FC = () => {
                 <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Mobile: product image shown as its own framed card below the copy, never behind text */}
-      <div className="order-2 sm:hidden relative z-10 px-4 mt-10">
+      {/* Mobile: product image shown below copy, object-position focuses on the product pack */}
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        animate="visible"
+        custom={0.2}
+        className="order-2 sm:hidden relative z-10 px-4 mt-10"
+      >
         <div className="rounded-3xl overflow-hidden shadow-xl aspect-[4/3]">
           <img
             src={heroImage}
             alt="Arravali Essence spices, sourced from Indian farms"
-            className="w-full h-full object-cover object-[65%_center]"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: '70% center' }}
           />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
