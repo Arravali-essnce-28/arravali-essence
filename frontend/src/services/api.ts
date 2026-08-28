@@ -188,8 +188,16 @@ export const api = {
     return response.data;
   },
 
-  updateOrderStatus: async (orderId: number, status: string) => {
-    const response = await httpClient.put(`/admin/orders/${orderId}/status`, { status });
+  getAdminOrder: async (orderId: number | string) => {
+    const response = await httpClient.get(`/admin/orders/${orderId}`);
+    return response.data;
+  },
+
+  updateOrderStatus: async (orderId: number | string, status: string, details?: { tracking_number?: string; carrier?: string; description?: string }) => {
+    const response = await httpClient.put(`/admin/orders/${orderId}/status`, { 
+      status, 
+      ...details 
+    });
     return response.data;
   },
 
@@ -201,13 +209,44 @@ export const api = {
     return response.data;
   },
 
-  getUserDetails: async (userId: number) => {
+  getUserDetails: async (userId: number | string) => {
     const response = await httpClient.get(`/admin/users/${userId}`);
     return response.data;
   },
 
-  deleteUser: async (userId: number) => {
+  deleteUser: async (userId: number | string) => {
     const response = await httpClient.delete(`/admin/users/${userId}`);
+    return response.data;
+  },
+
+  // Employee & Permissions Management (Admin Only)
+  getPermissionsList: async () => {
+    const response = await httpClient.get('/admin/permissions-list');
+    return response.data;
+  },
+
+  getEmployees: async (params?: { page?: number; search?: string; status?: string; role?: string }) => {
+    const response = await httpClient.get('/admin/employees', { params });
+    return response.data;
+  },
+
+  getEmployee: async (id: number | string) => {
+    const response = await httpClient.get(`/admin/employees/${id}`);
+    return response.data;
+  },
+
+  createEmployee: async (employeeData: any) => {
+    const response = await httpClient.post('/admin/employees', employeeData);
+    return response.data;
+  },
+
+  updateEmployee: async (id: number | string, employeeData: any) => {
+    const response = await httpClient.put(`/admin/employees/${id}`, employeeData);
+    return response.data;
+  },
+
+  deleteEmployee: async (id: number | string) => {
+    const response = await httpClient.delete(`/admin/employees/${id}`);
     return response.data;
   },
 };

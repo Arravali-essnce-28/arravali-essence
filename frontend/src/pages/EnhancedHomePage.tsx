@@ -124,75 +124,78 @@ const EnhancedHomePage: React.FC = () => {
       </Helmet>
       <SEO
         title="Best Spices in UK | Buy Authentic Indian Spices Online"
-        description="Arravali Essence â€“ the best spices website in the UK. Buy authentic Indian spices online. Fast delivery to London, Birmingham, Leicester, Manchester & all UK cities."
+        description="Arravali Essence – the best spices website in the UK. Buy authentic Indian spices online. Fast delivery to London, Birmingham, Leicester, Manchester & all UK cities."
         keywords="best spices in uk, spices in uk, spices website uk, buy spices uk, best spices in london, spices london, spices birmingham, spices leicester, spices manchester, indian spices uk, uk spice shop, spice delivery uk"
       />
       <AdvancedHeroSection />
 
-      <motion.section
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="py-8 bg-gradient-to-r from-stone-900 to-black text-white relative overflow-hidden border-y border-stone-800"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-12 text-center">
+      {/* Trust & Guarantee Banner */}
+      <section className="bg-white border-y border-stone-200/70 py-6 sm:py-7">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+                <Truck className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-semibold text-xs sm:text-sm text-stone-900 leading-tight">Fast UK Delivery</p>
+                <p className="text-[11px] text-stone-500 mt-0.5">Dispatched quickly across UK</p>
+              </div>
+            </div>
 
             <div className="flex items-center gap-3">
-              <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
-              <span className="font-semibold text-sm sm:text-base text-stone-200 uppercase tracking-widest">Great Shipping</span>
+              <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+                <Shield className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-semibold text-xs sm:text-sm text-stone-900 leading-tight">100% Authentic</p>
+                <p className="text-[11px] text-stone-500 mt-0.5">Sourced direct from farms</p>
+              </div>
             </div>
+
             <div className="flex items-center gap-3">
-              <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
-              <span className="font-semibold text-sm sm:text-base text-stone-200 uppercase tracking-widest">100% Authentic</span>
+              <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+                <Leaf className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-semibold text-xs sm:text-sm text-stone-900 leading-tight">Pure & Natural</p>
+                <p className="text-[11px] text-stone-500 mt-0.5">No fillers or additives</p>
+              </div>
             </div>
+
             <div className="flex items-center gap-3">
-              <Award className="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
-              <span className="font-semibold text-sm sm:text-base text-stone-200 uppercase tracking-widest">Premium Quality</span>
+              <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+                <Award className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="font-semibold text-xs sm:text-sm text-stone-900 leading-tight">Premium Grade</p>
+                <p className="text-[11px] text-stone-500 mt-0.5">Aroma-sealed freshness</p>
+              </div>
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-white relative">
-        <motion.div style={{ y: y1 }} className="absolute inset-0 opacity-30">
-          {floatingBlobs.map((blob, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-32 h-32 bg-gradient-to-r from-primary-200 to-orange-200 rounded-full"
-              style={{
-                left: `${blob.left}%`,
-                top: `${blob.top}%`,
-              }}
-              animate={{
-                scale: [0.8, 1.2, 0.8],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: blob.duration,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-          ))}
-        </motion.div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Curated Spice Collection Section */}
+      <section className="py-16 sm:py-20 bg-stone-50/60 border-b border-stone-200/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="text-center mb-8 sm:mb-12 lg:mb-16"
+            className="text-center max-w-2xl mx-auto mb-10 sm:mb-14"
           >
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-primary-100 text-primary-700 px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-4 sm:mb-6">
-              <Sparkles className="w-5 h-5" />
-              <span className="font-semibold">Premium Collection</span>
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-amber-900 bg-amber-100/80 border border-amber-200/80 mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+              <span>Premium Collection</span>
             </motion.div>
-            <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-              Our <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">Spice</span> Collection
+            <motion.h2 variants={itemVariants} className="text-2xl sm:text-3xl md:text-4xl font-bold text-stone-900 tracking-tight">
+              Explore Our Spice Collection
             </motion.h2>
-            <motion.div variants={itemVariants} className="w-32 h-2 bg-gradient-to-r from-primary-600 to-orange-600 mx-auto rounded-full" />
+            <motion.p variants={itemVariants} className="text-sm sm:text-base text-stone-600 mt-2.5">
+              Hand-selected from heritage farms, packed fresh to preserve essential oils, rich flavor, and authentic aroma.
+            </motion.p>
           </motion.div>
 
           <motion.div
@@ -200,69 +203,74 @@ const EnhancedHomePage: React.FC = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"
           >
             {[
               {
                 name: 'Whole Spices',
                 count: '12+ Items',
                 image: '/images/products/whole-spices.jpg',
-                color: 'from-amber-500'
+                description: 'Intact pods, seeds & barks for deep infused flavor',
+                href: '/shop?category=whole-spices'
               },
               {
                 name: 'Ground Spices',
                 count: '18+ Items',
                 image: '/images/products/ground-spices.jpg',
-                color: 'from-red-500'
+                description: 'Finely milled pure powders with vibrant colors',
+                href: '/shop?category=ground-spices'
               },
               {
                 name: 'Spice Blends',
                 count: '8+ Varieties',
                 image: '/images/products/spice-blend.jpg',
-                color: 'from-green-500'
+                description: 'Traditional master mixes crafted for authentic dishes',
+                href: '/shop?category=spice-blends'
               },
               {
                 name: 'Organic Range',
                 count: '15+ Products',
                 image: '/images/products/organic.jpg',
-                color: 'from-purple-500'
+                description: 'Certified organic spices grown sustainably',
+                href: '/shop?category=organic'
               },
             ].map((category, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                whileHover={{ y: -10, scale: 1.05 }}
-                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 h-64 sm:h-72 md:h-80"
+                className="group relative overflow-hidden rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-xl hover:border-stone-300 transition-all duration-300 flex flex-col"
               >
-                <Link to="/shop" className="block h-full">
-                  <div className="relative h-full overflow-hidden">
-                    <motion.img
-                      src={category.image}
-                      alt={category.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      whileHover={{ scale: 1.1 }}
-                    />
-                    <div className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-60`} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="absolute bottom-4 left-4 right-4 text-white"
-                    >
-                      <h3 className="text-xl sm:text-2xl font-black mb-2">{category.name}</h3>
-                      <p className="text-base sm:text-lg font-semibold opacity-90">{category.count}</p>
-                      <motion.div
-                        whileHover={{ x: 5 }}
-                        className="flex items-center gap-2 mt-3 text-sm font-medium"
-                      >
-                        <span>Explore Collection</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </motion.div>
-                    </motion.div>
+                <Link to={category.href} className="block relative aspect-[4/3] overflow-hidden bg-stone-100">
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/images/hero.jpg';
+                    }}
+                  />
+                  <div className="absolute top-3 right-3 bg-stone-900/70 backdrop-blur-xs text-white text-[11px] font-medium px-2.5 py-0.5 rounded-full">
+                    {category.count}
                   </div>
                 </Link>
+
+                <div className="p-4 flex flex-col flex-1 justify-between bg-white">
+                  <div>
+                    <h3 className="font-semibold text-stone-900 text-base group-hover:text-amber-700 transition-colors">
+                      {category.name}
+                    </h3>
+                    <p className="text-xs text-stone-500 mt-1 leading-relaxed line-clamp-2">
+                      {category.description}
+                    </p>
+                  </div>
+                  <Link 
+                    to={category.href}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-stone-800 group-hover:text-amber-700 mt-4 transition-colors pt-2 border-t border-stone-100"
+                  >
+                    <span>Browse Collection</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -270,59 +278,63 @@ const EnhancedHomePage: React.FC = () => {
       </section>
 
       {/* UK-Specific SEO Section */}
-      <section className="py-16 bg-white overflow-hidden">
+      <section className="py-16 sm:py-20 bg-white overflow-hidden border-b border-stone-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="lg:w-1/2"
             >
-              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 uppercase tracking-wider">
-                UK's Leading Supplier of <span className="text-primary-600">Authentic Indian Spices</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full inline-block mb-3">
+                Nationwide Delivery
+              </span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900 tracking-tight leading-tight mb-4">
+                UK's Leading Supplier of <span className="text-amber-700">Authentic Indian Spices</span>
               </h2>
-              <div className="w-20 h-1.5 bg-primary-600 mb-8 rounded-full" />
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Searching for the best <strong>spices in the UK</strong>? Arravali Essence brings the vibrant markets of India directly to your doorstep in <strong>London, Leicester, Birmingham</strong>, and across the United Kingdom.
+              <p className="text-sm sm:text-base text-stone-600 mb-4 leading-relaxed">
+                Searching for the best spices in the UK? Arravali Essence brings the vibrant spice markets of India directly to your doorstep across London, Leicester, Birmingham, Manchester, and throughout the United Kingdom.
               </p>
-              <p className="text-gray-600 mb-8 leading-relaxed">
-                As a premier <strong>UK spice shop</strong>, we specialise in hand-picked, premium-grade spices sourced from sustainable farms. Whether you need <strong>bulk spices for your restaurant</strong> or exquisite blends for your home kitchen, our quality remains unmatched.
+              <p className="text-xs sm:text-sm text-stone-500 mb-6 leading-relaxed">
+                As a premier UK spice shop, we specialise in hand-picked, premium-grade spices sourced from sustainable farms. Whether you need bulk spices for your restaurant or exquisite blends for your kitchen, our quality remains unmatched.
               </p>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="font-bold text-gray-900">Next Day UK Delivery</span>
+              <div className="grid grid-cols-2 gap-3.5 pt-2">
+                <div className="flex items-center gap-2 text-xs font-medium text-stone-800">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Fast UK Delivery</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="font-bold text-gray-900">Bespoke Spice Blends</span>
+                <div className="flex items-center gap-2 text-xs font-medium text-stone-800">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Bespoke Spice Blends</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="font-bold text-gray-900">100% Purity Guarantee</span>
+                <div className="flex items-center gap-2 text-xs font-medium text-stone-800">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>100% Purity Guarantee</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="font-bold text-gray-900">Ethically Sourced</span>
+                <div className="flex items-center gap-2 text-xs font-medium text-stone-800">
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Ethically Sourced</span>
                 </div>
               </div>
             </motion.div>
+
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="lg:w-1/2 relative"
+              className="lg:w-1/2"
             >
-              <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl transform lg:rotate-3 hover:rotate-0 transition-transform duration-500">
+              <div className="rounded-2xl overflow-hidden shadow-xl border border-stone-200 bg-stone-100">
                 <img
                   src="/images/banner-2.jpg"
                   alt="Authentic Spices UK"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-80 sm:h-96 object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/hero.jpg';
+                  }}
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-yellow-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
-              <div className="absolute -top-6 -left-6 w-32 h-32 bg-primary-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
             </motion.div>
           </div>
         </div>
@@ -333,11 +345,11 @@ const EnhancedHomePage: React.FC = () => {
       {/* City-targeted SEO section */}
       <section className="py-12 bg-amber-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-4 text-center">
-            The Best Spices Website in the UK â€“ Delivered to Your Door
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 text-center">
+            The Best Spices Website in the UK – Delivered to Your Door
           </h2>
           <p className="text-gray-600 text-center max-w-3xl mx-auto mb-8">
-            Whether you're searching for <strong>spices in London</strong>, <strong>spices in Birmingham</strong>, <strong>spices in Leicester</strong>, <strong>spices in Manchester</strong>, or anywhere across the UK â€“ Arravali Essence is your trusted online spice shop. We deliver premium, authentic Indian spices to every UK city.
+            Whether you're searching for <strong>spices in London</strong>, <strong>spices in Birmingham</strong>, <strong>spices in Leicester</strong>, <strong>spices in Manchester</strong>, or anywhere across the UK – Arravali Essence is your trusted online spice shop. We deliver premium, authentic Indian spices to every UK city.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
             {['London', 'Birmingham', 'Leicester', 'Manchester', 'Leeds', 'Bristol'].map(city => (

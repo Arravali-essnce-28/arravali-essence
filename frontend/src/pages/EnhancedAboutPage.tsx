@@ -413,7 +413,7 @@ const EnhancedAboutPage: React.FC = () => {
           >
             {[
               { number: '15+', label: 'Premium Spices', icon: <Star className="w-8 h-8" /> },
-              { number: '80', label: 'Happy Customers', icon: <Globe className="w-8 h-8" /> },
+              { number: '80', label: 'Happy B2B Customers', icon: <Globe className="w-8 h-8" /> },
               { number: '4.5★', label: 'Customer Rating', icon: <Award className="w-8 h-8" /> },
             ].map((stat, index) => (
               <motion.div

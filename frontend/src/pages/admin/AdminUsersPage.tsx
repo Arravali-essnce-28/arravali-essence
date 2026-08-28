@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { api } from '../../services/api';
-import { Loader2, Trash2, ChevronLeft, ChevronRight, User } from 'lucide-react';
+import { useAuthStore } from '../../services/auth.service';
+import { hasUserPermission } from '../../components/admin/AdminRoute';
+import { Loader2, Trash2, Eye } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 const AdminUsersPage: React.FC = () => {
+    const { user: currentUser } = useAuthStore();
+    const canDelete = hasUserPermission(currentUser, 'users.delete');
+
     const [users, setUsers] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,8 +24,8 @@ const AdminUsersPage: React.FC = () => {
         setIsLoading(true);
         try {
             const data = await api.getUsers(page);
-            setUsers(data.data);
-            setTotalPages(data.last_page);
+            setUsers(data.data || []);
+            setTotalPages(data.last_page || 1);
         } catch (error) {
             console.error('Failed to fetch users', error);
             toast.error('Failed to load users');
@@ -29,7 +35,12 @@ const AdminUsersPage: React.FC = () => {
     };
 
     const handleDelete = async (id: number) => {
-        if (!window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
+        if (!canDelete) {
+            toast.error('You do not have permission to delete customer accounts.');
+            return;
+        }
+
+        if (!window.confirm('Are you sure you want to delete this user?')) return;
 
         try {
             await api.deleteUser(id);
@@ -43,64 +54,83 @@ const AdminUsersPage: React.FC = () => {
 
     return (
         <AdminLayout>
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-900">Users</h1>
+            <div className="mb-6">
+                <h1 className="text-xl font-semibold text-slate-900 tracking-tight">Customer Accounts</h1>
+                <p className="text-xs text-slate-500 mt-0.5">View customer registrations, activity, and purchase history.</p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead className="bg-gray-50">
+                    <table className="w-full text-left text-xs">
+                        <thead className="bg-slate-50/60 border-b border-slate-100 text-[11px] font-medium text-slate-500 uppercase tracking-wider">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th className="px-5 py-3.5">Customer</th>
+                                <th className="px-5 py-3.5">Role</th>
+                                <th className="px-5 py-3.5">Joined Date</th>
+                                <th className="px-5 py-3.5 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-200">
+                        <tbody className="divide-y divide-slate-100">
                             {users.map((user) => (
-                                <tr key={user.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="flex items-center">
-                                            <div className="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 font-bold shrink-0">
+                                <tr key={user.id} className="hover:bg-slate-50/50 transition-colors">
+                                    <td className="px-5 py-3.5">
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-8 w-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-medium text-xs shrink-0">
                                                 {user.avatar ? (
-                                                    <img src={user.avatar} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
+                                                    <img src={user.avatar} alt={user.name} className="h-8 w-8 rounded-full object-cover" />
                                                 ) : (
-                                                    <User size={20} />
+                                                    user.name ? user.name.charAt(0).toUpperCase() : 'U'
                                                 )}
                                             </div>
-                                            <div className="ml-4">
-                                                <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                                                <div className="text-sm text-gray-500">{user.email}</div>
+                                            <div>
+                                                <div className="font-medium text-slate-900">{user.name}</div>
+                                                <div className="text-[11px] text-slate-400">{user.email}</div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                            user.is_admin ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
+                                    <td className="px-5 py-3.5">
+                                        <span className={`px-2 py-0.5 inline-flex text-[11px] rounded-full border ${
+                                            user.is_admin 
+                                                ? 'bg-slate-100 text-slate-800 border-slate-200' 
+                                                : 'bg-emerald-50 text-emerald-700 border-emerald-100'
                                         }`}>
-                                            {user.is_admin ? 'Admin' : 'Customer'}
+                                            {user.is_admin ? 'Administrator' : 'Customer'}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <td className="px-5 py-3.5 text-slate-500">
                                         {new Date(user.created_at).toLocaleDateString()}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button 
-                                            onClick={() => handleDelete(user.id)}
-                                            className="text-red-600 hover:text-red-900"
-                                            title="Delete User"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
+                                    <td className="px-5 py-3.5 text-right font-medium">
+                                        <div className="flex items-center justify-end gap-1">
+                                            <Link
+                                                to={`/admin/users/${user.id}`}
+                                                className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+                                                title="View Profile"
+                                            >
+                                                <Eye size={15} />
+                                            </Link>
+                                            {canDelete && !user.is_admin && (
+                                                <button 
+                                                    onClick={() => handleDelete(user.id)}
+                                                    className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    title="Delete User"
+                                                >
+                                                    <Trash2 size={15} />
+                                                </button>
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
                             {users.length === 0 && (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
-                                        {isLoading ? 'Loading...' : 'No users found'}
+                                    <td colSpan={4} className="px-5 py-12 text-center text-slate-400">
+                                        {isLoading ? (
+                                            <div className="flex items-center justify-center gap-2">
+                                                <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
+                                                <span>Loading customers...</span>
+                                            </div>
+                                        ) : 'No customer records found'}
                                     </td>
                                 </tr>
                             )}
@@ -110,24 +140,26 @@ const AdminUsersPage: React.FC = () => {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
-                        <button 
-                            disabled={currentPage === 1}
-                            onClick={() => setCurrentPage(p => p - 1)}
-                            className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
-                        >
-                            <ChevronLeft size={16} />
-                        </button>
-                        <span className="text-sm text-gray-700">
+                    <div className="px-5 py-3 border-t border-slate-100 flex items-center justify-between bg-slate-50/50 text-xs">
+                        <span className="text-slate-500">
                             Page {currentPage} of {totalPages}
                         </span>
-                        <button 
-                            disabled={currentPage === totalPages}
-                            onClick={() => setCurrentPage(p => p + 1)}
-                            className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
-                        >
-                            <ChevronRight size={16} />
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <button 
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                                className="px-2.5 py-1 text-xs border border-slate-200 rounded-md bg-white hover:bg-slate-50 disabled:opacity-40"
+                            >
+                                Previous
+                            </button>
+                            <button 
+                                disabled={currentPage === totalPages}
+                                onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+                                className="px-2.5 py-1 text-xs border border-slate-200 rounded-md bg-white hover:bg-slate-50 disabled:opacity-40"
+                            >
+                                Next
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>

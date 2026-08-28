@@ -25,8 +25,20 @@ const EnhancedLoginPage: React.FC = () => {
     setError('');
     try {
       setIsSubmitting(true);
-      await login({ email: formData.email, password: formData.password });
-      navigate(redirectTo);
+      const loggedUser = await login({ email: formData.email, password: formData.password });
+      
+      const isAdminOrStaff = Boolean(
+        loggedUser?.is_admin || 
+        loggedUser?.role === 'admin' || 
+        loggedUser?.role === 'employee' || 
+        (Array.isArray(loggedUser?.permissions) && loggedUser?.permissions.length > 0)
+      );
+
+      if (redirectTo === '/' && isAdminOrStaff) {
+        navigate('/admin/dashboard');
+      } else {
+        navigate(redirectTo);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to log in. Please try again.');
     } finally {

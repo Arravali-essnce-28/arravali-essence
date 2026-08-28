@@ -8,6 +8,7 @@ use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\OrderTrackingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\API\AdminEmployeeController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Arravali Essence API is working!']);
@@ -69,12 +70,21 @@ Route::middleware('auth:sanctum')->group(function () {
         
         // Order Management
         Route::get('/orders', [AdminController::class, 'orders']);
+        Route::get('/orders/{order}', [AdminController::class, 'showOrder']);
         Route::put('/orders/{order}/status', [AdminController::class, 'updateOrderStatus']);
 
         // User Management
         Route::get('/users', [AdminController::class, 'users']);
         Route::get('/users/{user}', [AdminController::class, 'userDetails']);
         Route::delete('/users/{user}', [AdminController::class, 'deleteUser']);
+
+        // Employee & Staff Management (Admin Privileged)
+        Route::get('/permissions-list', [AdminEmployeeController::class, 'getPermissionsList']);
+        Route::get('/employees', [AdminEmployeeController::class, 'index']);
+        Route::post('/employees', [AdminEmployeeController::class, 'store']);
+        Route::get('/employees/{id}', [AdminEmployeeController::class, 'show']);
+        Route::put('/employees/{id}', [AdminEmployeeController::class, 'update']);
+        Route::delete('/employees/{id}', [AdminEmployeeController::class, 'destroy']);
     });
 });
 

@@ -121,8 +121,20 @@ class AdminController extends Controller
                 'is_active' => true,
             ]);
 
+            if ($request->wantsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Product created successfully!',
+                    'product' => $product
+                ], 201);
+            }
+
             return redirect()->route('admin.products')->with('success', 'Product created successfully!');
         } catch (\Exception $e) {
+            if ($request->wantsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Upload failed: ' . $e->getMessage()
+                ], 422);
+            }
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Upload failed: ' . $e->getMessage());
@@ -132,7 +144,7 @@ class AdminController extends Controller
     public function editProduct(Product $product)
     {
         $categories = Category::where('is_active', true)->get();
-        if (request()->wantsJson()) {
+        if (request()->wantsJson() || request()->is('api/*')) {
             $product->load('category');
             return response()->json([
                 'product' => $product,
@@ -166,8 +178,8 @@ class AdminController extends Controller
                 'sale_price' => $request->sale_price,
                 'quantity' => $request->quantity,
                 'weight' => $request->weight,
-                'is_featured' => $request->has('is_featured'),
-                'is_active' => $request->has('is_active'),
+                'is_featured' => $request->boolean('is_featured'),
+                'is_active' => $request->boolean('is_active'),
             ];
 
             if ($request->hasFile('image')) {
@@ -180,8 +192,20 @@ class AdminController extends Controller
 
             $product->update($data);
 
+            if ($request->wantsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Product updated successfully!',
+                    'product' => $product
+                ]);
+            }
+
             return redirect()->route('admin.products')->with('success', 'Product updated successfully!');
         } catch (\Exception $e) {
+            if ($request->wantsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Update failed: ' . $e->getMessage()
+                ], 422);
+            }
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Update failed: ' . $e->getMessage());
@@ -192,7 +216,7 @@ class AdminController extends Controller
     {
         $product->delete();
         
-        if (request()->wantsJson()) {
+        if (request()->wantsJson() || request()->is('api/*')) {
             return response()->json([
                 'success' => true,
                 'message' => 'Product deleted successfully!'
@@ -202,61 +226,98 @@ class AdminController extends Controller
         return redirect()->route('admin.products')->with('success', 'Product deleted successfully!');
     }
 
-    public function orders()
+    public function orders(Request $request)
     {
-        $orders = Order::with(['user', 'items.product'])->latest()->paginate(10);
+        $orders = Order::with(['user', 'items.product', 'tracking'])->latest()->paginate(10);
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json($orders);
+        }
         return view('admin.orders.index', compact('orders'));
     }
 
-    public function showOrder(Order $order)
+    public function showOrder(Request $request, Order $order)
     {
         $order->load(['user', 'items.product', 'tracking']);
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json($order);
+        }
         return view('admin.orders.show', compact('order'));
     }
 
     public function updateOrderStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|string|in:pending,processing,shipped,delivered,cancelled'
+            'status' => 'required|string|in:pending,processing,shipped,delivered,cancelled',
+            'tracking_number' => 'nullable|string|max:255',
+            'carrier' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:500'
         ]);
 
         $order->update(['status' => $request->status]);
 
         // Create tracking entry
+        $description = $request->description ?: ('Order status updated to ' . ucfirst($request->status));
         $order->tracking()->create([
             'status' => $request->status,
-            'description' => 'Order status updated to ' . ucfirst($request->status),
-            'location' => 'Admin Panel'
+            'description' => $description,
+            'location' => 'Admin Fulfillment Center'
         ]);
+
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'message' => 'Order status updated successfully!',
+                'order' => $order->load(['user', 'items.product', 'tracking'])
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Order status updated successfully!');
     }
 
-    public function users()
+    public function users(Request $request)
     {
         $users = User::where('id', '!=', auth()->id())
+            ->where(function($q) {
+                $q->where('role', 'customer')
+                  ->orWhereNull('role');
+            })
             ->latest()
             ->paginate(10);
             
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json($users);
+        }
         return view('admin.users.index', compact('users'));
     }
 
-    public function deleteUser(User $user)
+    public function deleteUser(Request $request, User $user)
     {
         if ($user->id === auth()->id()) {
+            if ($request->wantsJson() || $request->is('api/*')) {
+                return response()->json(['message' => 'You cannot delete your own account.'], 422);
+            }
             return redirect()->back()->with('error', 'You cannot delete your own account');
         }
 
         $user->delete();
 
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'message' => 'User deleted successfully!'
+            ]);
+        }
+
         return redirect()->back()->with('success', 'User deleted successfully');
     }
 
-    public function userDetails(User $user)
+    public function userDetails(Request $request, User $user)
     {
         $user->load(['orders' => function($query) {
             $query->latest();
         }, 'orders.items.product']);
+
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json($user);
+        }
 
         return view('admin.users.show', compact('user'));
     }

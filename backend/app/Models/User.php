@@ -22,11 +22,15 @@ class User extends Authenticatable implements MustVerifyEmailContract
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'email_verification_token',
         'google_id',
         'avatar',
         'is_admin',
+        'role',
+        'permissions',
+        'status',
     ];
 
     /**
@@ -49,7 +53,41 @@ class User extends Authenticatable implements MustVerifyEmailContract
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
+            'permissions' => 'array',
         ];
+    }
+
+    /**
+     * Check if user is an administrator
+     */
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin || $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is an employee/staff
+     */
+    public function isEmployee(): bool
+    {
+        return $this->role === 'employee' || $this->isAdmin();
+    }
+
+    /**
+     * Check if user has a specific permission
+     */
+    public function hasPermission(string $permission): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        if (!is_array($this->permissions)) {
+            return false;
+        }
+
+        return in_array($permission, $this->permissions, true) || in_array('*', $this->permissions, true);
     }
 
     /**

@@ -6,7 +6,7 @@ import { User, LoginCredentials, RegisterData } from '../types/auth';
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  login: (credentials: LoginCredentials) => Promise<void>;
+  login: (credentials: LoginCredentials) => Promise<User>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
   verifyEmail: (token: string) => Promise<void>;
@@ -26,9 +26,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   }, []);
 
-  const login = async (credentials: LoginCredentials) => {
+  const login = async (credentials: LoginCredentials): Promise<User> => {
     const data = await authService.login(credentials);
     setUser(data.user);
+    return data.user;
   };
 
   const register = async (data: RegisterData) => {
